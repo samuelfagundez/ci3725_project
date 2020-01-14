@@ -3,7 +3,7 @@
 **Student:** Pietro Iaia
 **ID:** 15-10718
 
-**Sudent:** Pedro Samuel Fagundez
+**Student:** Pedro Samuel Fagundez
 **ID:** 15-10460
 
-## Interpretador de Willy ∗
+### Interpretador de Willy ∗
