@@ -12,12 +12,17 @@ def ls(ruta):
 
 archivos = ls(rutaGlobal)
 
-for archivo in archivos:
-    ruta = rutaGlobal+"/"+archivo
+
+def readFile(path):
     fp = open(ruta, "r")
     content = fp.read()
     lexer.input(content)
     fp.close()
+
+
+for archivo in archivos:
+    ruta = rutaGlobal+"/"+archivo
+    readFile(ruta)
 
 while True:
     tok = lexer.token()
