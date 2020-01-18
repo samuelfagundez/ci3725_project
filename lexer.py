@@ -14,7 +14,8 @@ tokens = [
     'DIVIDE',
     'LPAREN',
     'RPAREN',
-    'EQUALS'
+    'EQUALS',
+    'IN_BASKET'
 ]
 
 reserved = {
@@ -28,7 +29,6 @@ reserved = {
     'to' : 'TO',
     'Object-type' : 'OBJECT_TYPE',
     'Place' : 'PLACE',
-    'in basket' : 'IN_BASKET',
     'of' : 'OF',
     'at' : 'AT',
     'if' : 'IF',
@@ -52,6 +52,7 @@ t_DIVIDE = r'\/'
 t_LPAREN = r'\('
 t_EQUALS = r'\='
 t_RPAREN = r'\)'
+t_ignore = ' \t'                       # Ignora los espacios en blanco
 
 
 # Como tener tokens con espacios, NOTA: Tiene que estar definido primero que t_ID
@@ -77,9 +78,6 @@ def t_INT(t):
 def t_newline(t):
     r'\n+'
     t.lexer.lineno += len(t.value)
-
-# Ignora los espacios en blanco
-t_ignore = ' \t'
 
 # Muestra el error
 def t_error(t):
