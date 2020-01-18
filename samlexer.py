@@ -12,7 +12,9 @@ tokens = [
     'FALSE',
     'LPAREN',
     'RPAREN',
-    'EQUALS'
+    'EQUALS',
+    'PLUS',
+    'MINUS'
 ]
 
 reserved = {
@@ -39,10 +41,10 @@ reserved = {
     'define': 'DEFINE',
     'as': 'AS',
     #
-    'in basket': 'INBASKET',
-    'basket of capacity': 'BASKETOFCAPACITY',
-    'with initial value': 'WITHINITIALVALUE',
-    'final goal': 'FINALGOAL',
+    'in basket': 'IN_BASKET',
+    'basket of capacity': 'BASKET_OF_CAPACITY',
+    'with initial value': 'WITH_INITIAL_VALUE',
+    'final goal': 'FINAL_GOAL',
     'heading': 'HEADING',
     'boolean': 'BOOLEAN',
     'goal': 'GOAL',
@@ -52,12 +54,12 @@ reserved = {
 
 tokens = tokens+list(reserved.values())
 
-print(tokens)
-
 t_SEMICOLON = r'\;'
 t_LPAREN = r'\('
 t_EQUALS = r'\='
 t_RPAREN = r'\)'
+t_PLUS = r'\+'
+t_MINUS = r'\-'
 
 
 def t_COMMENT(t):
@@ -70,8 +72,26 @@ def t_BLOCKCOMMENT(t):
     pass
 
 
-def t_INBASKET(t):
+def t_IN_BASKET(t):
     r'in[ ]basket'
+    t.type = reserved.get(t.value, 'IN_BASKET')
+    return t
+
+
+def t_BASKET_OF_CAPACITY(t):
+    r'[Bb]asket[ ]of[ ]capacity'
+    t.type = reserved.get(t.value, 'BASKET_OF_CAPACITY')
+    return t
+
+
+def t_WITH_INITIAL_VALUE(t):
+    r'with[ ]initial[ ]value'
+    t.type = reserved.get(t.value, 'WITH_INITIAL_VALUE')
+    return t
+
+
+def t_FINAL_GOAL(t):
+    r'final[ ]goal'
     return t
 
 

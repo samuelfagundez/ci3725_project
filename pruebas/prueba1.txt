@@ -1,1 +1,2 @@
 begin-world Place 5 of web in basket end-world
+Basket of capacity 3
