@@ -1,6 +1,8 @@
 import ply.lex as lex
 import ply.yacc as yacc
+
 import sys
+
 
 tokens = [
     'ID',  # identificador como el nombre de un mundo
@@ -63,19 +65,20 @@ def t_COMMENT(t):
     pass
 
 
+def t_BLOCKCOMMENT(t):
+    r'\{{.*}}'
+    pass
+
+
 def t_INBASKET(t):
-    r'in\sbasket'
-    t.type = reserved.get(t.value, 'INBASKET')
+    r'in[ ]basket'
     return t
 
 
 def t_ID(t):
-    r'[a-zA-Z_][\s]*[a-zA-Z_0-9\-]*'
-    if(t_INBASKET(t)):
-        return t_INBASKET(t)
-    else:
-        t.type = reserved.get(t.value, 'ID')
-        return t
+    r'[a-zA-Z_][a-zA-Z_0-9\-]*'
+    t.type = reserved.get(t.value, 'ID')
+    return t
 
 
 def t_INT(t):
@@ -103,10 +106,10 @@ def t_error(t):
 # Construye el Lexer
 lexer = lex.lex()
 
-lexer.input(" --  basf in basket aaa saagas 21 1")
+# lexer.input("begin-world Place 5 of web in basket end-world")
 
-while True:
-    tok = lexer.token()
-    if not tok:
-        break
-    print(tok)
+# while True:
+#     tok = analizador.token()
+#     if not tok:
+#         break
+#     print(tok)
