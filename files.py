@@ -17,15 +17,14 @@ def readFile(path):
     fp = open(ruta, "r")
     content = fp.read()
     lexer.input(content)
+    while True:
+        tok = lexer.token()
+        if not tok:
+            break
+        print(tok)
     fp.close()
 
 
 for archivo in archivos:
     ruta = rutaGlobal+"/"+archivo
     readFile(ruta)
-
-while True:
-    tok = lexer.token()
-    if not tok:
-        break
-    print(tok)
