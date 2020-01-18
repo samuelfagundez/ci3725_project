@@ -15,6 +15,7 @@ tokens = [
     'LPAREN',
     'RPAREN',
     'EQUALS',
+    'IN_BASKET'
 ]
 
 reserved = {
@@ -51,7 +52,13 @@ t_DIVIDE = r'\/'
 t_LPAREN = r'\('
 t_EQUALS = r'\='
 t_RPAREN = r'\)'
+t_ignore = ' \t'                       # Ignora los espacios en blanco
 
+
+# Como tener tokens con espacios, NOTA: Tiene que estar definido primero que t_ID
+def t_IN_BASKET(t):
+    r'in[ ]basket'
+    return t
 
 def t_ID(t):
     r'[a-zA-Z_][a-zA-Z_0-9\-]*'
@@ -71,9 +78,6 @@ def t_INT(t):
 def t_newline(t):
     r'\n+'
     t.lexer.lineno += len(t.value)
-
-# Ignora los espacios en blanco
-t_ignore = ' \t'
 
 # Muestra el error
 def t_error(t):
