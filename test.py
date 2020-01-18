@@ -1,7 +1,7 @@
 from lexer import lexer
 
 # input del lexer
-lexer.input("repeat 20 times ponganTusa")
+lexer.input("begin-world Place 5 of web in basket end-world")
 
 # Evalua el lexer
 while True:

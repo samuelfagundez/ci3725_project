@@ -14,7 +14,7 @@ tokens = [
     'DIVIDE',
     'LPAREN',
     'RPAREN',
-    'EQUALS',
+    'EQUALS'
 ]
 
 reserved = {
@@ -28,6 +28,7 @@ reserved = {
     'to' : 'TO',
     'Object-type' : 'OBJECT_TYPE',
     'Place' : 'PLACE',
+    'in basket' : 'IN_BASKET',
     'of' : 'OF',
     'at' : 'AT',
     'if' : 'IF',
@@ -52,6 +53,11 @@ t_LPAREN = r'\('
 t_EQUALS = r'\='
 t_RPAREN = r'\)'
 
+
+# Como tener tokens con espacios, NOTA: Tiene que estar definido primero que t_ID
+def t_IN_BASKET(t):
+    r'in[ ]basket'
+    return t
 
 def t_ID(t):
     r'[a-zA-Z_][a-zA-Z_0-9\-]*'
