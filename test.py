@@ -1,7 +1,7 @@
 from lexer import lexer
 
 # input del lexer
-lexer.input("begin-world Place 5 of web in basket end-world")
+lexer.input("begin-world Place 5 of web in basket of color Basket of capacity end-world true false")
 
 # Evalua el lexer
 while True:
