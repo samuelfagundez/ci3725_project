@@ -39,7 +39,7 @@ def readFile(path):
             i = i + 1
     for listItem in list:
         if len(listItem) == 0:
-            print("\n")
+            print("")
         else:
             for token in listItem:
                 if token.type == 'INT':
@@ -51,7 +51,8 @@ def readFile(path):
                 else:
                     print(token.type, "(linea=", token.lineno,
                           ", columna=", token.lexpos, ")", end=" ")
-        print("")
+        if len(listItem) != 0:
+            print("")
     fp.close()
 
 
