@@ -38,7 +38,6 @@ def readFile(path):
             list.append([])
             i = i + 1
     for listItem in list:
-        i = 0
         if len(listItem) == 0:
             print("\n")
         else:
@@ -52,8 +51,7 @@ def readFile(path):
                 else:
                     print(token.type, "(linea=", token.lineno,
                           ", columna=", token.lexpos, ")", end=" ")
-            print("\n")
-            i += 1
+        print("")
     fp.close()
 
 
