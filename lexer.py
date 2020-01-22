@@ -1,8 +1,13 @@
 import ply.lex as lex
 import sys
 
-# Todo esto esta en la pagina de documentacion de PLY: https://www.dabeaz.com/ply/ply.html#ply_nn14b
 
+# Definimos estados para diferenciar cuando estamos leyendo un bloque de comentario y cuando no
+states = (
+    ('CommentBlock', 'exclusive'),
+    )
+# Variable que guarda la posicion del ultimo caracter \n encontrado, util para definir numero de columna
+newline_pos = 0
 
 tokens = [
     'ID',
@@ -14,6 +19,9 @@ tokens = [
     'LPAREN',
     'RPAREN',
     'EQUALS',
+    'START_CBLOCK',
+    'END_CBLOCK',
+    'BLOCKCOMMENT',
 ]
 
 reserved = {
@@ -26,7 +34,7 @@ reserved = {
     'north' : 'NORTH',
     'east' : 'EAST',
     'south' : 'SOUTH',
-    'west' : 'WEST'
+    'west' : 'WEST',
     'Object-type' : 'OBJECT_TYPE',
     'of color' : 'OF_COLOR',
     'red' : 'RED',
@@ -95,73 +103,115 @@ t_PLUS = r'\+'                         # Los token definidos por string son orde
 t_LPAREN = r'\('
 t_EQUALS = r'\='
 t_RPAREN = r'\)'
-t_ignore = ' \t'                       # Ignora los espacios en blanco
+t_ignore = ' \t'                       # Ignora los espacios en blanco y tab
+t_CommentBlock_ignore = ' \t'          # Ignora los espacios en blanco y tab
 
+
+# Si leemos un '{{' entramos al estado de Bloque de comentario
+def t_START_CBLOCK(t):
+    r'\{{'
+    t.lexer.begin('CommentBlock')
+    pass
+
+# Si leemos un '}}' entramos al estado inicial
+def t_CommentBlock_END_CBLOCK(t):
+    r'\}}'
+    t.lexer.begin('INITIAL')
+    pass
+
+# Si encontramos un bloque de comentario dentro del bloque de comentario, devolvemos un error
+def t_CommentBlock_BLOCKCOMMENT(t):
+    r'\{{(.*\n*)*}}'
+    t.lexpos = (t.lexpos - newline_pos) + 1          # Define el numero de columna en el que se encuentra el token
+    return t
+
+def t_COMMENT(t):
+    r'\--.*'
+    pass
 
 def t_TRUE(t):
     r'true'
     t.value = True
+    t.lexpos = (t.lexpos - newline_pos) + 1
     return t
 
 def t_FALSE(t):
     r'false'
     t.value = False
+    t.lexpos = (t.lexpos - newline_pos) + 1
     return t
 
 # Como tener tokens con espacios, NOTA: Tiene que estar definido primero que t_ID
 def t_OF_COLOR(t):
     r'of[ ]color'
+    t.lexpos = (t.lexpos - newline_pos) + 1
     return t
 
 def t_IN_BASKET(t):
     r'in[ ]basket'
+    t.lexpos = (t.lexpos - newline_pos) + 1
     return t
 
-def t_STAR_AT(t):
+def t_START_AT(t):
     r'Start[ ]at'
+    t.lexpos = (t.lexpos - newline_pos) + 1
     return t
 
 def t_BASKET_OF_CAPACITY(t):
     r'Basket[ ]of[ ]capacity'
+    t.lexpos = (t.lexpos - newline_pos) + 1
     return t
 
 def t_WITH_INITIAL_VALUE(t):
     r'with[ ]initial[ ]value'
+    t.lexpos = (t.lexpos - newline_pos) + 1
     return t
 
 def t_FINAL_GOAL_IS(t):
     r'Final[ ]goal[ ]is'
+    t.lexpos = (t.lexpos - newline_pos) + 1
     return t
 
 def t_WILLY_IS_AT(t):
     r'willy[ ]is[ ]at'
+    t.lexpos = (t.lexpos - newline_pos) + 1
     return t
 
 def t_OBJECTS_IN_BASKET(t):
     r'objects[ ]in[ ]basket'
+    t.lexpos = (t.lexpos - newline_pos) + 1
     return t
 
 def t_OBJECTS_AT(t):
     r'objects[ ]at'
+    t.lexpos = (t.lexpos - newline_pos) + 1
     return t
 
 def t_ID(t):
     r'[a-zA-Z_][a-zA-Z_0-9\-]*'
     t.type = reserved.get(t.value, 'ID')
+    t.lexpos = (t.lexpos - newline_pos) + 1
     return t
 
 def t_INT(t):
     r'\d+'
-    t.value = int(t.value)    
+    t.value = int(t.value)   
+    t.lexpos = (t.lexpos - newline_pos) + 1
     return t
 
 def t_newline(t):
     r'\n+'
+    global newline_pos                                      # Actualiza la variable global con la posicion del ultimo \n encontrado
+    newline_pos = t.lexpos                                  #
     t.lexer.lineno += len(t.value)
 
 # Muestra el error
 def t_error(t):
     print("Illegal character '%s'" % t.value[0])
+    t.lexer.skip(1)
+
+# Muestra el error
+def t_CommentBlock_error(t):
     t.lexer.skip(1)
 
 
