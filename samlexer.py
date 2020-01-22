@@ -1,5 +1,4 @@
 import ply.lex as lex
-import ply.yacc as yacc
 
 import sys
 
@@ -14,42 +13,76 @@ tokens = [
     'RPAREN',
     'EQUALS',
     'PLUS',
-    'MINUS'
 ]
 
 reserved = {
     'begin-world': 'BEGIN_WORLD',
     'end-world': 'END_WORLD',
-    'and': 'AND',
-    'or': 'OR',
     'World': 'WORLD',
     'Wall': 'WALL',
     'from': 'FROM',
     'to': 'TO',
+    'north': 'NORTH',
+    'east': 'EAST',
+    'south': 'SOUTH',
+    'west': 'WEST',
     'Object-type': 'OBJECT_TYPE',
+    'of color': 'OF_COLOR',
+    'red': 'RED',
+    'blue': 'BLUE',
+    'magenta': 'MAGENTA',
+    'cyan': 'CYAN',
+    'green': 'GREEN',
+    'yellow': 'YELLOW',
     'Place': 'PLACE',
     'of': 'OF',
     'at': 'AT',
+    'in basket ': 'IN_BASKET',
+    'Start at': 'START_AT',
+    'heading': 'HEADING',
+    'Basket of capacity': 'BASKET_OF_CAPACITY',
+    'Bolean': 'BOOLEAN',
+    'with initial value': 'WITH_INITIAL_VALUE',
+    'Goal': 'GOAL',
+    'is': 'IS',
+    'Final goal is': 'FINAL_GOAL_IS',
+    'willy is at': 'WILLY_IS_AT',
+    'objects in Basket': 'OBJECTS_IN_BASKET',
+    'objects at': 'OBJECTS_AT',
+    'and': 'AND',
+    'or': 'OR',
+    'not': 'NOT',
+    'begin-work': 'BEGIN_WORK',
+    'end-work': 'END_WORK',
     'if': 'IF',
     'then': 'THEN',
     'else': 'ELSE',
     'while': 'WHILE',
     'repeat': 'REPEAT',
     'times': 'TIMES',
+    'do': 'DO',
     'begin': 'BEGIN',
     'end': 'END',
     'define': 'DEFINE',
     'as': 'AS',
-    #
-    'in basket': 'IN_BASKET',
-    'basket of capacity': 'BASKET_OF_CAPACITY',
-    'with initial value': 'WITH_INITIAL_VALUE',
-    'final goal': 'FINAL_GOAL',
-    'heading': 'HEADING',
-    'boolean': 'BOOLEAN',
-    'goal': 'GOAL',
-    'is': 'IS',
-    'not': 'NOT'
+    'move': 'MOVE',
+    'turn-left': 'TURN_LEFT',
+    'turn-right': 'TURN_RIGHT',
+    'pick': 'PICK',
+    'drop': 'DROP',
+    'set': 'SET',
+    'clear': 'CLEAR',
+    'flip': 'FLIP',
+    'terminate': 'TERMINATE',
+    'front-clear': 'FRONT_CLEAR',
+    'left-clear': 'LEFT_CLEAR',
+    'right-clear': 'RIGHT_CLEAR',
+    'looking-north': 'LOOKING_NORTH',
+    'looking-east': 'LOOKING_EAST',
+    'looking-south': 'LOOKING_SOUTH',
+    'looking-west': 'LOOKING_WEST',
+    'found': 'FOUND',
+    'carrying': 'CARRYING'
 }
 
 tokens = tokens+list(reserved.values())
@@ -59,7 +92,6 @@ t_LPAREN = r'\('
 t_EQUALS = r'\='
 t_RPAREN = r'\)'
 t_PLUS = r'\+'
-t_MINUS = r'\-'
 
 
 def t_COMMENT(t):
@@ -72,26 +104,60 @@ def t_BLOCKCOMMENT(t):
     pass
 
 
+def t_TRUE(t):
+    r'true'
+    t.value = True
+    return t
+
+
+def t_FALSE(t):
+    r'false'
+    t.value = False
+    return t
+
+
+def t_OF_COLOR(t):
+    r'of[ ]color'
+    return t
+
+
 def t_IN_BASKET(t):
     r'in[ ]basket'
-    t.type = reserved.get(t.value, 'IN_BASKET')
+    return t
+
+
+def t_STAR_AT(t):
+    r'Start[ ]at'
     return t
 
 
 def t_BASKET_OF_CAPACITY(t):
-    r'[Bb]asket[ ]of[ ]capacity'
-    t.type = reserved.get(t.value, 'BASKET_OF_CAPACITY')
+    r'Basket[ ]of[ ]capacity'
     return t
 
 
 def t_WITH_INITIAL_VALUE(t):
     r'with[ ]initial[ ]value'
-    t.type = reserved.get(t.value, 'WITH_INITIAL_VALUE')
     return t
 
 
-def t_FINAL_GOAL(t):
-    r'final[ ]goal'
+def t_FINAL_GOAL_IS(t):
+    r'Final[ ]goal[ ]is'
+    return t
+
+
+def t_WILLY_IS_AT(t):
+    r'willy[ ]is[ ]at'
+    return t
+
+
+def t_OBJECTS_IN_BASKET(t):
+    r'objects[ ]in[ ]basket'
+    return t
+
+
+def t_OBJECTS_AT(t):
+    r'objects[ ]at'
     return t
 
 
@@ -129,7 +195,7 @@ lexer = lex.lex()
 # lexer.input("begin-world Place 5 of web in basket end-world")
 
 # while True:
-#     tok = analizador.token()
+#     tok = lexer.token()
 #     if not tok:
 #         break
 #     print(tok)
