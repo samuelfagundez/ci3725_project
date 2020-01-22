@@ -1,2 +1,3 @@
-begin-world Place 5 of web in basket end-world
-Basket of capacity 3
+begin-world world
+  World 1 numero
+end-world idnuevo

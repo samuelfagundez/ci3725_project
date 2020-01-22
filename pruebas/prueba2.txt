@@ -1,1 +1,0 @@
-begin-world Marte Place 8 of rock in basket end-world
