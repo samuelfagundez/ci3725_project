@@ -30,24 +30,30 @@ def readFile(path):
             break
         if tok.lexer.lineno == i+1:
             list[i].append(tok)
-        elif tok.lexer.lineno > i+1:
+        elif tok.lexer.lineno == i+2:
             list.append([])
-            i = i+1
+            i = i + 1
             list[i].append(tok)
+        else:
+            list.append([])
+            i = i + 1
     for listItem in list:
         i = 0
-        for token in listItem:
-            if token.type == 'INT':
-                print(token.type, "(", token.value, ",", "linea=",
-                      token.lineno, ", columna=", token.lexpos, ")", end=" ")
-            elif token.type == 'ID':
-                print(token.type, "(", '"', token.value, '"', ",", "linea=",
-                      token.lineno, ", columna=", token.lexpos, ")", end=" ")
-            else:
-                print(token.type, "(linea=", token.lineno,
-                      ", columna=", token.lexpos, ")", end=" ")
-        print("\n")
-        i += 1
+        if len(listItem) == 0:
+            print("\n")
+        else:
+            for token in listItem:
+                if token.type == 'INT':
+                    print(token.type, "(", token.value, ",", "linea=",
+                          token.lineno, ", columna=", token.lexpos, ")", end=" ")
+                elif token.type == 'ID':
+                    print(token.type, "(", '"', token.value, '"', ",", "linea=",
+                          token.lineno, ", columna=", token.lexpos, ")", end=" ")
+                else:
+                    print(token.type, "(linea=", token.lineno,
+                          ", columna=", token.lexpos, ")", end=" ")
+            print("\n")
+            i += 1
     fp.close()
 
 
