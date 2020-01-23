@@ -247,12 +247,14 @@ def t_TkObjectsAt(t):
 # y que no sea ninguna de las palabras reservadas anteriores
 # entonces retornamos el token
 
-
 def t_TkId(t):
     r'[a-zA-Z_][a-zA-Z_0-9\-]*'
     t.type = reserved.get(t.value, 'TkId')
-    t.lexpos = (t.lexpos - newline_pos) + 1
-    return t
+    if(t.value.count('-') >= 1 and t.type == 'TkId'):
+        print("El identificador '%s' encontrado en la linea %i, columna %i contiene un caracter no permitido" % (t.value, t.lineno, t.lexpos))
+    else:
+        t.lexpos = (t.lexpos - newline_pos) + 1
+        return t
 
 # Si encontramos un entero retornamos el token
 
@@ -267,10 +269,10 @@ def t_TkNum(t):
 
 
 def t_newline(t):
-    r'\n+'
+    r'\n'
     # Actualiza la variable global con la posicion del ultimo \n encontrado
     global newline_pos
-    newline_pos = t.lexpos                                  #
+    newline_pos = t.lexpos + 1     
     t.lexer.lineno += len(t.value)
 
 # Muestra el error, gracias a la liberería PLY, ya imprime
