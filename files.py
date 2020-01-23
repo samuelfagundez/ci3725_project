@@ -3,23 +3,23 @@ from os import listdir, getcwd
 from lexer import lexer
 
 # ruta actual + /pruebas
-rutaGlobal = getcwd()+'/pruebas'
+# rutaGlobal = getcwd()+'/pruebas'
 
 # funcion que recibe una ruta y devuelve una lista de
 # todos los archivos en ese directorio, si no es directorio falla
 
 
-def ls(ruta):
-    return listdir(ruta)
+# def ls(ruta):
+#     return listdir(ruta)
 
 
-archivos = ls(rutaGlobal)
+# archivos = ls(rutaGlobal)
 
 # funcion que se encarga de abrir un archivo enviarlo al lexer e imprimir el resultado
 
 
 def readFile(path):
-    fp = open(ruta, "r")
+    fp = open(path, "r")
     content = fp.read()
     lexer.input(content)
     i = 0
@@ -57,6 +57,6 @@ def readFile(path):
 
 
 # funcion q se encarga de llamar a readFile con cada archivo de una ruta
-for archivo in archivos:
-    ruta = rutaGlobal+"/"+archivo
-    readFile(ruta)
+# for archivo in archivos:
+#     ruta = rutaGlobal+"/"+archivo
+#     readFile(ruta)

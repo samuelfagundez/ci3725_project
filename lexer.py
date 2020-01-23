@@ -19,7 +19,7 @@ newline_pos = 0
 # Tokens que reconocerá el lexer basado en Willy*
 tokens = [
     'TkId',
-    'TkInt',
+    'TkNum',
     'TkTrue',
     'TkFalse',
     'TkSemiColon',
@@ -257,7 +257,7 @@ def t_TkId(t):
 # Si encontramos un entero retornamos el token
 
 
-def t_TkInt(t):
+def t_TkNum(t):
     r'\d+'
     t.value = int(t.value)
     t.lexpos = (t.lexpos - newline_pos) + 1
