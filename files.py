@@ -42,10 +42,10 @@ def readFile(path):
             print("")
         else:
             for token in listItem:
-                if token.type == 'INT':
+                if token.type == 'TkInt':
                     print("%s(%i, linea=%i, columna=%i)" % (
                         token.type, token.value, token.lineno, token.lexpos), end=" ")
-                elif token.type == 'ID':
+                elif token.type == 'TkId':
                     print('%s("%s", linea=%i, columna=%i)' % (token.type,
                                                               token.value, token.lineno, token.lexpos), end=" ")
                 else:

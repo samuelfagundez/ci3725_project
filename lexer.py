@@ -18,18 +18,18 @@ newline_pos = 0
 
 # Tokens que reconocerá el lexer basado en Willy*
 tokens = [
-    'ID',
-    'INT',
-    'TRUE',
-    'FALSE',
-    'SEMICOLON',
-    'PLUS',
-    'LPAREN',
-    'RPAREN',
-    'EQUALS',
-    'START_CBLOCK',
-    'END_CBLOCK',
-    'BLOCKCOMMENT',
+    'TkId',
+    'TkInt',
+    'TkTrue',
+    'TkFalse',
+    'TkSemiColon',
+    'TkPlus',
+    'TkLParen',
+    'TkRParen',
+    'TkEquals',
+    'TkStartCBlock',
+    'TkEndCBlock',
+    'TkBlockComment',
 ]
 
 # Palabras reservadas que reconocerá el lexer
@@ -37,73 +37,73 @@ tokens = [
 # como tokens
 
 reserved = {
-    'begin-world': 'BEGIN_WORLD',
-    'end-world': 'END_WORLD',
-    'World': 'WORLD',
-    'Wall': 'WALL',
-    'from': 'FROM',
-    'to': 'TO',
-    'north': 'NORTH',
-    'east': 'EAST',
-    'south': 'SOUTH',
-    'west': 'WEST',
-    'Object-type': 'OBJECT_TYPE',
-    'of color': 'OF_COLOR',
-    'red': 'RED',
-    'blue': 'BLUE',
-    'magenta': 'MAGENTA',
-    'cyan': 'CYAN',
-    'green': 'GREEN',
-    'yellow': 'YELLOW',
-    'Place': 'PLACE',
-    'of': 'OF',
-    'at': 'AT',
-    'in basket ': 'IN_BASKET',
-    'Start at': 'START_AT',
-    'heading': 'HEADING',
-    'Basket of capacity': 'BASKET_OF_CAPACITY',
-    'Bolean': 'BOOLEAN',
-    'with initial value': 'WITH_INITIAL_VALUE',
-    'Goal': 'GOAL',
-    'is': 'IS',
-    'Final goal is': 'FINAL_GOAL_IS',
-    'willy is at': 'WILLY_IS_AT',
-    'objects in Basket': 'OBJECTS_IN_BASKET',
-    'objects at': 'OBJECTS_AT',
-    'and': 'AND',
-    'or': 'OR',
-    'not': 'NOT',
-    'begin-work': 'BEGIN_WORK',
-    'end-work': 'END_WORK',
-    'if': 'IF',
-    'then': 'THEN',
-    'else': 'ELSE',
-    'repeat': 'REPEAT',
-    'times': 'TIMES',
-    'while': 'WHILE',
-    'do': 'DO',
-    'begin': 'BEGIN',
-    'end': 'END',
-    'define': 'DEFINE',
-    'as': 'AS',
-    'move': 'MOVE',
-    'turn-left': 'TURN_LEFT',
-    'turn-right': 'TURN_RIGHT',
-    'pick': 'PICK',
-    'drop': 'DROP',
-    'set': 'SET',
-    'clear': 'CLEAR',
-    'flip': 'FLIP',
-    'terminate': 'TERMINATE',
-    'front-clear': 'FRONT_CLEAR',
-    'left-clear': 'LEFT_CLEAR',
-    'right-clear': 'RIGHT_CLEAR',
-    'looking-north': 'LOOKING_NORTH',
-    'looking-east': 'LOOKING_EAST',
-    'looking-south': 'LOOKING_SOUTH',
-    'looking-west': 'LOOKING_WEST',
-    'found': 'FOUND',
-    'carrying': 'CARRYING'
+    'begin-world': 'TkBeginWorld',
+    'end-world': 'TkEndWorld',
+    'World': 'TkWorld',
+    'Wall': 'TkWall',
+    'from': 'TkFrom',
+    'to': 'TkTo',
+    'north': 'TkNorth',
+    'east': 'TkEast',
+    'south': 'TkSouth',
+    'west': 'TkWest',
+    'Object-type': 'TkObjectType',
+    'of color': 'TkOfColor',
+    'red': 'TkRed',
+    'blue': 'TkBlue',
+    'magenta': 'TkMagenta',
+    'cyan': 'TkCyan',
+    'green': 'TkGreen',
+    'yellow': 'TkYellow',
+    'Place': 'TkPlace',
+    'of': 'TkOf',
+    'at': 'TkAt',
+    'in basket ': 'TkInBasket',
+    'Start at': 'TkStartAt',
+    'heading': 'TkHeading',
+    'Basket of capacity': 'TkBasketOfCapacity',
+    'Bolean': 'TkBoolean',
+    'with initial value': 'TkWithInitialValue',
+    'Goal': 'TkGoal',
+    'is': 'TkIs',
+    'Final goal is': 'TkFinalGoalIs',
+    'willy is at': 'TkWillyIsAt',
+    'objects in Basket': 'TkObjectsInBasket',
+    'objects at': 'TkObjectsAt',
+    'and': 'TkAnd',
+    'or': 'TkOr',
+    'not': 'TkNot',
+    'begin-work': 'TkBeginWork',
+    'end-work': 'TkEndWork',
+    'if': 'TkIf',
+    'then': 'TkThen',
+    'else': 'TkElse',
+    'repeat': 'TkRepeat',
+    'times': 'TkTimes',
+    'while': 'TkWhile',
+    'do': 'TkDo',
+    'begin': 'TkBegin',
+    'end': 'TkEnd',
+    'define': 'TkDefine',
+    'as': 'TkAs',
+    'move': 'TkMove',
+    'turn-left': 'TkTurnLeft',
+    'turn-right': 'TkTurnRight',
+    'pick': 'TkPick',
+    'drop': 'TkDrop',
+    'set': 'TkSet',
+    'clear': 'TkClear',
+    'flip': 'TkFlip',
+    'terminate': 'TkTerminate',
+    'front-clear': 'TkFrontClear',
+    'left-clear': 'TkLeftClear',
+    'right-clear': 'TkRightClear',
+    'looking-north': 'TkLookingNorth',
+    'looking-east': 'TkLookingEast',
+    'looking-south': 'TkLookingSouth',
+    'looking-west': 'TkLookingWest',
+    'found': 'TkFound',
+    'carrying': 'TkCarrying'
 }
 
 # La lista de tokens entonces será los tokens predefinidos
@@ -111,12 +111,12 @@ reserved = {
 tokens = tokens + list(reserved.values())
 
 
-t_SEMICOLON = r'\;'
+t_TkSemiColon = r'\;'
 # Los token definidos por string son ordenados por el largo de su regex y agregados en orden decreciente
-t_PLUS = r'\+'
-t_LPAREN = r'\('
-t_EQUALS = r'\='
-t_RPAREN = r'\)'
+t_TkPlus = r'\+'
+t_TkLParen = r'\('
+t_TkEquals = r'\='
+t_TkRParen = r'\)'
 t_ignore = ' \t'                       # Ignora los espacios en blanco y tab
 t_CommentBlock_ignore = ' \t'          # Ignora los espacios en blanco y tab
 
@@ -154,7 +154,7 @@ def t_COMMENT(t):
 # Si encontramos la palabra TRUE retornamos el token
 
 
-def t_TRUE(t):
+def t_TkTrue(t):
     r'true'
     t.value = True
     t.lexpos = (t.lexpos - newline_pos) + 1
@@ -163,7 +163,7 @@ def t_TRUE(t):
 
 # Si encontramos la palabra FALSE retornamos el token
 
-def t_FALSE(t):
+def t_TkFalse(t):
     r'false'
     t.value = False
     t.lexpos = (t.lexpos - newline_pos) + 1
@@ -174,7 +174,7 @@ def t_FALSE(t):
 # Si encontramos la palabra <of color> retornamos el token
 
 
-def t_OF_COLOR(t):
+def t_TkOfColor(t):
     r'of[ ]color'
     t.lexpos = (t.lexpos - newline_pos) + 1
     return t
@@ -182,7 +182,7 @@ def t_OF_COLOR(t):
 # Si encontramos la palabra <in basket> retornamos el token
 
 
-def t_IN_BASKET(t):
+def t_TkInBasket(t):
     r'in[ ]basket'
     t.lexpos = (t.lexpos - newline_pos) + 1
     return t
@@ -190,7 +190,7 @@ def t_IN_BASKET(t):
 # Si encontramos la palabra <Start at> retornamos el token
 
 
-def t_START_AT(t):
+def t_TkStartAt(t):
     r'Start[ ]at'
     t.lexpos = (t.lexpos - newline_pos) + 1
     return t
@@ -198,7 +198,7 @@ def t_START_AT(t):
 # Si encontramos la palabra <Basket of capacity> retornamos el token
 
 
-def t_BASKET_OF_CAPACITY(t):
+def t_TkBasketOfCapacity(t):
     r'Basket[ ]of[ ]capacity'
     t.lexpos = (t.lexpos - newline_pos) + 1
     return t
@@ -206,7 +206,7 @@ def t_BASKET_OF_CAPACITY(t):
 # Si encontramos la palabra <with initial value> retornamos el token
 
 
-def t_WITH_INITIAL_VALUE(t):
+def t_TkWithInitialValue(t):
     r'with[ ]initial[ ]value'
     t.lexpos = (t.lexpos - newline_pos) + 1
     return t
@@ -214,7 +214,7 @@ def t_WITH_INITIAL_VALUE(t):
 # Si encontramos la palabra <Final goal is> retornamos el token
 
 
-def t_FINAL_GOAL_IS(t):
+def t_TkFinalGoalIs(t):
     r'Final[ ]goal[ ]is'
     t.lexpos = (t.lexpos - newline_pos) + 1
     return t
@@ -222,7 +222,7 @@ def t_FINAL_GOAL_IS(t):
 # Si encontramos la palabra <willy is at> retornamos el token
 
 
-def t_WILLY_IS_AT(t):
+def t_WillyIsAt(t):
     r'willy[ ]is[ ]at'
     t.lexpos = (t.lexpos - newline_pos) + 1
     return t
@@ -230,7 +230,7 @@ def t_WILLY_IS_AT(t):
 # Si encontramos la palabra <objects in basket> retornamos el token
 
 
-def t_OBJECTS_IN_BASKET(t):
+def t_TkObjectsInBasket(t):
     r'objects[ ]in[ ]basket'
     t.lexpos = (t.lexpos - newline_pos) + 1
     return t
@@ -238,7 +238,7 @@ def t_OBJECTS_IN_BASKET(t):
 # Si encontramos la palabra <objects at> retornamos el token
 
 
-def t_OBJECTS_AT(t):
+def t_TkObjectsAt(t):
     r'objects[ ]at'
     t.lexpos = (t.lexpos - newline_pos) + 1
     return t
@@ -248,16 +248,16 @@ def t_OBJECTS_AT(t):
 # entonces retornamos el token
 
 
-def t_ID(t):
+def t_TkId(t):
     r'[a-zA-Z_][a-zA-Z_0-9\-]*'
-    t.type = reserved.get(t.value, 'ID')
+    t.type = reserved.get(t.value, 'TkId')
     t.lexpos = (t.lexpos - newline_pos) + 1
     return t
 
 # Si encontramos un entero retornamos el token
 
 
-def t_INT(t):
+def t_TkInt(t):
     r'\d+'
     t.value = int(t.value)
     t.lexpos = (t.lexpos - newline_pos) + 1
