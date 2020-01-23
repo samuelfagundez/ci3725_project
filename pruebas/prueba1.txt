@@ -1,4 +1,3 @@
 begin-world world
-
-  World 1 numero
-end-world idnuevo
+World 1 numero
+end-world idnuevo -

@@ -278,7 +278,9 @@ def t_newline(t):
 
 
 def t_error(t):
-    print("Illegal character '%s'" % t.value[0])
+    t.lexpos = (t.lexpos - newline_pos) + 1
+    print("Caracter ilegal '%s' encontrado en la linea %i, columna %i" %
+          (t.value[0], t.lineno, t.lexpos))
     t.lexer.skip(1)
 
 # Muestra el error

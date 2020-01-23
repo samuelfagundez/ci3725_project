@@ -43,14 +43,14 @@ def readFile(path):
         else:
             for token in listItem:
                 if token.type == 'INT':
-                    print(token.type, "(", token.value, ",", "linea=",
-                          token.lineno, ", columna=", token.lexpos, ")", end=" ")
+                    print("%s(%i, linea=%i, columna=%i)" % (
+                        token.type, token.value, token.lineno, token.lexpos), end=" ")
                 elif token.type == 'ID':
-                    print(token.type, "(", '"', token.value, '"', ",", "linea=",
-                          token.lineno, ", columna=", token.lexpos, ")", end=" ")
+                    print('%s("%s", linea=%i, columna=%i)' % (token.type,
+                                                              token.value, token.lineno, token.lexpos), end=" ")
                 else:
-                    print(token.type, "(linea=", token.lineno,
-                          ", columna=", token.lexpos, ")", end=" ")
+                    print("%s(linea=%i, columna=%i)" %
+                          (token.type, token.lineno, token.lexpos), end=" ")
         if len(listItem) != 0:
             print("")
     fp.close()
