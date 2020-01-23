@@ -30,13 +30,11 @@ def readFile(path):
             break
         if tok.lexer.lineno == i+1:
             list[i].append(tok)
-        elif tok.lexer.lineno == i+2:
-            list.append([])
-            i = i + 1
+        elif tok.lexer.lineno > i+1:
+            while(tok.lexer.lineno > i+1):
+                list.append([])
+                i += 1
             list[i].append(tok)
-        else:
-            list.append([])
-            i = i + 1
     for listItem in list:
         if len(listItem) == 0:
             print("")

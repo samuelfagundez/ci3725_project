@@ -3,7 +3,7 @@ import string
 
 
 # input del lexer
-lexer.input("{{begin-world Place--a 5 of web in basket of color Basket of capacity end-world true false}}\nHola true")
+lexer.input("{{begin-world Place--a 5 of web in basket\n of color Basket of capacity end-world true false}}\nHola true")
 # Evalua el lexer
 while True:
     tok = lexer.token()

@@ -30,6 +30,7 @@ tokens = [
     'TkStartCBlock',
     'TkEndCBlock',
     'TkBlockComment',
+    'TkComment'
 ]
 
 # Palabras reservadas que reconocerá el lexer
@@ -122,7 +123,7 @@ t_CommentBlock_ignore = ' \t'          # Ignora los espacios en blanco y tab
 
 
 # Si leemos un '{{' entramos al estado de Bloque de comentario
-def t_START_CBLOCK(t):
+def t_TkStartCBlock(t):
     r'\{{'
     t.lexer.begin('CommentBlock')
     pass
@@ -130,7 +131,7 @@ def t_START_CBLOCK(t):
 # Si leemos un '}}' entramos al estado inicial
 
 
-def t_CommentBlock_END_CBLOCK(t):
+def t_CommentBlock_TkEndCBlock(t):
     r'\}}'
     t.lexer.begin('INITIAL')
     pass
@@ -138,16 +139,19 @@ def t_CommentBlock_END_CBLOCK(t):
 # Si encontramos un bloque de comentario dentro del bloque de comentario, devolvemos un error
 
 
-def t_CommentBlock_BLOCKCOMMENT(t):
-    r'\{{(.*\n*)*}}'
+def t_CommentBlock_TkBlockComment(t):
+    r'{{(.*\n*)*}}'
     # Define el numero de columna en el que se encuentra el token
     t.lexpos = (t.lexpos - newline_pos) + 1
-    return t
+    print("Error: Comentario anidado en " + str(t.lineno) + ", " + str(t.lexpos))
+    t.lexer.lineno += t.value.count('\n') 
+    t.lexer.begin('INITIAL')
+    pass
 
 
 # Si encontramos -- significa que ignoramos de allí en adelante
 # incluidos los --
-def t_COMMENT(t):
+def t_TkComment(t):
     r'\--.*'
     pass
 
@@ -268,7 +272,7 @@ def t_TkNum(t):
 # Saltos de linea
 
 
-def t_newline(t):
+def t_ANY_newline(t):
     r'\n'
     # Actualiza la variable global con la posicion del ultimo \n encontrado
     global newline_pos

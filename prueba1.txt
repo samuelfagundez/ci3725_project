@@ -1,3 +1,7 @@
+{{
+    Comentario
+}}
+
 begin-world world
 World 1 numero
 end-world idnuevo -
