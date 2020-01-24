@@ -1,6 +1,6 @@
 import sys
 from os import listdir, getcwd
-from lexer import lexer
+from lexer import lexer, checkError
 
 # ruta actual + /pruebas
 # rutaGlobal = getcwd()+'/pruebas'
@@ -35,22 +35,24 @@ def readFile(path):
                 list.append([])
                 i += 1
             list[i].append(tok)
-    for listItem in list:
-        if len(listItem) == 0:
-            print("")
-        else:
-            for token in listItem:
-                if token.type == 'TkNum':
-                    print("%s(%i, linea=%i, columna=%i)" % (
-                        token.type, token.value, token.lineno, token.lexpos), end=" ")
-                elif token.type == 'TkId':
-                    print('%s("%s", linea=%i, columna=%i)' % (token.type,
-                                                              token.value, token.lineno, token.lexpos), end=" ")
-                else:
-                    print("%s(linea=%i, columna=%i)" %
-                          (token.type, token.lineno, token.lexpos), end=" ")
-        if len(listItem) != 0:
-            print("")
+    # Si no se encontraron errores, se imprimen los Tokens
+    if(not checkError()):
+        for listItem in list:
+            if len(listItem) == 0:
+                print("")
+            else:
+                for token in listItem:
+                    if token.type == 'TkNum':
+                        print("%s(%i, linea=%i, columna=%i)" % (
+                            token.type, token.value, token.lineno, token.lexpos), end=" ")
+                    elif token.type == 'TkId':
+                        print('%s("%s", linea=%i, columna=%i)' % (token.type,
+                                                                token.value, token.lineno, token.lexpos), end=" ")
+                    else:
+                        print("%s(linea=%i, columna=%i)" %
+                            (token.type, token.lineno, token.lexpos), end=" ")
+            if len(listItem) != 0:
+                print("")
     fp.close()
 
 

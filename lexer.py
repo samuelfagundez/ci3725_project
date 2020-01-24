@@ -15,6 +15,8 @@ states = (
 )
 # Variable que guarda la posicion del ultimo caracter \n encontrado, util para definir numero de columna
 newline_pos = 0
+# Variable booleana que indica si se encontraron errores durante la tokenizacion
+e = False
 
 # Tokens que reconocerá el lexer basado en Willy*
 tokens = [
@@ -141,6 +143,9 @@ def t_CommentBlock_TkEndCBlock(t):
 
 def t_CommentBlock_TkBlockComment(t):
     r'{{(.*\n*)*}}'
+    # Si se detecta un error, e = True
+    global e
+    e = True
     # Define el numero de columna en el que se encuentra el token
     t.lexpos = (t.lexpos - newline_pos) + 1
     print("Error: Comentario anidado en " + str(t.lineno) + ", " + str(t.lexpos))
@@ -255,6 +260,9 @@ def t_TkId(t):
     r'[a-zA-Z_][a-zA-Z_0-9\-]*'
     t.type = reserved.get(t.value, 'TkId')
     if(t.value.count('-') >= 1 and t.type == 'TkId'):
+        # Si se detecta un error, e = True
+        global e
+        e = True
         print("El identificador '%s' encontrado en la linea %i, columna %i contiene un caracter no permitido" % (t.value, t.lineno, t.lexpos))
     else:
         t.lexpos = (t.lexpos - newline_pos) + 1
@@ -284,6 +292,9 @@ def t_ANY_newline(t):
 
 
 def t_error(t):
+    # Si se detecta un error, e = True
+    global e
+    e = True
     t.lexpos = (t.lexpos - newline_pos) + 1
     print("Caracter ilegal '%s' encontrado en la linea %i, columna %i" %
           (t.value[0], t.lineno, t.lexpos))
@@ -294,6 +305,10 @@ def t_error(t):
 
 def t_CommentBlock_error(t):
     t.lexer.skip(1)
+
+# Funcion usada por files.py para checkear si se encontraron errores durante la tokenizacion
+def checkError():
+    return error_detected
 
 
 # Construye el Lexer
