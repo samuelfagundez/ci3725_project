@@ -308,7 +308,7 @@ def t_CommentBlock_error(t):
 
 # Funcion usada por files.py para checkear si se encontraron errores durante la tokenizacion
 def checkError():
-    return error_detected
+    return e
 
 
 # Construye el Lexer
