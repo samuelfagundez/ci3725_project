@@ -28,10 +28,10 @@ def readFile(path):
         tok = lexer.token()
         if not tok:
             break
-        if tok.lexer.lineno == i+1:
+        if tok.lineno == i+1:
             list[i].append(tok)
-        elif tok.lexer.lineno > i+1:
-            while(tok.lexer.lineno > i+1):
+        elif tok.lineno > i+1:
+            while(tok.lineno > i+1):
                 list.append([])
                 i += 1
             list[i].append(tok)

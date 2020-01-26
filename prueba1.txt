@@ -3,5 +3,12 @@
 }}
 
 begin-world world
-    World 1 numero
-end-world idnuevo
+    World 5 5;
+    Wall north from 3 0 to 3 2;
+    Object-type bigpp of color green;
+    Place 3 of bigpp in basket;
+    Start at 0 0 heading north;
+    Basket of capacity 6;
+    Goal bed_intruder is willy is at 5 5;
+    Final goal is bed_intruder;
+end-world

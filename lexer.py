@@ -231,7 +231,7 @@ def t_TkFinalGoalIs(t):
 # Si encontramos la palabra <willy is at> retornamos el token
 
 
-def t_WillyIsAt(t):
+def t_TkWillyIsAt(t):
     r'willy[ ]is[ ]at'
     t.lexpos = (t.lexpos - newline_pos) + 1
     return t
