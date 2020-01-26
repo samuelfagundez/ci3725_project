@@ -67,7 +67,7 @@ reserved = {
     'Start at': 'TkStartAt',
     'heading': 'TkHeading',
     'Basket of capacity': 'TkBasketOfCapacity',
-    'Bolean': 'TkBoolean',
+    'Boolean': 'TkBoolean',
     'with initial value': 'TkWithInitialValue',
     'Goal': 'TkGoal',
     'is': 'TkIs',
@@ -78,7 +78,7 @@ reserved = {
     'and': 'TkAnd',
     'or': 'TkOr',
     'not': 'TkNot',
-    'begin-work': 'TkBeginWork',
+    'begin-work on': 'TkBeginWorkOn',
     'end-work': 'TkEndWork',
     'if': 'TkIf',
     'then': 'TkThen',
@@ -227,6 +227,13 @@ def t_TkOfColor(t):
     t.lexpos = (t.lexpos - newline_pos) + 1
     return t
 
+# Si encontramos la palabra <begin-work on> retornamos el token
+
+def t_TkBeginWorkOn(t):
+    r'begin-work[ ]on'
+    t.lexpos = (t.lexpos - newline_pos) + 1
+    return t
+
 
 # Si encontramos la palabra <in basket> retornamos el token
 
@@ -279,7 +286,7 @@ def t_TkWillyIsAt(t):
 # Si encontramos la palabra <objects in basket> retornamos el token
 
 def t_TkObjectsInBasket(t):
-    r'objects[ ]in[ ]basket'
+    r'objects[ ]in[ ]Basket'
     t.lexpos = (t.lexpos - newline_pos) + 1
     return t
 

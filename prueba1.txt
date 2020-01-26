@@ -1,14 +1,37 @@
 {{ 
     Comentario
 }}
+-- hola qlqlq sfdhsfjdhfjdhjfsj
 
-begin-world world
+begin-world id 
     World 5 5;
-    Wall north from 3 0 to 3 2;
-    Object-type bigpp of color green;
+    Wall north south west east from 3 0 to 3 2;
+    Object-type bigpp of color red blue magenta cyan green yellow;
     Place 3 of bigpp in basket;
     Start at 0 0 heading north;
     Basket of capacity 6;
+    Boolean _first_bool with initial value true;
     Goal bed_intruder is willy is at 5 5;
-    Final goal is bed_intruder;
+    Goal bed_intruder2 3 bigpp objects in Basket;
+    Goal bed_intruder3 3 bigpp objects at 5 5;
+    Final goal is bed_intruder and not (bed_intruder2 or bed_intruder3);
 end-world
+
+begin-work on id
+    if false then turn-left;
+    if _first_bool then turn-right else pick bigpp;
+    repeat 10 times;
+    while true do drop bigpp;
+    begin
+        set _first_bool;
+        set _first_bool to true;
+        clear _first_bool;
+        flip _first_bool;
+        define aylmao as move;
+    end;
+    front-clear left-clear right-clear looking-north; 
+    looking-east looking-south looking-west;
+    found(bigpp);
+    carrying(bigpp);
+    terminate
+end-work
