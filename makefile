@@ -1,3 +1,4 @@
 all:
-	python3 -m pip install pyinstaller
-	pyinstaller --onefile main.py
+	pip3 install pyinstaller
+	pyinstaller --onefile willy.py
+	sudo cp dist/willy /bin
