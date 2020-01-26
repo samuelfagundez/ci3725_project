@@ -17,6 +17,8 @@ states = (
 newline_pos = 0
 # Variable booleana que indica si se encontraron errores durante la tokenizacion
 e = False
+# Variable que hace hace tracking al numero de comentarios abiertos
+open_comments = 0
 
 # Tokens que reconocerá el lexer basado en Willy*
 tokens = [
@@ -113,44 +115,83 @@ reserved = {
 # unidos a las palabras reservadas
 tokens = tokens + list(reserved.values())
 
-
-t_TkSemiColon = r'\;'
 # Los token definidos por string son ordenados por el largo de su regex y agregados en orden decreciente
-t_TkPlus = r'\+'
-t_TkLParen = r'\('
-t_TkEquals = r'\='
-t_TkRParen = r'\)'
 t_ignore = ' \t'                       # Ignora los espacios en blanco y tab
 t_CommentBlock_ignore = ' \t'          # Ignora los espacios en blanco y tab
 
 
+# Si encontramos un punto y coma (;) retornamos el token
+
+def t_TkSemiColon(t):
+    r'\;'
+    t.lexpos = (t.lexpos - newline_pos) + 1
+    return t
+
+
+# Si encontramos un signo de suma (+) retornamos el token
+
+def t_TkPlus(t):
+    r'\+'
+    t.lexpos = (t.lexpos - newline_pos) + 1
+    return t
+
+# Si encontramos un parentesis abierto [(] retornamos el token
+
+def t_TkLParen(t):
+    r'\('
+    t.lexpos = (t.lexpos - newline_pos) + 1
+    return t
+
+
+# Si encontramos un signo igual (=) retornamos el token
+
+def t_TkEquals(t):
+    r'\='
+    t.lexpos = (t.lexpos - newline_pos) + 1
+    return t
+
+
+# Si encontramos un parentesis cerrado [)] retornamos el token
+
+def t_TkRParen(t):
+    r'\)'
+    t.lexpos = (t.lexpos - newline_pos) + 1
+    return t
+
+
 # Si leemos un '{{' entramos al estado de Bloque de comentario
+
 def t_TkStartCBlock(t):
     r'\{{'
+    global open_comments
+    open_comments += 1
     t.lexer.begin('CommentBlock')
     pass
 
-# Si leemos un '}}' entramos al estado inicial
 
+# Si leemos un '}}' entramos al estado inicial
 
 def t_CommentBlock_TkEndCBlock(t):
     r'\}}'
-    t.lexer.begin('INITIAL')
+    global open_comments
+    open_comments -= 1
+    if(open_comments == 0): t.lexer.begin('INITIAL')
     pass
+
 
 # Si encontramos un bloque de comentario dentro del bloque de comentario, devolvemos un error
 
-
 def t_CommentBlock_TkBlockComment(t):
-    r'{{(.*\n*)*}}'
-    # Si se detecta un error, e = True
+    r'{{[^\}]*}}'
     global e
+    global open_comments
+    # Si se detecta un error, e = True
     e = True
+    open_comments += t.value.count('{{') - t.value.count('}}')
     # Define el numero de columna en el que se encuentra el token
     t.lexpos = (t.lexpos - newline_pos) + 1
     print("Error: Comentario anidado en " + str(t.lineno) + ", " + str(t.lexpos))
     t.lexer.lineno += t.value.count('\n') 
-    t.lexer.begin('INITIAL')
     pass
 
 
@@ -160,8 +201,8 @@ def t_TkComment(t):
     r'\--.*'
     pass
 
-# Si encontramos la palabra TRUE retornamos el token
 
+# Si encontramos la palabra TRUE retornamos el token
 
 def t_TkTrue(t):
     r'true'
@@ -178,79 +219,78 @@ def t_TkFalse(t):
     t.lexpos = (t.lexpos - newline_pos) + 1
     return t
 
-# Como tener tokens con espacios, NOTA: Tiene que estar definido primero que t_ID
 
 # Si encontramos la palabra <of color> retornamos el token
-
 
 def t_TkOfColor(t):
     r'of[ ]color'
     t.lexpos = (t.lexpos - newline_pos) + 1
     return t
 
-# Si encontramos la palabra <in basket> retornamos el token
 
+# Si encontramos la palabra <in basket> retornamos el token
 
 def t_TkInBasket(t):
     r'in[ ]basket'
     t.lexpos = (t.lexpos - newline_pos) + 1
     return t
 
-# Si encontramos la palabra <Start at> retornamos el token
 
+# Si encontramos la palabra <Start at> retornamos el token
 
 def t_TkStartAt(t):
     r'Start[ ]at'
     t.lexpos = (t.lexpos - newline_pos) + 1
     return t
 
-# Si encontramos la palabra <Basket of capacity> retornamos el token
 
+# Si encontramos la palabra <Basket of capacity> retornamos el token
 
 def t_TkBasketOfCapacity(t):
     r'Basket[ ]of[ ]capacity'
     t.lexpos = (t.lexpos - newline_pos) + 1
     return t
 
-# Si encontramos la palabra <with initial value> retornamos el token
 
+# Si encontramos la palabra <with initial value> retornamos el token
 
 def t_TkWithInitialValue(t):
     r'with[ ]initial[ ]value'
     t.lexpos = (t.lexpos - newline_pos) + 1
     return t
 
-# Si encontramos la palabra <Final goal is> retornamos el token
 
+# Si encontramos la palabra <Final goal is> retornamos el token
 
 def t_TkFinalGoalIs(t):
     r'Final[ ]goal[ ]is'
     t.lexpos = (t.lexpos - newline_pos) + 1
     return t
 
-# Si encontramos la palabra <willy is at> retornamos el token
 
+# Si encontramos la palabra <willy is at> retornamos el token
 
 def t_TkWillyIsAt(t):
     r'willy[ ]is[ ]at'
     t.lexpos = (t.lexpos - newline_pos) + 1
     return t
 
-# Si encontramos la palabra <objects in basket> retornamos el token
 
+# Si encontramos la palabra <objects in basket> retornamos el token
 
 def t_TkObjectsInBasket(t):
     r'objects[ ]in[ ]basket'
     t.lexpos = (t.lexpos - newline_pos) + 1
     return t
 
-# Si encontramos la palabra <objects at> retornamos el token
 
+# Si encontramos la palabra <objects at> retornamos el token
 
 def t_TkObjectsAt(t):
     r'objects[ ]at'
     t.lexpos = (t.lexpos - newline_pos) + 1
     return t
+
 
 # Si encontramos cualquier sting que cumpla el siguiente formato
 # y que no sea ninguna de las palabras reservadas anteriores
@@ -268,8 +308,8 @@ def t_TkId(t):
         t.lexpos = (t.lexpos - newline_pos) + 1
         return t
 
-# Si encontramos un entero retornamos el token
 
+# Si encontramos un entero retornamos el token
 
 def t_TkNum(t):
     r'\d+'
@@ -277,8 +317,8 @@ def t_TkNum(t):
     t.lexpos = (t.lexpos - newline_pos) + 1
     return t
 
-# Saltos de linea
 
+# Saltos de linea
 
 def t_ANY_newline(t):
     r'\n'
@@ -287,9 +327,9 @@ def t_ANY_newline(t):
     newline_pos = t.lexpos + 1     
     t.lexer.lineno += len(t.value)
 
+
 # Muestra el error, gracias a la liberería PLY, ya imprime
 # todos los caracteres ilegales
-
 
 def t_error(t):
     # Si se detecta un error, e = True
@@ -300,13 +340,15 @@ def t_error(t):
           (t.value[0], t.lineno, t.lexpos))
     t.lexer.skip(1)
 
-# Muestra el error
 
+# Muestra el error
 
 def t_CommentBlock_error(t):
     t.lexer.skip(1)
 
+
 # Funcion usada por files.py para checkear si se encontraron errores durante la tokenizacion
+
 def checkError():
     return e
 
