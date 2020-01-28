@@ -3,8 +3,6 @@
 }}
 -- hola
 
--G-erman-Roba-yo
-
 begin-world id 
     World 5 5;
     Wall north south west east from 3 0 to 3 2;

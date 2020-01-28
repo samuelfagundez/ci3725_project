@@ -78,8 +78,6 @@ reserved = {
     'and': 'TkAnd',
     'or': 'TkOr',
     'not': 'TkNot',
-    # 'begin-work on': 'TkBeginWorkOn',
-    # 'end-work': 'TkEndWork',
     'begin-task': 'TkBeginTask',
     'end-task': 'TkEndTask',
     'on': 'TkOn',
