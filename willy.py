@@ -12,8 +12,9 @@ try:
         path = input("Archivo a interpretar: ")
         # Llama a la funcion readFile de files.py
         readFile(path)
-# Si el archivo no existe o no puede abrirse, el programa termina indicando el problema
+# Si el archivo no existe, el programa termina indicando el problema
 except FileNotFoundError as error:
     print("El archivo %s no existe" % path)
+# Si el archivo no puede abrirse, el programa termina indicando el problema
 except:
     print("Imposible abrir el archivo %s" % path)
