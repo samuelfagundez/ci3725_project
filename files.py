@@ -22,11 +22,17 @@ def readFile(path):
     # almacenamiento de tokens en la lista.
     list = [[]]
     while True:
+        # Encuentra el siguiente token
         tok = lexer.token()
+        # Si no hay mas tokens, termina
         if not tok:
             break
+        # Si la linea del token es la misma que la del token anterior, se agrega este token 
+        # a la misma lista que la del anterior
         if tok.lineno == i+1:
             list[i].append(tok)
+        # Si la linea del token es diferente que la del token anterior, agregamos tantas 
+        # listas vacias a la lista como lineas haya entre los dos tokens
         elif tok.lineno > i+1:
             while(tok.lineno > i+1):
                 list.append([])
