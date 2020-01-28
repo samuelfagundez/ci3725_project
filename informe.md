@@ -10,6 +10,8 @@
 
 ###### En el files.py se encuentra una función que se encarga de abrir el archivo a procesar (argumento), lo abre, lo lee, guardamos nuestros tokens en una estructura de datos de tipo Lista y luego imprimimos todos los tokens respetando la forma propuesta por el preparador.
 
+###### La estructura de datos que utilizamos para almacenar los tokens es una lista de listas, donde cada posición de la primera lista representa una lista con los tokens de la i-esima linea, si el length de alguno de los elementos de la primera lista es 0 significa que en esa linea correspondía a comentarios o espacio en blanco.
+
 ###### Es importante aclarar que en caso de contener errores nuestro programa, solo se imprimen los errores o caracteres ilegales, en caso de éxito se imprimen los tokens.
 
 ###### La forma de impresión de los tokens en la salida es la siguiente:
@@ -22,3 +24,4 @@
 ##### Para ejecutar nuestro programa se debe hacer lo siguiente:
 ###### make
 ###### willy <argumento || vacío>
+###### vale acotar que debe existir el directorio ${HOME}/bin y que willy no debe existir en esa carpeta al hacer make.
