@@ -7,7 +7,6 @@ import sys
 # Esta librería es la que dará soporte para construir
 # el interpretador durante el proyecto.
 import ply.lex as lex
-import string
 
 
 # Definimos estados para diferenciar cuando estamos leyendo un bloque de comentario y cuando no
