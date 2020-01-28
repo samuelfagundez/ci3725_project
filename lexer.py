@@ -79,7 +79,10 @@ reserved = {
     'and': 'TkAnd',
     'or': 'TkOr',
     'not': 'TkNot',
-    'begin-work on': 'TkBeginWorkOn',
+    # 'begin-work on': 'TkBeginWorkOn',
+    'begin-task': 'TkBeginTask',
+    'end-task': 'TkEndTask',
+    'on': 'TkOn',
     'end-work': 'TkEndWork',
     'if': 'TkIf',
     'then': 'TkThen',
@@ -138,6 +141,7 @@ def t_TkPlus(t):
 
 # Si encontramos un parentesis abierto [(] retornamos el token
 
+
 def t_TkLParen(t):
     r'\('
     t.lexpos = (t.lexpos - newline_pos) + 1
@@ -176,7 +180,8 @@ def t_CommentBlock_TkEndCBlock(t):
     r'\}}'
     global open_comments
     open_comments -= 1
-    if(open_comments == 0): t.lexer.begin('INITIAL')
+    if(open_comments == 0):
+        t.lexer.begin('INITIAL')
     pass
 
 
@@ -191,8 +196,9 @@ def t_CommentBlock_TkBlockComment(t):
     open_comments += t.value.count('{{') - t.value.count('}}')
     # Define el numero de columna en el que se encuentra el token
     t.lexpos = (t.lexpos - newline_pos) + 1
-    print("Error: Comentario anidado en " + str(t.lineno) + ", " + str(t.lexpos))
-    t.lexer.lineno += t.value.count('\n') 
+    print("Error: Comentario anidado en " +
+          str(t.lineno) + ", " + str(t.lexpos))
+    t.lexer.lineno += t.value.count('\n')
     pass
 
 
@@ -225,13 +231,6 @@ def t_TkFalse(t):
 
 def t_TkOfColor(t):
     r'of[ ]color'
-    t.lexpos = (t.lexpos - newline_pos) + 1
-    return t
-
-# Si encontramos la palabra <begin-work on> retornamos el token
-
-def t_TkBeginWorkOn(t):
-    r'begin-work[ ]on'
     t.lexpos = (t.lexpos - newline_pos) + 1
     return t
 
@@ -337,7 +336,7 @@ def t_ANY_newline(t):
     r'\n'
     # Actualiza la variable global con la posicion del ultimo \n encontrado
     global newline_pos
-    newline_pos = t.lexpos + 1     
+    newline_pos = t.lexpos + 1
     t.lexer.lineno += len(t.value)
 
 
