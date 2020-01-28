@@ -1,7 +1,9 @@
 {{ 
     Comentario
 }}
--- hola qlqlq sfdhsfjdhfjdhjfsj
+-- hola
+
+-G-erman-Roba-yo
 
 begin-world id 
     World 5 5;
@@ -17,7 +19,7 @@ begin-world id
     Final goal is bed_intruder and not (bed_intruder2 or bed_intruder3);
 end-world
 
-begin-work on id
+begin-task task1 on id
     if false then turn-left;
     if _first_bool then turn-right else pick bigpp;
     repeat 10 times;
@@ -34,4 +36,4 @@ begin-work on id
     found(bigpp);
     carrying(bigpp);
     terminate
-end-work
+end-task

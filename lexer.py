@@ -233,14 +233,6 @@ def t_TkOfColor(t):
     t.lexpos = (t.lexpos - newline_pos) + 1
     return t
 
-# Si encontramos la palabra <begin-work on> retornamos el token
-
-
-def t_TkBeginWorkOn(t):
-    r'begin-work[ ]on'
-    t.lexpos = (t.lexpos - newline_pos) + 1
-    return t
-
 
 # Si encontramos la palabra <in basket> retornamos el token
 
@@ -313,14 +305,18 @@ def t_TkObjectsAt(t):
 def t_TkId(t):
     r'[a-zA-Z_][a-zA-Z_0-9\-]*'
     t.type = reserved.get(t.value, 'TkId')
-    if(t.value.count('-') >= 1 and t.type == 'TkId'):
+    t.lexpos = (t.lexpos - newline_pos) + 1
+    if (t.value.count('-') >= 1 and t.type == 'TkId'):
         # Si se detecta un error, e = True
         global e
         e = True
-        print("El identificador '%s' encontrado en la linea %i, columna %i contiene un caracter no permitido" % (
-            t.value, t.lineno, t.lexpos))
+        # Posicion del ultimo '-' encontrado en el Id
+        pos = 0
+        # Mostramos todos estos errores
+        for i in range(0, t.value.count('-')):
+            pos = t.value.find('-', pos+1)
+            print("Caracter ilegal '-' encontrado en la linea %i, columna %i" % (t.lineno, t.lexpos + pos))
     else:
-        t.lexpos = (t.lexpos - newline_pos) + 1
         return t
 
 
