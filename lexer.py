@@ -9,11 +9,28 @@ import sys
 import ply.lex as lex
 
 
+# Funcion utilizada por los tokens con espacio para encontrar los caracteres '\n' dentro de el
+# y actualizar newline_pos con el ultimo '\n' encontrado en el token
+def find_newline(t):
+    global newline_pos
+    # Posicion del caracter '\n' anterior en el token
+    prev_pos = 0
+    # Posicion del caracter '\n' actual en el token
+    pos = 0
+    # Actualizamos el newline_pos a el comienzo del token
+    newline_pos += t.lexpos
+    # Para cada '\n' en el token, actualizamos el newline_pos con su posicion
+    for x in range(t.value.count('\n')):
+        prev_pos = pos
+        pos = t.value.find('\n', pos+1)
+        newline_pos += pos - prev_pos
+        t.lexer.lineno += 1
+
 # Definimos estados para diferenciar cuando estamos leyendo un bloque de comentario y cuando no
 states = (
     ('CommentBlock', 'exclusive'),
 )
-# Variable que guarda la posicion del ultimo caracter \n encontrado, util para definir numero de columna
+# Variable que guarda la posicion del ultimo caracter '\n' encontrado, util para definir numero de columna
 newline_pos = 0
 # Variable booleana que indica si se encontraron errores durante la tokenizacion
 e = False
@@ -227,72 +244,90 @@ def t_TkFalse(t):
 # Si encontramos la palabra <of color> retornamos el token
 
 def t_TkOfColor(t):
-    r'of[ ]color'
+    r'of[ \n]+color'
     t.lexpos = (t.lexpos - newline_pos) + 1
+    if(t.value.count('\n') >= 1):
+        find_newline(t)
     return t
 
 
 # Si encontramos la palabra <in basket> retornamos el token
 
 def t_TkInBasket(t):
-    r'in[ ]basket'
+    r'in[ \n]+basket'
     t.lexpos = (t.lexpos - newline_pos) + 1
+    if(t.value.count('\n') >= 1):
+        find_newline(t)
     return t
 
 
 # Si encontramos la palabra <Start at> retornamos el token
 
 def t_TkStartAt(t):
-    r'Start[ ]at'
+    r'Start[ \n]+at'
     t.lexpos = (t.lexpos - newline_pos) + 1
+    if(t.value.count('\n') >= 1):
+        find_newline(t)
     return t
 
 
 # Si encontramos la palabra <Basket of capacity> retornamos el token
 
 def t_TkBasketOfCapacity(t):
-    r'Basket[ ]of[ ]capacity'
+    r'Basket[ \n]+of[ \n]+capacity'
     t.lexpos = (t.lexpos - newline_pos) + 1
+    if(t.value.count('\n') >= 1):
+        find_newline(t)
     return t
 
 
 # Si encontramos la palabra <with initial value> retornamos el token
 
 def t_TkWithInitialValue(t):
-    r'with[ ]initial[ ]value'
+    r'with[ \n]+initial[ \n]+value'
     t.lexpos = (t.lexpos - newline_pos) + 1
+    if(t.value.count('\n') >= 1):
+        find_newline(t)
     return t
 
 
 # Si encontramos la palabra <Final goal is> retornamos el token
 
 def t_TkFinalGoalIs(t):
-    r'Final[ ]goal[ ]is'
+    r'Final[ \n]+goal[ \n]+is'
     t.lexpos = (t.lexpos - newline_pos) + 1
+    if(t.value.count('\n') >= 1):
+        find_newline(t)
     return t
 
 
 # Si encontramos la palabra <willy is at> retornamos el token
 
 def t_TkWillyIsAt(t):
-    r'willy[ ]is[ ]at'
+    r'willy[ \n]+is[ \n]+at'
     t.lexpos = (t.lexpos - newline_pos) + 1
+    if(t.value.count('\n') >= 1):
+        find_newline(t)
     return t
 
 
 # Si encontramos la palabra <objects in basket> retornamos el token
 
 def t_TkObjectsInBasket(t):
-    r'objects[ ]in[ ]Basket'
+    r'objects[ \n]+in[ \n]+Basket'
     t.lexpos = (t.lexpos - newline_pos) + 1
+    if(t.value.count('\n') >= 1):
+        find_newline(t)
     return t
 
 
 # Si encontramos la palabra <objects at> retornamos el token
 
 def t_TkObjectsAt(t):
-    r'objects[ ]at'
+    r'objects[ \n]+at'
     t.lexpos = (t.lexpos - newline_pos) + 1
+    if(t.value.count('\n') >= 1):
+        find_newline(t)
     return t
 
 
