@@ -1,6 +1,4 @@
 begin-world mimundo
-
-     
   World 1 id
               blue
 end-task
