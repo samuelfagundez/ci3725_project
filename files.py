@@ -35,16 +35,20 @@ def readFile(path):
     # Si no se encontraron errores, se imprimen los Tokens
     if(not checkError()):
         for listItem in list:
+            spaces = 0
             if len(listItem) == 0:
                 print("")
             else:
                 for token in listItem:
+                    while(spaces != token.lexpos-1 and listItem.index(token) == 0):
+                        print("", end=" ")
+                        spaces += 1
                     if token.type == 'TkNum':
-                        print("%s(%i, linea=%i, columna=%i)" % (
+                        print("%s(valor=%i, linea=%i, columna=%i)" % (
                             token.type, token.value, token.lineno, token.lexpos), end=" ")
                     elif token.type == 'TkId':
-                        print('%s("%s", linea=%i, columna=%i)' % (token.type,
-                                                                  token.value, token.lineno, token.lexpos), end=" ")
+                        print('%s(valor="%s", linea=%i, columna=%i)' % (token.type,
+                                                                        token.value, token.lineno, token.lexpos), end=" ")
                     else:
                         print("%s(linea=%i, columna=%i)" %
                               (token.type, token.lineno, token.lexpos), end=" ")
