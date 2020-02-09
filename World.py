@@ -17,11 +17,24 @@ class World():
         # Goals. El primer valor de cada llave es el tipo de objetivo (0: posicion, 1: obj. En bolsa, 2: obj. En celda)
         # Los siguientes son especificos para cada tipo de objetivo.
         self.objetivos = {}
+        # Mantiene en un arreglo la cantidad de veces que se llaman a las instrucciones que solo pueden ser llamadas a lo sumo una vez
+        # 0: World, 1: Start at, 2: Basket of capacity, 3: Final goal is
+        self.instrucciones_unicas = [0, 0, 0, 0]
+
+
+    # Checkea si el Identificador esta siendo usado para distintos usos
+    def checkId(self, id):
+        if (id in self.objects) or (id in self.booleanos) or (id in self.objetivos):
+            return True
+        return False
 
 
     # Crea el grid del mundo con sus casillas
     def newWorld(self, columnas, filas):
-        
+
+        self.instrucciones_unicas[0] += 1
+        if(self.instrucciones_unicas[0] > 1):
+            return "No se puede definir mas de una instruccion de este tipo por mundo"
         if (columnas == 0) or (filas == 0):
             return "No se puede definir un mundo con 0 filas o 0 columnas"
 
@@ -35,12 +48,17 @@ class World():
                 # Para casa espacio, creamos una instancia de Casilla
                 # que tendra la informacion de la casilla
                 self.world[i].append(Casilla(i+1, j+1))
+        return True
 
 
     # Obtiene las dimensiones del mundo
-    def worldDim(self):
+    def getWorldDim(self):
 
         return self.columnas, self.filas
+
+    def getWorldId(self):
+
+        return self.id
 
 
     # Crea una nueva pared en el mundo
@@ -88,11 +106,13 @@ class World():
     # Crea un nuevo tipo de objeto en el mundo
     def newObject(self, identificador, color):
 
-        if identificador not in self.objects:
-            self.objects[identificador] = color
-            return True
-        else:
+        if identificador in self.objects:
             return "No se puede definir dos tipos de objeto con el mismo identificador en un mismo mundo."
+        elif self.checkId(identificador):
+            return "No se puede utilizar el mismo identificador para distintos usos"
+
+        self.objects[identificador] = color
+        return True
     
 
     # Checkea si el objeto es valido en el mundo
@@ -167,6 +187,9 @@ class World():
     # Asigna la capacidad de la bolsa de Willy
     def setCapacityOfBasket(self, n):
 
+        self.instrucciones_unicas[2] += 1
+        if(self.instrucciones_unicas[2] > 1):
+            return "No se puede definir mas de una instruccion de este tipo por mundo"
         if n <= 0:
             return "La capacidad de la bolsa debe ser mayor que 0."
         self.basketCapacity = n
@@ -181,6 +204,9 @@ class World():
     # Asigna casilla y direccion en donde willy estara ubicado inicialmente 
     def willyStartAt(self, columna, fila, direccion):
 
+        self.instrucciones_unicas[1] += 1
+        if(self.instrucciones_unicas[1] > 1):
+            return "No se puede definir mas de una instruccion de este tipo por mundo"
         if (columna > self.columnas) or (fila > self.filas):
             return "La columna o fila esta por afuera de las dimensiones del mundo."
 
@@ -195,6 +221,8 @@ class World():
 
         if identificador in self.booleanos:
             return "No se puede definir dos booleanos con el mismo identificador en un mismo mundo."
+        elif self.checkId(identificador):
+            return "No se puede utilizar el mismo identificador para distintos usos"
         
         self.booleanos[identificador] = valor
         return True
@@ -230,6 +258,8 @@ class World():
 
         if identificador in self.objetivos:
             return "No se puede definir dos objetivos con el mismo identificador en el mismo mundo."
+        elif self.checkId(identificador):
+            return "No se puede utilizar el mismo identificador para distintos usos"
 
         self.objetivos[identificador] = (0, columna, fila)
         return True
@@ -240,6 +270,8 @@ class World():
 
         if identificador in self.objetivos:
             return "No se puede definir dos objetivos con el mismo identificador en el mismo mundo."
+        elif self.checkId(identificador):
+            return "No se puede utilizar el mismo identificador para distintos usos"
 
         self.objetivos[identificador] = (1, n, idObj)
         return True
@@ -250,6 +282,8 @@ class World():
 
         if identificador in self.objetivos:
             return "No se puede definir dos objetivos con el mismo identificador en el mismo mundo."
+        elif self.checkId(identificador):
+            return "No se puede utilizar el mismo identificador para distintos usos"
 
         self.objetivos[identificador] = (2, n, idObj, columna, fila)
         return True
@@ -267,6 +301,9 @@ class World():
     # Define el objetivo final del mundo. Puede que cambie esto, no creo que se haga asi!!!!!!!
     def setFinalGoal(self, goals):
 
+        self.instrucciones_unicas[3] += 1
+        if(self.instrucciones_unicas[3] > 1):
+            return "No se puede definir mas de una instruccion de este tipo por mundo"
         self.objetivoFinal = goals
         return True
 
