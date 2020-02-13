@@ -1,16 +1,18 @@
 import ply.yacc as yacc
 from lexer import tokens
 from World import World
+from Task import Task
 import sys
 
 
 # Lista de mundos definidos
 list_of_world = []
+# Lista de tareas definidas
+list_of_tasks = []
+# Tarea actual que se esta definiendo. Sera una instancia de la clase Task
+current_task = None
 # Mundo actual que se esta definiendo. Sera una instancia de la clase world
 current_world = None
-# Variable que indica si se esta definiendo un mundo al momento, esto para evitar 
-# anidamiento de la instruccion begin-world
-defining_world = False
 # Son ordenados de menor a mayor precedencia
 precedence = (
     ('left', 'TkAnd'),
@@ -26,40 +28,48 @@ def checkExistingWorldId(id):
             return True
     return False
 
+# Checkea si el identificador esta siendo utilizado para definir una tarea ya definido. Devuelve 
+# True si esto sucede y False si no sucede
+def checkExistingTaskId(id):
+    for i in range(len(list_of_tasks)):
+        if id == list_of_tasks[i].getId():
+            return True
+    return False
+
+
 # la regla gramatica inicial es la funcion mas arriba en el archivo, aqui es donde el parser debe llegar y 
 # una vez que llega se detiene y regresa el valor en p[0]. Si el parser no llega aqui, se da un syntax error.
 
 def p_program(p):
-    '''program : worlds'''   # Ahi dentro tambien ira 'tasks' luego de 'worlds'
+    '''program : program world
+               | program task
+               | world
+               | task'''
 
 
-def p_worlds(p):
-    '''worlds : worlds beginworld instruccionesWorld TkEndWorld 
-              | beginworld instruccionesWorld TkEndWorld'''
-    global current_world, list_of_world, defining_world
+def p_world(p):
+    '''world : beginworld instruccionesWorld TkEndWorld'''
+    global current_world, list_of_world
     
     list_of_world.append(current_world)
     current_world = None
-    defining_world = False
 
 
+# Inicializa un nuevo mundo. Esto se hace primero ya que necesitamos crear la instancia de World
+# para irla llenando mientras se realiza el parseo
 def p_beginworld(p):
     '''beginworld : TkBeginWorld term_id'''
-    global current_world, defining_world
-    if defining_world == True:
-        print("Error de sintaxis: No se puede definir un mundo dentro de un mundo.")
-        sys.exit(0)
+    global current_world
     if checkExistingWorldId(p[2]):
-        print("Error de sintaxis: No se puede utilizar un identificador para definir dos mundos distintos.")
+        print("Error de sintaxis: No se puede utilizar un mismo identificador para definir dos mundos distintos.")
         sys.exit(0)
 
-    defining_world = True
     current_world = World(p[2])
 
 
-def p_instrucciones(p):
-    '''instruccionesWorld : instruccionesWorld TkSemiColon instruccionWorld
-                     | instruccionWorld'''
+def p_instruccionesWorld(p):
+    '''instruccionesWorld : instruccionesWorld instruccionWorld TkSemiColon
+                          | instruccionWorld TkSemiColon'''
 
 
 # Intruccion World
@@ -145,8 +155,8 @@ def p_instruccion_Boolean(p):
 # Intruccion Goal
 def p_instruccion_Goal(p):
     '''instruccionWorld : TkGoal term_id TkIs TkWillyIsAt term_num term_num
-                   | TkGoal term_id TkIs term_num term_id TkObjectsInBasket
-                   | TkGoal term_id TkIs term_num term_id TkObjectsAt term_num term_num'''
+                        | TkGoal term_id TkIs term_num term_id TkObjectsInBasket
+                        | TkGoal term_id TkIs term_num term_id TkObjectsAt term_num term_num'''
     global current_world
     if p[4] == "willy is at":
         q = current_world.setGoalPosWilly(p[2], p[5], p[6])
@@ -199,10 +209,113 @@ def p_condicion_Goal(p):
 #                     Task                     #
 ################################################
 
+# Crea el nuevo task y lo agrega a la lista de tasks
+def p_task(p):
+    '''task : begintask instruccionesTask TkEndTask
+            | begintask TkEndTask'''
+    global current_task, list_of_tasks
+    
+    if len(p) == 4:
+        print(p[2])
+        current_task.setArbolRecursivoInstr(p[2])
+        list_of_tasks.append(current_task)
+    current_task = None
 
-#def p_tasks(p):
-#    '''tasks : tasks begintask instruccionesTask TkEndTask
-#             | begintask instruccionesTask TkEndTask '''
+
+# Inicializa un nuevo task. Esto se hace primero ya que necesitamos crear la instancia de Task
+# para irla llenando mientras se realiza el parseo
+def p_begintask(p):
+    '''begintask : TkBeginTask term_id TkOn term_id'''
+    global current_task
+
+    # Como no puede haber una tarea con el mismo identificador de un mundo
+    # ni dos tareas con el mismo identificador. Se deben checkear los dos
+    if checkExistingTaskId(p[2]):
+        print("Error de sintaxis: No se puede utilizar un mismo identificador para definir dos tareas distintas.")
+        sys.exit(0)
+    if checkExistingWorldId(p[2]):
+        print("Error de sintaxis: No se puede utilizar un mismo identificador para definir una tarea y un mundo.")
+        sys.exit(0)
+    # Checkea si la tarea esta siendo definida sobre un mundo que existe
+    if not checkExistingWorldId(p[4]):
+        print("Error de sintaxis: No se puede definir una tarea sobre un mundo no existente.")
+
+    current_task = Task(p[2], p[4])
+
+
+# Reduce las instrucciones
+def p_instruccionesTask(p):
+    '''instruccionesTask : instruccionesTask instruccionTask TkSemiColon
+                         | instruccionTask TkSemiColon'''
+    
+    if len(p) == 4:
+        p[0] = (p[1], p[2])
+    else:
+        p[0] = p[1]
+
+
+def p_instruccion_if(p):
+    '''instruccionTask : TkIf term_bool TkThen instruccionTask'''
+
+    p[0] = (p[1], p[2], p[4])
+
+
+def p_instruccion_primitiva_move(p):
+    '''instruccionTask : TkMove'''
+
+    p[0] = p[1]
+
+
+def p_instruccion_primitiva_turn_left(p):
+    '''instruccionTask : TkTurnLeft'''
+
+    p[0] = p[1]
+
+
+def p_instruccion_primitiva_turn_right(p):
+    '''instruccionTask : TkTurnRight'''
+
+    p[0] = p[1]
+
+
+def p_instruccion_primitiva_pick(p):
+    '''instruccionTask : TkPick term_id'''
+
+    p[0] = (p[1], p[2])
+    
+
+def p_instruccion_primitiva_drop(p):
+    '''instruccionTask : TkDrop term_id'''
+
+    p[0] = (p[1], p[2])
+
+
+def p_instruccion_primitiva_set(p):
+    '''instruccionTask : TkSet term_id TkTo term_bool 
+                    | TkSet term_id'''
+
+    if len(p) == 5:
+        p[0] = (p[1], p[2], p[4])
+    else:
+        p[0] = (p[1], p[2])
+
+
+def p_instruccion_primitiva_clear(p):
+    '''instruccionTask : TkClear term_id'''
+
+    p[0] = (p[1], p[2])
+
+
+def p_instruccion_primitiva_flip(p):
+    '''instruccionTask : TkFlip term_id'''
+
+    p[0] = (p[1], p[2])
+
+
+def p_instruccion_primitiva_terminate(p):
+    '''instruccionTask : TkTerminate'''
+
+    p[0] = p[1]
 
 
 
@@ -215,6 +328,7 @@ def p_term_num(p):
 def p_term_bool(p):
     '''term_bool : TkTrue
                  | TkFalse'''
+    p[0] = p[1]
 
 # Terminal Identificador 
 def p_term_id(p):

@@ -12,7 +12,7 @@ begin-world venezuela
     Goal condition1 is willy is at 5 5;
     Goal condition2 is 3 bigpp objects in Basket;
     Goal condition3 is 3 bigpp objects at 5 5;
-    Final goal is (condition1) and ((not condition1) and (condition2 or condition3))
+    Final goal is (condition1) and ((not condition1) and (condition2 or condition3));
 end-world
 
 begin-world yolo
@@ -28,5 +28,19 @@ begin-world yolo
     Goal condition1 is willy is at 5 5;
     Goal condition2 is 3 bigpp objects in Basket;
     Goal condition3 is 3 bigpp objects at 5 5;
-    Final goal is (condition1) and ((not condition1) and (condition2 or condition3))
+    Final goal is (condition1) and ((not condition1) and (condition2 or condition3));
 end-world
+
+begin-task task1 on venezuela
+    move;
+    turn-left;
+    turn-right;
+    pick bigpp;
+    drop bigpp;
+    set bigBool;
+    set bigBool to false;
+    clear bigBool;
+    flip bigBool;
+    if true then
+        terminate;
+end-task
