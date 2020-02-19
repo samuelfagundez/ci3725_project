@@ -1,0 +1,1488 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    TkAs
+    TkBegin
+    TkBlockComment
+    TkCarrying
+    TkComment
+    TkDefine
+    TkDo
+    TkElse
+    TkEnd
+    TkEndCBlock
+    TkEquals
+    TkFound
+    TkFrontClear
+    TkLeftClear
+    TkLookingEast
+    TkLookingNorth
+    TkLookingSouth
+    TkLookingWest
+    TkPlus
+    TkRepeat
+    TkRightClear
+    TkStartCBlock
+    TkTimes
+    TkWhile
+
+Grammar
+
+Rule 0     S' -> program
+Rule 1     program -> program world
+Rule 2     program -> program task
+Rule 3     program -> world
+Rule 4     program -> task
+Rule 5     world -> beginworld instruccionesWorld TkEndWorld
+Rule 6     beginworld -> TkBeginWorld term_id
+Rule 7     instruccionesWorld -> instruccionesWorld instruccionWorld TkSemiColon
+Rule 8     instruccionesWorld -> instruccionWorld TkSemiColon
+Rule 9     instruccionWorld -> TkWorld term_num term_num
+Rule 10    instruccionWorld -> TkWall term_dir TkFrom term_num term_num TkTo term_num term_num
+Rule 11    instruccionWorld -> TkObjectType term_id TkOfColor term_color
+Rule 12    instruccionWorld -> TkPlace term_num TkOf term_id TkAt term_num term_num
+Rule 13    instruccionWorld -> TkPlace term_num TkOf term_id TkInBasket
+Rule 14    instruccionWorld -> TkStartAt term_num term_num TkHeading term_dir
+Rule 15    instruccionWorld -> TkBasketOfCapacity term_num
+Rule 16    instruccionWorld -> TkBoolean term_id TkWithInitialValue term_bool
+Rule 17    instruccionWorld -> TkGoal term_id TkIs TkWillyIsAt term_num term_num
+Rule 18    instruccionWorld -> TkGoal term_id TkIs term_num term_id TkObjectsInBasket
+Rule 19    instruccionWorld -> TkGoal term_id TkIs term_num term_id TkObjectsAt term_num term_num
+Rule 20    instruccionWorld -> TkFinalGoalIs condicionGoal
+Rule 21    condicionGoal -> condicionGoal TkAnd condicionGoal
+Rule 22    condicionGoal -> condicionGoal TkOr condicionGoal
+Rule 23    condicionGoal -> TkNot condicionGoal
+Rule 24    condicionGoal -> TkLParen condicionGoal TkRParen
+Rule 25    condicionGoal -> term_id
+Rule 26    task -> begintask instruccionesTask TkEndTask
+Rule 27    task -> begintask TkEndTask
+Rule 28    begintask -> TkBeginTask term_id TkOn term_id
+Rule 29    instruccionesTask -> instruccionesTask instruccionTask TkSemiColon
+Rule 30    instruccionesTask -> instruccionTask TkSemiColon
+Rule 31    instruccionTask -> TkIf term_bool TkThen instruccionTask
+Rule 32    instruccionTask -> TkMove
+Rule 33    instruccionTask -> TkTurnLeft
+Rule 34    instruccionTask -> TkTurnRight
+Rule 35    instruccionTask -> TkPick term_id
+Rule 36    instruccionTask -> TkDrop term_id
+Rule 37    instruccionTask -> TkSet term_id TkTo term_bool
+Rule 38    instruccionTask -> TkSet term_id
+Rule 39    instruccionTask -> TkClear term_id
+Rule 40    instruccionTask -> TkFlip term_id
+Rule 41    instruccionTask -> TkTerminate
+Rule 42    term_num -> TkNum
+Rule 43    term_bool -> TkTrue
+Rule 44    term_bool -> TkFalse
+Rule 45    term_id -> TkId
+Rule 46    term_dir -> TkNorth
+Rule 47    term_dir -> TkSouth
+Rule 48    term_dir -> TkEast
+Rule 49    term_dir -> TkWest
+Rule 50    term_color -> TkRed
+Rule 51    term_color -> TkBlue
+Rule 52    term_color -> TkMagenta
+Rule 53    term_color -> TkCyan
+Rule 54    term_color -> TkGreen
+Rule 55    term_color -> TkYellow
+
+Terminals, with rules where they appear
+
+TkAnd                : 21
+TkAs                 : 
+TkAt                 : 12
+TkBasketOfCapacity   : 15
+TkBegin              : 
+TkBeginTask          : 28
+TkBeginWorld         : 6
+TkBlockComment       : 
+TkBlue               : 51
+TkBoolean            : 16
+TkCarrying           : 
+TkClear              : 39
+TkComment            : 
+TkCyan               : 53
+TkDefine             : 
+TkDo                 : 
+TkDrop               : 36
+TkEast               : 48
+TkElse               : 
+TkEnd                : 
+TkEndCBlock          : 
+TkEndTask            : 26 27
+TkEndWorld           : 5
+TkEquals             : 
+TkFalse              : 44
+TkFinalGoalIs        : 20
+TkFlip               : 40
+TkFound              : 
+TkFrom               : 10
+TkFrontClear         : 
+TkGoal               : 17 18 19
+TkGreen              : 54
+TkHeading            : 14
+TkId                 : 45
+TkIf                 : 31
+TkInBasket           : 13
+TkIs                 : 17 18 19
+TkLParen             : 24
+TkLeftClear          : 
+TkLookingEast        : 
+TkLookingNorth       : 
+TkLookingSouth       : 
+TkLookingWest        : 
+TkMagenta            : 52
+TkMove               : 32
+TkNorth              : 46
+TkNot                : 23
+TkNum                : 42
+TkObjectType         : 11
+TkObjectsAt          : 19
+TkObjectsInBasket    : 18
+TkOf                 : 12 13
+TkOfColor            : 11
+TkOn                 : 28
+TkOr                 : 22
+TkPick               : 35
+TkPlace              : 12 13
+TkPlus               : 
+TkRParen             : 24
+TkRed                : 50
+TkRepeat             : 
+TkRightClear         : 
+TkSemiColon          : 7 8 29 30
+TkSet                : 37 38
+TkSouth              : 47
+TkStartAt            : 14
+TkStartCBlock        : 
+TkTerminate          : 41
+TkThen               : 31
+TkTimes              : 
+TkTo                 : 10 37
+TkTrue               : 43
+TkTurnLeft           : 33
+TkTurnRight          : 34
+TkWall               : 10
+TkWest               : 49
+TkWhile              : 
+TkWillyIsAt          : 17
+TkWithInitialValue   : 16
+TkWorld              : 9
+TkYellow             : 55
+error                : 
+
+Nonterminals, with rules where they appear
+
+begintask            : 26 27
+beginworld           : 5
+condicionGoal        : 20 21 21 22 22 23 24
+instruccionTask      : 29 30 31
+instruccionWorld     : 7 8
+instruccionesTask    : 26 29
+instruccionesWorld   : 5 7
+program              : 1 2 0
+task                 : 2 4
+term_bool            : 16 31 37
+term_color           : 11
+term_dir             : 10 14
+term_id              : 6 11 12 13 16 17 18 18 19 19 25 28 28 35 36 37 38 39 40
+term_num             : 9 9 10 10 10 10 12 12 12 13 14 14 15 17 17 18 19 19 19
+world                : 1 3
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . program
+    (1) program -> . program world
+    (2) program -> . program task
+    (3) program -> . world
+    (4) program -> . task
+    (5) world -> . beginworld instruccionesWorld TkEndWorld
+    (26) task -> . begintask instruccionesTask TkEndTask
+    (27) task -> . begintask TkEndTask
+    (6) beginworld -> . TkBeginWorld term_id
+    (28) begintask -> . TkBeginTask term_id TkOn term_id
+
+    TkBeginWorld    shift and go to state 6
+    TkBeginTask     shift and go to state 7
+
+    program                        shift and go to state 1
+    world                          shift and go to state 2
+    task                           shift and go to state 3
+    beginworld                     shift and go to state 4
+    begintask                      shift and go to state 5
+
+state 1
+
+    (0) S' -> program .
+    (1) program -> program . world
+    (2) program -> program . task
+    (5) world -> . beginworld instruccionesWorld TkEndWorld
+    (26) task -> . begintask instruccionesTask TkEndTask
+    (27) task -> . begintask TkEndTask
+    (6) beginworld -> . TkBeginWorld term_id
+    (28) begintask -> . TkBeginTask term_id TkOn term_id
+
+    TkBeginWorld    shift and go to state 6
+    TkBeginTask     shift and go to state 7
+
+    world                          shift and go to state 8
+    task                           shift and go to state 9
+    beginworld                     shift and go to state 4
+    begintask                      shift and go to state 5
+
+state 2
+
+    (3) program -> world .
+
+    TkBeginWorld    reduce using rule 3 (program -> world .)
+    TkBeginTask     reduce using rule 3 (program -> world .)
+    $end            reduce using rule 3 (program -> world .)
+
+
+state 3
+
+    (4) program -> task .
+
+    TkBeginWorld    reduce using rule 4 (program -> task .)
+    TkBeginTask     reduce using rule 4 (program -> task .)
+    $end            reduce using rule 4 (program -> task .)
+
+
+state 4
+
+    (5) world -> beginworld . instruccionesWorld TkEndWorld
+    (7) instruccionesWorld -> . instruccionesWorld instruccionWorld TkSemiColon
+    (8) instruccionesWorld -> . instruccionWorld TkSemiColon
+    (9) instruccionWorld -> . TkWorld term_num term_num
+    (10) instruccionWorld -> . TkWall term_dir TkFrom term_num term_num TkTo term_num term_num
+    (11) instruccionWorld -> . TkObjectType term_id TkOfColor term_color
+    (12) instruccionWorld -> . TkPlace term_num TkOf term_id TkAt term_num term_num
+    (13) instruccionWorld -> . TkPlace term_num TkOf term_id TkInBasket
+    (14) instruccionWorld -> . TkStartAt term_num term_num TkHeading term_dir
+    (15) instruccionWorld -> . TkBasketOfCapacity term_num
+    (16) instruccionWorld -> . TkBoolean term_id TkWithInitialValue term_bool
+    (17) instruccionWorld -> . TkGoal term_id TkIs TkWillyIsAt term_num term_num
+    (18) instruccionWorld -> . TkGoal term_id TkIs term_num term_id TkObjectsInBasket
+    (19) instruccionWorld -> . TkGoal term_id TkIs term_num term_id TkObjectsAt term_num term_num
+    (20) instruccionWorld -> . TkFinalGoalIs condicionGoal
+
+    TkWorld         shift and go to state 12
+    TkWall          shift and go to state 13
+    TkObjectType    shift and go to state 14
+    TkPlace         shift and go to state 15
+    TkStartAt       shift and go to state 16
+    TkBasketOfCapacity shift and go to state 17
+    TkBoolean       shift and go to state 18
+    TkGoal          shift and go to state 19
+    TkFinalGoalIs   shift and go to state 20
+
+    instruccionesWorld             shift and go to state 10
+    instruccionWorld               shift and go to state 11
+
+state 5
+
+    (26) task -> begintask . instruccionesTask TkEndTask
+    (27) task -> begintask . TkEndTask
+    (29) instruccionesTask -> . instruccionesTask instruccionTask TkSemiColon
+    (30) instruccionesTask -> . instruccionTask TkSemiColon
+    (31) instruccionTask -> . TkIf term_bool TkThen instruccionTask
+    (32) instruccionTask -> . TkMove
+    (33) instruccionTask -> . TkTurnLeft
+    (34) instruccionTask -> . TkTurnRight
+    (35) instruccionTask -> . TkPick term_id
+    (36) instruccionTask -> . TkDrop term_id
+    (37) instruccionTask -> . TkSet term_id TkTo term_bool
+    (38) instruccionTask -> . TkSet term_id
+    (39) instruccionTask -> . TkClear term_id
+    (40) instruccionTask -> . TkFlip term_id
+    (41) instruccionTask -> . TkTerminate
+
+    TkEndTask       shift and go to state 22
+    TkIf            shift and go to state 24
+    TkMove          shift and go to state 25
+    TkTurnLeft      shift and go to state 26
+    TkTurnRight     shift and go to state 27
+    TkPick          shift and go to state 28
+    TkDrop          shift and go to state 29
+    TkSet           shift and go to state 30
+    TkClear         shift and go to state 31
+    TkFlip          shift and go to state 32
+    TkTerminate     shift and go to state 33
+
+    instruccionesTask              shift and go to state 21
+    instruccionTask                shift and go to state 23
+
+state 6
+
+    (6) beginworld -> TkBeginWorld . term_id
+    (45) term_id -> . TkId
+
+    TkId            shift and go to state 35
+
+    term_id                        shift and go to state 34
+
+state 7
+
+    (28) begintask -> TkBeginTask . term_id TkOn term_id
+    (45) term_id -> . TkId
+
+    TkId            shift and go to state 35
+
+    term_id                        shift and go to state 36
+
+state 8
+
+    (1) program -> program world .
+
+    TkBeginWorld    reduce using rule 1 (program -> program world .)
+    TkBeginTask     reduce using rule 1 (program -> program world .)
+    $end            reduce using rule 1 (program -> program world .)
+
+
+state 9
+
+    (2) program -> program task .
+
+    TkBeginWorld    reduce using rule 2 (program -> program task .)
+    TkBeginTask     reduce using rule 2 (program -> program task .)
+    $end            reduce using rule 2 (program -> program task .)
+
+
+state 10
+
+    (5) world -> beginworld instruccionesWorld . TkEndWorld
+    (7) instruccionesWorld -> instruccionesWorld . instruccionWorld TkSemiColon
+    (9) instruccionWorld -> . TkWorld term_num term_num
+    (10) instruccionWorld -> . TkWall term_dir TkFrom term_num term_num TkTo term_num term_num
+    (11) instruccionWorld -> . TkObjectType term_id TkOfColor term_color
+    (12) instruccionWorld -> . TkPlace term_num TkOf term_id TkAt term_num term_num
+    (13) instruccionWorld -> . TkPlace term_num TkOf term_id TkInBasket
+    (14) instruccionWorld -> . TkStartAt term_num term_num TkHeading term_dir
+    (15) instruccionWorld -> . TkBasketOfCapacity term_num
+    (16) instruccionWorld -> . TkBoolean term_id TkWithInitialValue term_bool
+    (17) instruccionWorld -> . TkGoal term_id TkIs TkWillyIsAt term_num term_num
+    (18) instruccionWorld -> . TkGoal term_id TkIs term_num term_id TkObjectsInBasket
+    (19) instruccionWorld -> . TkGoal term_id TkIs term_num term_id TkObjectsAt term_num term_num
+    (20) instruccionWorld -> . TkFinalGoalIs condicionGoal
+
+    TkEndWorld      shift and go to state 37
+    TkWorld         shift and go to state 12
+    TkWall          shift and go to state 13
+    TkObjectType    shift and go to state 14
+    TkPlace         shift and go to state 15
+    TkStartAt       shift and go to state 16
+    TkBasketOfCapacity shift and go to state 17
+    TkBoolean       shift and go to state 18
+    TkGoal          shift and go to state 19
+    TkFinalGoalIs   shift and go to state 20
+
+    instruccionWorld               shift and go to state 38
+
+state 11
+
+    (8) instruccionesWorld -> instruccionWorld . TkSemiColon
+
+    TkSemiColon     shift and go to state 39
+
+
+state 12
+
+    (9) instruccionWorld -> TkWorld . term_num term_num
+    (42) term_num -> . TkNum
+
+    TkNum           shift and go to state 41
+
+    term_num                       shift and go to state 40
+
+state 13
+
+    (10) instruccionWorld -> TkWall . term_dir TkFrom term_num term_num TkTo term_num term_num
+    (46) term_dir -> . TkNorth
+    (47) term_dir -> . TkSouth
+    (48) term_dir -> . TkEast
+    (49) term_dir -> . TkWest
+
+    TkNorth         shift and go to state 43
+    TkSouth         shift and go to state 44
+    TkEast          shift and go to state 45
+    TkWest          shift and go to state 46
+
+    term_dir                       shift and go to state 42
+
+state 14
+
+    (11) instruccionWorld -> TkObjectType . term_id TkOfColor term_color
+    (45) term_id -> . TkId
+
+    TkId            shift and go to state 35
+
+    term_id                        shift and go to state 47
+
+state 15
+
+    (12) instruccionWorld -> TkPlace . term_num TkOf term_id TkAt term_num term_num
+    (13) instruccionWorld -> TkPlace . term_num TkOf term_id TkInBasket
+    (42) term_num -> . TkNum
+
+    TkNum           shift and go to state 41
+
+    term_num                       shift and go to state 48
+
+state 16
+
+    (14) instruccionWorld -> TkStartAt . term_num term_num TkHeading term_dir
+    (42) term_num -> . TkNum
+
+    TkNum           shift and go to state 41
+
+    term_num                       shift and go to state 49
+
+state 17
+
+    (15) instruccionWorld -> TkBasketOfCapacity . term_num
+    (42) term_num -> . TkNum
+
+    TkNum           shift and go to state 41
+
+    term_num                       shift and go to state 50
+
+state 18
+
+    (16) instruccionWorld -> TkBoolean . term_id TkWithInitialValue term_bool
+    (45) term_id -> . TkId
+
+    TkId            shift and go to state 35
+
+    term_id                        shift and go to state 51
+
+state 19
+
+    (17) instruccionWorld -> TkGoal . term_id TkIs TkWillyIsAt term_num term_num
+    (18) instruccionWorld -> TkGoal . term_id TkIs term_num term_id TkObjectsInBasket
+    (19) instruccionWorld -> TkGoal . term_id TkIs term_num term_id TkObjectsAt term_num term_num
+    (45) term_id -> . TkId
+
+    TkId            shift and go to state 35
+
+    term_id                        shift and go to state 52
+
+state 20
+
+    (20) instruccionWorld -> TkFinalGoalIs . condicionGoal
+    (21) condicionGoal -> . condicionGoal TkAnd condicionGoal
+    (22) condicionGoal -> . condicionGoal TkOr condicionGoal
+    (23) condicionGoal -> . TkNot condicionGoal
+    (24) condicionGoal -> . TkLParen condicionGoal TkRParen
+    (25) condicionGoal -> . term_id
+    (45) term_id -> . TkId
+
+    TkNot           shift and go to state 54
+    TkLParen        shift and go to state 55
+    TkId            shift and go to state 35
+
+    condicionGoal                  shift and go to state 53
+    term_id                        shift and go to state 56
+
+state 21
+
+    (26) task -> begintask instruccionesTask . TkEndTask
+    (29) instruccionesTask -> instruccionesTask . instruccionTask TkSemiColon
+    (31) instruccionTask -> . TkIf term_bool TkThen instruccionTask
+    (32) instruccionTask -> . TkMove
+    (33) instruccionTask -> . TkTurnLeft
+    (34) instruccionTask -> . TkTurnRight
+    (35) instruccionTask -> . TkPick term_id
+    (36) instruccionTask -> . TkDrop term_id
+    (37) instruccionTask -> . TkSet term_id TkTo term_bool
+    (38) instruccionTask -> . TkSet term_id
+    (39) instruccionTask -> . TkClear term_id
+    (40) instruccionTask -> . TkFlip term_id
+    (41) instruccionTask -> . TkTerminate
+
+    TkEndTask       shift and go to state 57
+    TkIf            shift and go to state 24
+    TkMove          shift and go to state 25
+    TkTurnLeft      shift and go to state 26
+    TkTurnRight     shift and go to state 27
+    TkPick          shift and go to state 28
+    TkDrop          shift and go to state 29
+    TkSet           shift and go to state 30
+    TkClear         shift and go to state 31
+    TkFlip          shift and go to state 32
+    TkTerminate     shift and go to state 33
+
+    instruccionTask                shift and go to state 58
+
+state 22
+
+    (27) task -> begintask TkEndTask .
+
+    TkBeginWorld    reduce using rule 27 (task -> begintask TkEndTask .)
+    TkBeginTask     reduce using rule 27 (task -> begintask TkEndTask .)
+    $end            reduce using rule 27 (task -> begintask TkEndTask .)
+
+
+state 23
+
+    (30) instruccionesTask -> instruccionTask . TkSemiColon
+
+    TkSemiColon     shift and go to state 59
+
+
+state 24
+
+    (31) instruccionTask -> TkIf . term_bool TkThen instruccionTask
+    (43) term_bool -> . TkTrue
+    (44) term_bool -> . TkFalse
+
+    TkTrue          shift and go to state 61
+    TkFalse         shift and go to state 62
+
+    term_bool                      shift and go to state 60
+
+state 25
+
+    (32) instruccionTask -> TkMove .
+
+    TkSemiColon     reduce using rule 32 (instruccionTask -> TkMove .)
+
+
+state 26
+
+    (33) instruccionTask -> TkTurnLeft .
+
+    TkSemiColon     reduce using rule 33 (instruccionTask -> TkTurnLeft .)
+
+
+state 27
+
+    (34) instruccionTask -> TkTurnRight .
+
+    TkSemiColon     reduce using rule 34 (instruccionTask -> TkTurnRight .)
+
+
+state 28
+
+    (35) instruccionTask -> TkPick . term_id
+    (45) term_id -> . TkId
+
+    TkId            shift and go to state 35
+
+    term_id                        shift and go to state 63
+
+state 29
+
+    (36) instruccionTask -> TkDrop . term_id
+    (45) term_id -> . TkId
+
+    TkId            shift and go to state 35
+
+    term_id                        shift and go to state 64
+
+state 30
+
+    (37) instruccionTask -> TkSet . term_id TkTo term_bool
+    (38) instruccionTask -> TkSet . term_id
+    (45) term_id -> . TkId
+
+    TkId            shift and go to state 35
+
+    term_id                        shift and go to state 65
+
+state 31
+
+    (39) instruccionTask -> TkClear . term_id
+    (45) term_id -> . TkId
+
+    TkId            shift and go to state 35
+
+    term_id                        shift and go to state 66
+
+state 32
+
+    (40) instruccionTask -> TkFlip . term_id
+    (45) term_id -> . TkId
+
+    TkId            shift and go to state 35
+
+    term_id                        shift and go to state 67
+
+state 33
+
+    (41) instruccionTask -> TkTerminate .
+
+    TkSemiColon     reduce using rule 41 (instruccionTask -> TkTerminate .)
+
+
+state 34
+
+    (6) beginworld -> TkBeginWorld term_id .
+
+    TkWorld         reduce using rule 6 (beginworld -> TkBeginWorld term_id .)
+    TkWall          reduce using rule 6 (beginworld -> TkBeginWorld term_id .)
+    TkObjectType    reduce using rule 6 (beginworld -> TkBeginWorld term_id .)
+    TkPlace         reduce using rule 6 (beginworld -> TkBeginWorld term_id .)
+    TkStartAt       reduce using rule 6 (beginworld -> TkBeginWorld term_id .)
+    TkBasketOfCapacity reduce using rule 6 (beginworld -> TkBeginWorld term_id .)
+    TkBoolean       reduce using rule 6 (beginworld -> TkBeginWorld term_id .)
+    TkGoal          reduce using rule 6 (beginworld -> TkBeginWorld term_id .)
+    TkFinalGoalIs   reduce using rule 6 (beginworld -> TkBeginWorld term_id .)
+
+
+state 35
+
+    (45) term_id -> TkId .
+
+    TkWorld         reduce using rule 45 (term_id -> TkId .)
+    TkWall          reduce using rule 45 (term_id -> TkId .)
+    TkObjectType    reduce using rule 45 (term_id -> TkId .)
+    TkPlace         reduce using rule 45 (term_id -> TkId .)
+    TkStartAt       reduce using rule 45 (term_id -> TkId .)
+    TkBasketOfCapacity reduce using rule 45 (term_id -> TkId .)
+    TkBoolean       reduce using rule 45 (term_id -> TkId .)
+    TkGoal          reduce using rule 45 (term_id -> TkId .)
+    TkFinalGoalIs   reduce using rule 45 (term_id -> TkId .)
+    TkOn            reduce using rule 45 (term_id -> TkId .)
+    TkOfColor       reduce using rule 45 (term_id -> TkId .)
+    TkWithInitialValue reduce using rule 45 (term_id -> TkId .)
+    TkIs            reduce using rule 45 (term_id -> TkId .)
+    TkAnd           reduce using rule 45 (term_id -> TkId .)
+    TkOr            reduce using rule 45 (term_id -> TkId .)
+    TkSemiColon     reduce using rule 45 (term_id -> TkId .)
+    TkTo            reduce using rule 45 (term_id -> TkId .)
+    TkRParen        reduce using rule 45 (term_id -> TkId .)
+    TkEndTask       reduce using rule 45 (term_id -> TkId .)
+    TkIf            reduce using rule 45 (term_id -> TkId .)
+    TkMove          reduce using rule 45 (term_id -> TkId .)
+    TkTurnLeft      reduce using rule 45 (term_id -> TkId .)
+    TkTurnRight     reduce using rule 45 (term_id -> TkId .)
+    TkPick          reduce using rule 45 (term_id -> TkId .)
+    TkDrop          reduce using rule 45 (term_id -> TkId .)
+    TkSet           reduce using rule 45 (term_id -> TkId .)
+    TkClear         reduce using rule 45 (term_id -> TkId .)
+    TkFlip          reduce using rule 45 (term_id -> TkId .)
+    TkTerminate     reduce using rule 45 (term_id -> TkId .)
+    TkAt            reduce using rule 45 (term_id -> TkId .)
+    TkInBasket      reduce using rule 45 (term_id -> TkId .)
+    TkObjectsInBasket reduce using rule 45 (term_id -> TkId .)
+    TkObjectsAt     reduce using rule 45 (term_id -> TkId .)
+
+
+state 36
+
+    (28) begintask -> TkBeginTask term_id . TkOn term_id
+
+    TkOn            shift and go to state 68
+
+
+state 37
+
+    (5) world -> beginworld instruccionesWorld TkEndWorld .
+
+    TkBeginWorld    reduce using rule 5 (world -> beginworld instruccionesWorld TkEndWorld .)
+    TkBeginTask     reduce using rule 5 (world -> beginworld instruccionesWorld TkEndWorld .)
+    $end            reduce using rule 5 (world -> beginworld instruccionesWorld TkEndWorld .)
+
+
+state 38
+
+    (7) instruccionesWorld -> instruccionesWorld instruccionWorld . TkSemiColon
+
+    TkSemiColon     shift and go to state 69
+
+
+state 39
+
+    (8) instruccionesWorld -> instruccionWorld TkSemiColon .
+
+    TkEndWorld      reduce using rule 8 (instruccionesWorld -> instruccionWorld TkSemiColon .)
+    TkWorld         reduce using rule 8 (instruccionesWorld -> instruccionWorld TkSemiColon .)
+    TkWall          reduce using rule 8 (instruccionesWorld -> instruccionWorld TkSemiColon .)
+    TkObjectType    reduce using rule 8 (instruccionesWorld -> instruccionWorld TkSemiColon .)
+    TkPlace         reduce using rule 8 (instruccionesWorld -> instruccionWorld TkSemiColon .)
+    TkStartAt       reduce using rule 8 (instruccionesWorld -> instruccionWorld TkSemiColon .)
+    TkBasketOfCapacity reduce using rule 8 (instruccionesWorld -> instruccionWorld TkSemiColon .)
+    TkBoolean       reduce using rule 8 (instruccionesWorld -> instruccionWorld TkSemiColon .)
+    TkGoal          reduce using rule 8 (instruccionesWorld -> instruccionWorld TkSemiColon .)
+    TkFinalGoalIs   reduce using rule 8 (instruccionesWorld -> instruccionWorld TkSemiColon .)
+
+
+state 40
+
+    (9) instruccionWorld -> TkWorld term_num . term_num
+    (42) term_num -> . TkNum
+
+    TkNum           shift and go to state 41
+
+    term_num                       shift and go to state 70
+
+state 41
+
+    (42) term_num -> TkNum .
+
+    TkNum           reduce using rule 42 (term_num -> TkNum .)
+    TkOf            reduce using rule 42 (term_num -> TkNum .)
+    TkSemiColon     reduce using rule 42 (term_num -> TkNum .)
+    TkHeading       reduce using rule 42 (term_num -> TkNum .)
+    TkId            reduce using rule 42 (term_num -> TkNum .)
+    TkTo            reduce using rule 42 (term_num -> TkNum .)
+
+
+state 42
+
+    (10) instruccionWorld -> TkWall term_dir . TkFrom term_num term_num TkTo term_num term_num
+
+    TkFrom          shift and go to state 71
+
+
+state 43
+
+    (46) term_dir -> TkNorth .
+
+    TkFrom          reduce using rule 46 (term_dir -> TkNorth .)
+    TkSemiColon     reduce using rule 46 (term_dir -> TkNorth .)
+
+
+state 44
+
+    (47) term_dir -> TkSouth .
+
+    TkFrom          reduce using rule 47 (term_dir -> TkSouth .)
+    TkSemiColon     reduce using rule 47 (term_dir -> TkSouth .)
+
+
+state 45
+
+    (48) term_dir -> TkEast .
+
+    TkFrom          reduce using rule 48 (term_dir -> TkEast .)
+    TkSemiColon     reduce using rule 48 (term_dir -> TkEast .)
+
+
+state 46
+
+    (49) term_dir -> TkWest .
+
+    TkFrom          reduce using rule 49 (term_dir -> TkWest .)
+    TkSemiColon     reduce using rule 49 (term_dir -> TkWest .)
+
+
+state 47
+
+    (11) instruccionWorld -> TkObjectType term_id . TkOfColor term_color
+
+    TkOfColor       shift and go to state 72
+
+
+state 48
+
+    (12) instruccionWorld -> TkPlace term_num . TkOf term_id TkAt term_num term_num
+    (13) instruccionWorld -> TkPlace term_num . TkOf term_id TkInBasket
+
+    TkOf            shift and go to state 73
+
+
+state 49
+
+    (14) instruccionWorld -> TkStartAt term_num . term_num TkHeading term_dir
+    (42) term_num -> . TkNum
+
+    TkNum           shift and go to state 41
+
+    term_num                       shift and go to state 74
+
+state 50
+
+    (15) instruccionWorld -> TkBasketOfCapacity term_num .
+
+    TkSemiColon     reduce using rule 15 (instruccionWorld -> TkBasketOfCapacity term_num .)
+
+
+state 51
+
+    (16) instruccionWorld -> TkBoolean term_id . TkWithInitialValue term_bool
+
+    TkWithInitialValue shift and go to state 75
+
+
+state 52
+
+    (17) instruccionWorld -> TkGoal term_id . TkIs TkWillyIsAt term_num term_num
+    (18) instruccionWorld -> TkGoal term_id . TkIs term_num term_id TkObjectsInBasket
+    (19) instruccionWorld -> TkGoal term_id . TkIs term_num term_id TkObjectsAt term_num term_num
+
+    TkIs            shift and go to state 76
+
+
+state 53
+
+    (20) instruccionWorld -> TkFinalGoalIs condicionGoal .
+    (21) condicionGoal -> condicionGoal . TkAnd condicionGoal
+    (22) condicionGoal -> condicionGoal . TkOr condicionGoal
+
+    TkSemiColon     reduce using rule 20 (instruccionWorld -> TkFinalGoalIs condicionGoal .)
+    TkAnd           shift and go to state 77
+    TkOr            shift and go to state 78
+
+
+state 54
+
+    (23) condicionGoal -> TkNot . condicionGoal
+    (21) condicionGoal -> . condicionGoal TkAnd condicionGoal
+    (22) condicionGoal -> . condicionGoal TkOr condicionGoal
+    (23) condicionGoal -> . TkNot condicionGoal
+    (24) condicionGoal -> . TkLParen condicionGoal TkRParen
+    (25) condicionGoal -> . term_id
+    (45) term_id -> . TkId
+
+    TkNot           shift and go to state 54
+    TkLParen        shift and go to state 55
+    TkId            shift and go to state 35
+
+    condicionGoal                  shift and go to state 79
+    term_id                        shift and go to state 56
+
+state 55
+
+    (24) condicionGoal -> TkLParen . condicionGoal TkRParen
+    (21) condicionGoal -> . condicionGoal TkAnd condicionGoal
+    (22) condicionGoal -> . condicionGoal TkOr condicionGoal
+    (23) condicionGoal -> . TkNot condicionGoal
+    (24) condicionGoal -> . TkLParen condicionGoal TkRParen
+    (25) condicionGoal -> . term_id
+    (45) term_id -> . TkId
+
+    TkNot           shift and go to state 54
+    TkLParen        shift and go to state 55
+    TkId            shift and go to state 35
+
+    condicionGoal                  shift and go to state 80
+    term_id                        shift and go to state 56
+
+state 56
+
+    (25) condicionGoal -> term_id .
+
+    TkAnd           reduce using rule 25 (condicionGoal -> term_id .)
+    TkOr            reduce using rule 25 (condicionGoal -> term_id .)
+    TkSemiColon     reduce using rule 25 (condicionGoal -> term_id .)
+    TkRParen        reduce using rule 25 (condicionGoal -> term_id .)
+
+
+state 57
+
+    (26) task -> begintask instruccionesTask TkEndTask .
+
+    TkBeginWorld    reduce using rule 26 (task -> begintask instruccionesTask TkEndTask .)
+    TkBeginTask     reduce using rule 26 (task -> begintask instruccionesTask TkEndTask .)
+    $end            reduce using rule 26 (task -> begintask instruccionesTask TkEndTask .)
+
+
+state 58
+
+    (29) instruccionesTask -> instruccionesTask instruccionTask . TkSemiColon
+
+    TkSemiColon     shift and go to state 81
+
+
+state 59
+
+    (30) instruccionesTask -> instruccionTask TkSemiColon .
+
+    TkEndTask       reduce using rule 30 (instruccionesTask -> instruccionTask TkSemiColon .)
+    TkIf            reduce using rule 30 (instruccionesTask -> instruccionTask TkSemiColon .)
+    TkMove          reduce using rule 30 (instruccionesTask -> instruccionTask TkSemiColon .)
+    TkTurnLeft      reduce using rule 30 (instruccionesTask -> instruccionTask TkSemiColon .)
+    TkTurnRight     reduce using rule 30 (instruccionesTask -> instruccionTask TkSemiColon .)
+    TkPick          reduce using rule 30 (instruccionesTask -> instruccionTask TkSemiColon .)
+    TkDrop          reduce using rule 30 (instruccionesTask -> instruccionTask TkSemiColon .)
+    TkSet           reduce using rule 30 (instruccionesTask -> instruccionTask TkSemiColon .)
+    TkClear         reduce using rule 30 (instruccionesTask -> instruccionTask TkSemiColon .)
+    TkFlip          reduce using rule 30 (instruccionesTask -> instruccionTask TkSemiColon .)
+    TkTerminate     reduce using rule 30 (instruccionesTask -> instruccionTask TkSemiColon .)
+
+
+state 60
+
+    (31) instruccionTask -> TkIf term_bool . TkThen instruccionTask
+
+    TkThen          shift and go to state 82
+
+
+state 61
+
+    (43) term_bool -> TkTrue .
+
+    TkThen          reduce using rule 43 (term_bool -> TkTrue .)
+    TkSemiColon     reduce using rule 43 (term_bool -> TkTrue .)
+
+
+state 62
+
+    (44) term_bool -> TkFalse .
+
+    TkThen          reduce using rule 44 (term_bool -> TkFalse .)
+    TkSemiColon     reduce using rule 44 (term_bool -> TkFalse .)
+
+
+state 63
+
+    (35) instruccionTask -> TkPick term_id .
+
+    TkSemiColon     reduce using rule 35 (instruccionTask -> TkPick term_id .)
+
+
+state 64
+
+    (36) instruccionTask -> TkDrop term_id .
+
+    TkSemiColon     reduce using rule 36 (instruccionTask -> TkDrop term_id .)
+
+
+state 65
+
+    (37) instruccionTask -> TkSet term_id . TkTo term_bool
+    (38) instruccionTask -> TkSet term_id .
+
+    TkTo            shift and go to state 83
+    TkSemiColon     reduce using rule 38 (instruccionTask -> TkSet term_id .)
+
+
+state 66
+
+    (39) instruccionTask -> TkClear term_id .
+
+    TkSemiColon     reduce using rule 39 (instruccionTask -> TkClear term_id .)
+
+
+state 67
+
+    (40) instruccionTask -> TkFlip term_id .
+
+    TkSemiColon     reduce using rule 40 (instruccionTask -> TkFlip term_id .)
+
+
+state 68
+
+    (28) begintask -> TkBeginTask term_id TkOn . term_id
+    (45) term_id -> . TkId
+
+    TkId            shift and go to state 35
+
+    term_id                        shift and go to state 84
+
+state 69
+
+    (7) instruccionesWorld -> instruccionesWorld instruccionWorld TkSemiColon .
+
+    TkEndWorld      reduce using rule 7 (instruccionesWorld -> instruccionesWorld instruccionWorld TkSemiColon .)
+    TkWorld         reduce using rule 7 (instruccionesWorld -> instruccionesWorld instruccionWorld TkSemiColon .)
+    TkWall          reduce using rule 7 (instruccionesWorld -> instruccionesWorld instruccionWorld TkSemiColon .)
+    TkObjectType    reduce using rule 7 (instruccionesWorld -> instruccionesWorld instruccionWorld TkSemiColon .)
+    TkPlace         reduce using rule 7 (instruccionesWorld -> instruccionesWorld instruccionWorld TkSemiColon .)
+    TkStartAt       reduce using rule 7 (instruccionesWorld -> instruccionesWorld instruccionWorld TkSemiColon .)
+    TkBasketOfCapacity reduce using rule 7 (instruccionesWorld -> instruccionesWorld instruccionWorld TkSemiColon .)
+    TkBoolean       reduce using rule 7 (instruccionesWorld -> instruccionesWorld instruccionWorld TkSemiColon .)
+    TkGoal          reduce using rule 7 (instruccionesWorld -> instruccionesWorld instruccionWorld TkSemiColon .)
+    TkFinalGoalIs   reduce using rule 7 (instruccionesWorld -> instruccionesWorld instruccionWorld TkSemiColon .)
+
+
+state 70
+
+    (9) instruccionWorld -> TkWorld term_num term_num .
+
+    TkSemiColon     reduce using rule 9 (instruccionWorld -> TkWorld term_num term_num .)
+
+
+state 71
+
+    (10) instruccionWorld -> TkWall term_dir TkFrom . term_num term_num TkTo term_num term_num
+    (42) term_num -> . TkNum
+
+    TkNum           shift and go to state 41
+
+    term_num                       shift and go to state 85
+
+state 72
+
+    (11) instruccionWorld -> TkObjectType term_id TkOfColor . term_color
+    (50) term_color -> . TkRed
+    (51) term_color -> . TkBlue
+    (52) term_color -> . TkMagenta
+    (53) term_color -> . TkCyan
+    (54) term_color -> . TkGreen
+    (55) term_color -> . TkYellow
+
+    TkRed           shift and go to state 87
+    TkBlue          shift and go to state 88
+    TkMagenta       shift and go to state 89
+    TkCyan          shift and go to state 90
+    TkGreen         shift and go to state 91
+    TkYellow        shift and go to state 92
+
+    term_color                     shift and go to state 86
+
+state 73
+
+    (12) instruccionWorld -> TkPlace term_num TkOf . term_id TkAt term_num term_num
+    (13) instruccionWorld -> TkPlace term_num TkOf . term_id TkInBasket
+    (45) term_id -> . TkId
+
+    TkId            shift and go to state 35
+
+    term_id                        shift and go to state 93
+
+state 74
+
+    (14) instruccionWorld -> TkStartAt term_num term_num . TkHeading term_dir
+
+    TkHeading       shift and go to state 94
+
+
+state 75
+
+    (16) instruccionWorld -> TkBoolean term_id TkWithInitialValue . term_bool
+    (43) term_bool -> . TkTrue
+    (44) term_bool -> . TkFalse
+
+    TkTrue          shift and go to state 61
+    TkFalse         shift and go to state 62
+
+    term_bool                      shift and go to state 95
+
+state 76
+
+    (17) instruccionWorld -> TkGoal term_id TkIs . TkWillyIsAt term_num term_num
+    (18) instruccionWorld -> TkGoal term_id TkIs . term_num term_id TkObjectsInBasket
+    (19) instruccionWorld -> TkGoal term_id TkIs . term_num term_id TkObjectsAt term_num term_num
+    (42) term_num -> . TkNum
+
+    TkWillyIsAt     shift and go to state 96
+    TkNum           shift and go to state 41
+
+    term_num                       shift and go to state 97
+
+state 77
+
+    (21) condicionGoal -> condicionGoal TkAnd . condicionGoal
+    (21) condicionGoal -> . condicionGoal TkAnd condicionGoal
+    (22) condicionGoal -> . condicionGoal TkOr condicionGoal
+    (23) condicionGoal -> . TkNot condicionGoal
+    (24) condicionGoal -> . TkLParen condicionGoal TkRParen
+    (25) condicionGoal -> . term_id
+    (45) term_id -> . TkId
+
+    TkNot           shift and go to state 54
+    TkLParen        shift and go to state 55
+    TkId            shift and go to state 35
+
+    condicionGoal                  shift and go to state 98
+    term_id                        shift and go to state 56
+
+state 78
+
+    (22) condicionGoal -> condicionGoal TkOr . condicionGoal
+    (21) condicionGoal -> . condicionGoal TkAnd condicionGoal
+    (22) condicionGoal -> . condicionGoal TkOr condicionGoal
+    (23) condicionGoal -> . TkNot condicionGoal
+    (24) condicionGoal -> . TkLParen condicionGoal TkRParen
+    (25) condicionGoal -> . term_id
+    (45) term_id -> . TkId
+
+    TkNot           shift and go to state 54
+    TkLParen        shift and go to state 55
+    TkId            shift and go to state 35
+
+    condicionGoal                  shift and go to state 99
+    term_id                        shift and go to state 56
+
+state 79
+
+    (23) condicionGoal -> TkNot condicionGoal .
+    (21) condicionGoal -> condicionGoal . TkAnd condicionGoal
+    (22) condicionGoal -> condicionGoal . TkOr condicionGoal
+
+    TkAnd           reduce using rule 23 (condicionGoal -> TkNot condicionGoal .)
+    TkOr            reduce using rule 23 (condicionGoal -> TkNot condicionGoal .)
+    TkSemiColon     reduce using rule 23 (condicionGoal -> TkNot condicionGoal .)
+    TkRParen        reduce using rule 23 (condicionGoal -> TkNot condicionGoal .)
+
+  ! TkAnd           [ shift and go to state 77 ]
+  ! TkOr            [ shift and go to state 78 ]
+
+
+state 80
+
+    (24) condicionGoal -> TkLParen condicionGoal . TkRParen
+    (21) condicionGoal -> condicionGoal . TkAnd condicionGoal
+    (22) condicionGoal -> condicionGoal . TkOr condicionGoal
+
+    TkRParen        shift and go to state 100
+    TkAnd           shift and go to state 77
+    TkOr            shift and go to state 78
+
+
+state 81
+
+    (29) instruccionesTask -> instruccionesTask instruccionTask TkSemiColon .
+
+    TkEndTask       reduce using rule 29 (instruccionesTask -> instruccionesTask instruccionTask TkSemiColon .)
+    TkIf            reduce using rule 29 (instruccionesTask -> instruccionesTask instruccionTask TkSemiColon .)
+    TkMove          reduce using rule 29 (instruccionesTask -> instruccionesTask instruccionTask TkSemiColon .)
+    TkTurnLeft      reduce using rule 29 (instruccionesTask -> instruccionesTask instruccionTask TkSemiColon .)
+    TkTurnRight     reduce using rule 29 (instruccionesTask -> instruccionesTask instruccionTask TkSemiColon .)
+    TkPick          reduce using rule 29 (instruccionesTask -> instruccionesTask instruccionTask TkSemiColon .)
+    TkDrop          reduce using rule 29 (instruccionesTask -> instruccionesTask instruccionTask TkSemiColon .)
+    TkSet           reduce using rule 29 (instruccionesTask -> instruccionesTask instruccionTask TkSemiColon .)
+    TkClear         reduce using rule 29 (instruccionesTask -> instruccionesTask instruccionTask TkSemiColon .)
+    TkFlip          reduce using rule 29 (instruccionesTask -> instruccionesTask instruccionTask TkSemiColon .)
+    TkTerminate     reduce using rule 29 (instruccionesTask -> instruccionesTask instruccionTask TkSemiColon .)
+
+
+state 82
+
+    (31) instruccionTask -> TkIf term_bool TkThen . instruccionTask
+    (31) instruccionTask -> . TkIf term_bool TkThen instruccionTask
+    (32) instruccionTask -> . TkMove
+    (33) instruccionTask -> . TkTurnLeft
+    (34) instruccionTask -> . TkTurnRight
+    (35) instruccionTask -> . TkPick term_id
+    (36) instruccionTask -> . TkDrop term_id
+    (37) instruccionTask -> . TkSet term_id TkTo term_bool
+    (38) instruccionTask -> . TkSet term_id
+    (39) instruccionTask -> . TkClear term_id
+    (40) instruccionTask -> . TkFlip term_id
+    (41) instruccionTask -> . TkTerminate
+
+    TkIf            shift and go to state 24
+    TkMove          shift and go to state 25
+    TkTurnLeft      shift and go to state 26
+    TkTurnRight     shift and go to state 27
+    TkPick          shift and go to state 28
+    TkDrop          shift and go to state 29
+    TkSet           shift and go to state 30
+    TkClear         shift and go to state 31
+    TkFlip          shift and go to state 32
+    TkTerminate     shift and go to state 33
+
+    instruccionTask                shift and go to state 101
+
+state 83
+
+    (37) instruccionTask -> TkSet term_id TkTo . term_bool
+    (43) term_bool -> . TkTrue
+    (44) term_bool -> . TkFalse
+
+    TkTrue          shift and go to state 61
+    TkFalse         shift and go to state 62
+
+    term_bool                      shift and go to state 102
+
+state 84
+
+    (28) begintask -> TkBeginTask term_id TkOn term_id .
+
+    TkEndTask       reduce using rule 28 (begintask -> TkBeginTask term_id TkOn term_id .)
+    TkIf            reduce using rule 28 (begintask -> TkBeginTask term_id TkOn term_id .)
+    TkMove          reduce using rule 28 (begintask -> TkBeginTask term_id TkOn term_id .)
+    TkTurnLeft      reduce using rule 28 (begintask -> TkBeginTask term_id TkOn term_id .)
+    TkTurnRight     reduce using rule 28 (begintask -> TkBeginTask term_id TkOn term_id .)
+    TkPick          reduce using rule 28 (begintask -> TkBeginTask term_id TkOn term_id .)
+    TkDrop          reduce using rule 28 (begintask -> TkBeginTask term_id TkOn term_id .)
+    TkSet           reduce using rule 28 (begintask -> TkBeginTask term_id TkOn term_id .)
+    TkClear         reduce using rule 28 (begintask -> TkBeginTask term_id TkOn term_id .)
+    TkFlip          reduce using rule 28 (begintask -> TkBeginTask term_id TkOn term_id .)
+    TkTerminate     reduce using rule 28 (begintask -> TkBeginTask term_id TkOn term_id .)
+
+
+state 85
+
+    (10) instruccionWorld -> TkWall term_dir TkFrom term_num . term_num TkTo term_num term_num
+    (42) term_num -> . TkNum
+
+    TkNum           shift and go to state 41
+
+    term_num                       shift and go to state 103
+
+state 86
+
+    (11) instruccionWorld -> TkObjectType term_id TkOfColor term_color .
+
+    TkSemiColon     reduce using rule 11 (instruccionWorld -> TkObjectType term_id TkOfColor term_color .)
+
+
+state 87
+
+    (50) term_color -> TkRed .
+
+    TkSemiColon     reduce using rule 50 (term_color -> TkRed .)
+
+
+state 88
+
+    (51) term_color -> TkBlue .
+
+    TkSemiColon     reduce using rule 51 (term_color -> TkBlue .)
+
+
+state 89
+
+    (52) term_color -> TkMagenta .
+
+    TkSemiColon     reduce using rule 52 (term_color -> TkMagenta .)
+
+
+state 90
+
+    (53) term_color -> TkCyan .
+
+    TkSemiColon     reduce using rule 53 (term_color -> TkCyan .)
+
+
+state 91
+
+    (54) term_color -> TkGreen .
+
+    TkSemiColon     reduce using rule 54 (term_color -> TkGreen .)
+
+
+state 92
+
+    (55) term_color -> TkYellow .
+
+    TkSemiColon     reduce using rule 55 (term_color -> TkYellow .)
+
+
+state 93
+
+    (12) instruccionWorld -> TkPlace term_num TkOf term_id . TkAt term_num term_num
+    (13) instruccionWorld -> TkPlace term_num TkOf term_id . TkInBasket
+
+    TkAt            shift and go to state 104
+    TkInBasket      shift and go to state 105
+
+
+state 94
+
+    (14) instruccionWorld -> TkStartAt term_num term_num TkHeading . term_dir
+    (46) term_dir -> . TkNorth
+    (47) term_dir -> . TkSouth
+    (48) term_dir -> . TkEast
+    (49) term_dir -> . TkWest
+
+    TkNorth         shift and go to state 43
+    TkSouth         shift and go to state 44
+    TkEast          shift and go to state 45
+    TkWest          shift and go to state 46
+
+    term_dir                       shift and go to state 106
+
+state 95
+
+    (16) instruccionWorld -> TkBoolean term_id TkWithInitialValue term_bool .
+
+    TkSemiColon     reduce using rule 16 (instruccionWorld -> TkBoolean term_id TkWithInitialValue term_bool .)
+
+
+state 96
+
+    (17) instruccionWorld -> TkGoal term_id TkIs TkWillyIsAt . term_num term_num
+    (42) term_num -> . TkNum
+
+    TkNum           shift and go to state 41
+
+    term_num                       shift and go to state 107
+
+state 97
+
+    (18) instruccionWorld -> TkGoal term_id TkIs term_num . term_id TkObjectsInBasket
+    (19) instruccionWorld -> TkGoal term_id TkIs term_num . term_id TkObjectsAt term_num term_num
+    (45) term_id -> . TkId
+
+    TkId            shift and go to state 35
+
+    term_id                        shift and go to state 108
+
+state 98
+
+    (21) condicionGoal -> condicionGoal TkAnd condicionGoal .
+    (21) condicionGoal -> condicionGoal . TkAnd condicionGoal
+    (22) condicionGoal -> condicionGoal . TkOr condicionGoal
+
+    TkAnd           reduce using rule 21 (condicionGoal -> condicionGoal TkAnd condicionGoal .)
+    TkSemiColon     reduce using rule 21 (condicionGoal -> condicionGoal TkAnd condicionGoal .)
+    TkRParen        reduce using rule 21 (condicionGoal -> condicionGoal TkAnd condicionGoal .)
+    TkOr            shift and go to state 78
+
+  ! TkOr            [ reduce using rule 21 (condicionGoal -> condicionGoal TkAnd condicionGoal .) ]
+  ! TkAnd           [ shift and go to state 77 ]
+
+
+state 99
+
+    (22) condicionGoal -> condicionGoal TkOr condicionGoal .
+    (21) condicionGoal -> condicionGoal . TkAnd condicionGoal
+    (22) condicionGoal -> condicionGoal . TkOr condicionGoal
+
+    TkAnd           reduce using rule 22 (condicionGoal -> condicionGoal TkOr condicionGoal .)
+    TkOr            reduce using rule 22 (condicionGoal -> condicionGoal TkOr condicionGoal .)
+    TkSemiColon     reduce using rule 22 (condicionGoal -> condicionGoal TkOr condicionGoal .)
+    TkRParen        reduce using rule 22 (condicionGoal -> condicionGoal TkOr condicionGoal .)
+
+  ! TkAnd           [ shift and go to state 77 ]
+  ! TkOr            [ shift and go to state 78 ]
+
+
+state 100
+
+    (24) condicionGoal -> TkLParen condicionGoal TkRParen .
+
+    TkAnd           reduce using rule 24 (condicionGoal -> TkLParen condicionGoal TkRParen .)
+    TkOr            reduce using rule 24 (condicionGoal -> TkLParen condicionGoal TkRParen .)
+    TkSemiColon     reduce using rule 24 (condicionGoal -> TkLParen condicionGoal TkRParen .)
+    TkRParen        reduce using rule 24 (condicionGoal -> TkLParen condicionGoal TkRParen .)
+
+
+state 101
+
+    (31) instruccionTask -> TkIf term_bool TkThen instruccionTask .
+
+    TkSemiColon     reduce using rule 31 (instruccionTask -> TkIf term_bool TkThen instruccionTask .)
+
+
+state 102
+
+    (37) instruccionTask -> TkSet term_id TkTo term_bool .
+
+    TkSemiColon     reduce using rule 37 (instruccionTask -> TkSet term_id TkTo term_bool .)
+
+
+state 103
+
+    (10) instruccionWorld -> TkWall term_dir TkFrom term_num term_num . TkTo term_num term_num
+
+    TkTo            shift and go to state 109
+
+
+state 104
+
+    (12) instruccionWorld -> TkPlace term_num TkOf term_id TkAt . term_num term_num
+    (42) term_num -> . TkNum
+
+    TkNum           shift and go to state 41
+
+    term_num                       shift and go to state 110
+
+state 105
+
+    (13) instruccionWorld -> TkPlace term_num TkOf term_id TkInBasket .
+
+    TkSemiColon     reduce using rule 13 (instruccionWorld -> TkPlace term_num TkOf term_id TkInBasket .)
+
+
+state 106
+
+    (14) instruccionWorld -> TkStartAt term_num term_num TkHeading term_dir .
+
+    TkSemiColon     reduce using rule 14 (instruccionWorld -> TkStartAt term_num term_num TkHeading term_dir .)
+
+
+state 107
+
+    (17) instruccionWorld -> TkGoal term_id TkIs TkWillyIsAt term_num . term_num
+    (42) term_num -> . TkNum
+
+    TkNum           shift and go to state 41
+
+    term_num                       shift and go to state 111
+
+state 108
+
+    (18) instruccionWorld -> TkGoal term_id TkIs term_num term_id . TkObjectsInBasket
+    (19) instruccionWorld -> TkGoal term_id TkIs term_num term_id . TkObjectsAt term_num term_num
+
+    TkObjectsInBasket shift and go to state 112
+    TkObjectsAt     shift and go to state 113
+
+
+state 109
+
+    (10) instruccionWorld -> TkWall term_dir TkFrom term_num term_num TkTo . term_num term_num
+    (42) term_num -> . TkNum
+
+    TkNum           shift and go to state 41
+
+    term_num                       shift and go to state 114
+
+state 110
+
+    (12) instruccionWorld -> TkPlace term_num TkOf term_id TkAt term_num . term_num
+    (42) term_num -> . TkNum
+
+    TkNum           shift and go to state 41
+
+    term_num                       shift and go to state 115
+
+state 111
+
+    (17) instruccionWorld -> TkGoal term_id TkIs TkWillyIsAt term_num term_num .
+
+    TkSemiColon     reduce using rule 17 (instruccionWorld -> TkGoal term_id TkIs TkWillyIsAt term_num term_num .)
+
+
+state 112
+
+    (18) instruccionWorld -> TkGoal term_id TkIs term_num term_id TkObjectsInBasket .
+
+    TkSemiColon     reduce using rule 18 (instruccionWorld -> TkGoal term_id TkIs term_num term_id TkObjectsInBasket .)
+
+
+state 113
+
+    (19) instruccionWorld -> TkGoal term_id TkIs term_num term_id TkObjectsAt . term_num term_num
+    (42) term_num -> . TkNum
+
+    TkNum           shift and go to state 41
+
+    term_num                       shift and go to state 116
+
+state 114
+
+    (10) instruccionWorld -> TkWall term_dir TkFrom term_num term_num TkTo term_num . term_num
+    (42) term_num -> . TkNum
+
+    TkNum           shift and go to state 41
+
+    term_num                       shift and go to state 117
+
+state 115
+
+    (12) instruccionWorld -> TkPlace term_num TkOf term_id TkAt term_num term_num .
+
+    TkSemiColon     reduce using rule 12 (instruccionWorld -> TkPlace term_num TkOf term_id TkAt term_num term_num .)
+
+
+state 116
+
+    (19) instruccionWorld -> TkGoal term_id TkIs term_num term_id TkObjectsAt term_num . term_num
+    (42) term_num -> . TkNum
+
+    TkNum           shift and go to state 41
+
+    term_num                       shift and go to state 118
+
+state 117
+
+    (10) instruccionWorld -> TkWall term_dir TkFrom term_num term_num TkTo term_num term_num .
+
+    TkSemiColon     reduce using rule 10 (instruccionWorld -> TkWall term_dir TkFrom term_num term_num TkTo term_num term_num .)
+
+
+state 118
+
+    (19) instruccionWorld -> TkGoal term_id TkIs term_num term_id TkObjectsAt term_num term_num .
+
+    TkSemiColon     reduce using rule 19 (instruccionWorld -> TkGoal term_id TkIs term_num term_id TkObjectsAt term_num term_num .)
+

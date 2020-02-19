@@ -20,16 +20,20 @@ precedence = (
     ('right', 'TkNot')
 )
 
-# Checkea si el identificador esta siendo utilizado para definir un mundo ya definido. Devuelve 
+# Checkea si el identificador esta siendo utilizado para definir un mundo ya definido. Devuelve
 # True si esto sucede y False si no sucede
+
+
 def checkExistingWorldId(id):
     for i in range(len(list_of_world)):
         if id == list_of_world[i].getWorldId():
             return True
     return False
 
-# Checkea si el identificador esta siendo utilizado para definir una tarea ya definido. Devuelve 
+# Checkea si el identificador esta siendo utilizado para definir una tarea ya definido. Devuelve
 # True si esto sucede y False si no sucede
+
+
 def checkExistingTaskId(id):
     for i in range(len(list_of_tasks)):
         if id == list_of_tasks[i].getId():
@@ -37,7 +41,7 @@ def checkExistingTaskId(id):
     return False
 
 
-# la regla gramatica inicial es la funcion mas arriba en el archivo, aqui es donde el parser debe llegar y 
+# la regla gramatica inicial es la funcion mas arriba en el archivo, aqui es donde el parser debe llegar y
 # una vez que llega se detiene y regresa el valor en p[0]. Si el parser no llega aqui, se da un syntax error.
 
 def p_program(p):
@@ -50,7 +54,7 @@ def p_program(p):
 def p_world(p):
     '''world : beginworld instruccionesWorld TkEndWorld'''
     global current_world, list_of_world
-    
+
     list_of_world.append(current_world)
     current_world = None
 
@@ -78,7 +82,8 @@ def p_instruccion_World(p):
     global current_world
     q = current_world.newWorld(p[2], p[3])
     if q != True:
-        print("Error de sintaxis: World " + str(p[1]) + q)      # Los mensaje de error no seran asi, esperar a German a que lo pase!!!!!!!
+        # Los mensaje de error no seran asi, esperar a German a que lo pase!!!!!!!
+        print("Error de sintaxis: World " + str(p[1]) + q)
         sys.exit(0)
 
 
@@ -214,7 +219,7 @@ def p_task(p):
     '''task : begintask instruccionesTask TkEndTask
             | begintask TkEndTask'''
     global current_task, list_of_tasks
-    
+
     if len(p) == 4:
         print(p[2])
         current_task.setArbolRecursivoInstr(p[2])
@@ -238,7 +243,8 @@ def p_begintask(p):
         sys.exit(0)
     # Checkea si la tarea esta siendo definida sobre un mundo que existe
     if not checkExistingWorldId(p[4]):
-        print("Error de sintaxis: No se puede definir una tarea sobre un mundo no existente.")
+        print(
+            "Error de sintaxis: No se puede definir una tarea sobre un mundo no existente.")
 
     current_task = Task(p[2], p[4])
 
@@ -247,7 +253,7 @@ def p_begintask(p):
 def p_instruccionesTask(p):
     '''instruccionesTask : instruccionesTask instruccionTask TkSemiColon
                          | instruccionTask TkSemiColon'''
-    
+
     if len(p) == 4:
         p[0] = (p[1], p[2])
     else:
@@ -282,7 +288,7 @@ def p_instruccion_primitiva_pick(p):
     '''instruccionTask : TkPick term_id'''
 
     p[0] = (p[1], p[2])
-    
+
 
 def p_instruccion_primitiva_drop(p):
     '''instruccionTask : TkDrop term_id'''
@@ -318,24 +324,29 @@ def p_instruccion_primitiva_terminate(p):
     p[0] = p[1]
 
 
-
 # Terminal numero {0,1,...,9}
 def p_term_num(p):
     '''term_num : TkNum'''
     p[0] = p[1]
 
 # Terminal Booleano {true, false}
+
+
 def p_term_bool(p):
     '''term_bool : TkTrue
                  | TkFalse'''
     p[0] = p[1]
 
-# Terminal Identificador 
+# Terminal Identificador
+
+
 def p_term_id(p):
     '''term_id : TkId'''
     p[0] = p[1]
 
 # Terminal direccion {north, south, east, west}
+
+
 def p_term_dir(p):
     '''term_dir : TkNorth
                 | TkSouth
@@ -344,6 +355,8 @@ def p_term_dir(p):
     p[0] = p[1]
 
 # Terminal color {red, blue, magenta, cyan, green, or yellow}
+
+
 def p_term_color(p):
     '''term_color : TkRed
                   | TkBlue
@@ -354,19 +367,19 @@ def p_term_color(p):
     p[0] = p[1]
 
 
-#def p_test_and(p):
+# def p_test_and(p):
 #    '''test : test TkAnd term_bool '''
 #    p[0] = p[1] and p[3]
 
-#def p_test_or(p):
+# def p_test_or(p):
 #    '''test : test TkOr term_bool '''
 #    p[0] = p[1] or p[3]
 
-#def p_test_not(p):
+# def p_test_not(p):
 #    '''test : TkNot test'''
 #    p[0] = not p[2]
 
-#def p_test_term_bool(p):
+# def p_test_term_bool(p):
 #    '''test : term_bool'''
 #    p[0] = p[1]
 
@@ -375,7 +388,8 @@ def p_term_color(p):
 def p_error(p):
     print("Syntax error in input!")
     sys.exit(0)
- 
+
+
 # Construye el parser
 parser = yacc.yacc()
 
