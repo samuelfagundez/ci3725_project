@@ -54,7 +54,7 @@ Para ejecutar nuestro programa se debe hacer lo siguiente:
 
 ```bash
 make
-./willy [argumento]
+willy [argumento]
 ```
 
 vale acotar que debe existir el directorio ${HOME}/bin y que willy no debe existir en esa carpeta al hacer make.
