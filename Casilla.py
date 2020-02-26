@@ -10,7 +10,7 @@ class Casilla():
 
     # Obtiene la coordenada de la Casilla
     def getCoordenada(self):
-        return columna, fila
+        return self.columna, self.fila
 
     # Coloca un objeto en la casilla
     def setObjeto(self, identificador, n):
