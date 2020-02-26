@@ -473,7 +473,7 @@ def p_instruccion_define(p):
     # Obtenemos el num. de bloque y nombre de esta instruccion de la Tabla de simbolos
     name, FuncNum = func_bloq_num.pop()
     # Hacemos pop de la Tabla de simbolos a todas las instrucciones definidas dentro de esta instruccion.
-    # Si no hacemos esto, podriamos llamar a una instruccion definida aqui fuera de esta instruccion.
+    # Si no hacemos esto, podriamos llamar a una instruccion definida dentro de ella fuera de la instruccion compuesta.
     while FuncNum < TSimbolos.getTopBloqNum():
         TSimbolos.pop()
     # Obtenemos lo que haya en instruccionTask para revisar si es una
