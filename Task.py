@@ -6,6 +6,7 @@ class Task():
         self.id = identificador
         self.worldId = worldId
         self.arbol = None
+        self.bloqNum = None
 
     # Asignamos el numero de bloque de este Task
     def setBloqNum(self, n):

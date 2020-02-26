@@ -4,13 +4,6 @@ from lexer import checkLexError
 from wparser import parser, list_of_tasks, list_of_world, list_of_instr, checkContextError
 from Print_functions import print_tarea, print_mundo, print_instr
 
-# ruta actual + /pruebas
-
-# funcion que recibe una ruta y devuelve una lista de
-# todos los archivos en ese directorio, si no es directorio falla
-
-# funcion que se encarga de abrir un archivo enviarlo al lexer e imprimir el resultado
-
 
 def readFile(path):
     # obtener el directorio actual y concatenar con la direccion del archivo a abrir.

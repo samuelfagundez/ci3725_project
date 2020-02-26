@@ -1,6 +1,6 @@
 
-# Para cada funcion definida en una Tarea, se crea una instancia de esta clase que
-# guarda la informacion necesaria de la funcion
+# Para cada Instruccion definida en una Tarea, se crea una instancia de esta clase que
+# guarda la informacion necesaria de la instruccion
 class Func():
     def __init__(self,id, instr, n, m, parent=None):
         self.id = id
@@ -8,25 +8,25 @@ class Func():
         self.bloqNum = n 
         self.bloqEncontrado = m
 
-    # Obtiene el identificador de la funcion
+    # Obtiene el identificador de la instruccion
     def getId(self):
         return self.id
 
-    # Obtiene la instruccion de la Funcion
+    # Obtiene la instruccion de la instruccion
     def getInstr(self):
         return self.instr
     
-    # Obtiene el num. de bloque de la funcion
+    # Obtiene el num. de bloque de la instruccion
     def getBloqNum(self):
         return self.bloqNum
 
-    # Obtiene el num. de bloque en el que fue definida la funcion
+    # Obtiene el num. de bloque en el que fue definida la instruccion
     def getBloqEncontrado(self):
         return self.bloqEncontrado
 
     # Checkea si el Identificador esta siendo usado
     # Tambien devuelve para que esta siendo usado:
-    # 0: Ninguno, 1: Objeto, 2: Booleano, 3: Objetivo, 4: Funcion
+    # 0: Ninguno, 1: Objeto, 2: Booleano, 3: Objetivo, 4: Instruccion
     def checkId(self, id):
         if self.id == id:
             return True, 4

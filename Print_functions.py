@@ -143,7 +143,7 @@ def print_instr(list_instr):
         print()
 
 
-# Funcion que imprime arbol de tareas
+# Funcion que imprime los mundos definidos en el programa
 def print_mundo(list_worlds):
     for i in range(len(list_worlds)):
         mundo = list_worlds[i]

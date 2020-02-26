@@ -43,7 +43,7 @@ class World():
 
     # Checkea si el Identificador esta siendo usado para distintos usos
     # Tambien devuelve para que esta siendo usado:
-    # 0: Ninguno, 1: Objeto, 2: Booleano, 3: Objetivo, 4: Funcion
+    # 0: Ninguno, 1: Objeto, 2: Booleano, 3: Objetivo, 4: Instruccion
     def checkId(self, id):
         if id in self.objects:
             return True, 1
@@ -388,7 +388,7 @@ class World():
     def getGoal(self, identificador):
 
         if identificador in self.objetivos:
-            return "No se existe un objetivo en el mundo con ese identificador."
+            return "No se existe un objetivo en el mundo con este identificador."
 
         return self.objetivos[identificador]
 

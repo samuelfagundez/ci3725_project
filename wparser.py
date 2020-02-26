@@ -17,7 +17,7 @@ bloq_num = 0
 func_bloq_num = []
 # Lista de tareas definidas
 list_of_tasks = []
-# Lista de instrucciones definidad
+# Lista de instrucciones definidas
 list_of_instr = []
 # Tarea actual que se esta definiendo. Sera una instancia de la clase Task
 current_task = None
@@ -27,8 +27,8 @@ current_world = None
 e = False
 # Son ordenados de menor a mayor precedencia
 precedence = (
-    ('left', 'TkAnd'),
     ('left', 'TkOr'),
+    ('left', 'TkAnd'),
     ('right', 'TkNot'),
     ('right', 'TkThen'),         # Se deben agregar las precedencia entre then y else para resolver 
     ('right', 'TkElse')          # shift/reduce de la instruccion if cuando hace uso de else
@@ -89,6 +89,7 @@ def p_world(p):
         if q != True:
             print("\n- Error: " + q)
             e = True
+    # Si no se define el objetivo final del mundo, se notifica del error
     if current_world.getFinalGoal() is None:
         print("\n- Error en linea %s, columna %s: No se puede definir un mundo sin un objetivo final." % linenoLexpos(p, 1))
         e = True
@@ -125,7 +126,7 @@ def p_instruccion_World(p):
     global current_world, e
     # Se crea el grid del mundo
     q = current_world.newWorld(p[2], p[3])
-    # Si ocurre un error asociado a esta instruccion, se reporta y aborta
+    # Si ocurre un error asociado a esta instruccion, se reporta
     if q != True:
         print("\n    "+str(p[1])+" "+str(p[2])+"  "+str(p[3]))
         if "filas" in q:
@@ -141,7 +142,7 @@ def p_instruccion_Wall(p):
     global current_world, e
     # Se crea un nuevo muro
     q = current_world.newWall(p[2], p[4], p[5], p[7], p[8])
-    # Si ocurre un error asociado a esta instruccion, se reporta y aborta
+    # Si ocurre un error asociado a esta instruccion, se reporta
     if q != True:
         print("\n    "+str(p[1])+" "+str(p[2])+" "+str(p[3])+" "+str(p[4])+" "+str(p[5])+" "+str(p[6])+" "+str(p[7])+" "+str(p[8]))
         if "direccion" in q:
@@ -157,7 +158,7 @@ def p_instruccion_Object_type(p):
     global current_world, e
     # Se crea un nuevo tipo de objeto en el mundo actual
     q = current_world.newObject(p[2], p[4])
-    # Si ocurre un error asociado a esta instruccion, se reporta y aborta
+    # Si ocurre un error asociado a esta instruccion, se reporta
     if q != True:
         print("\n    "+str(p[1])+" "+str(p[2])+" "+str(p[3])+" "+str(p[4]))
         print("- Error en linea %s, columna %s: " % linenoLexpos(p, 2) + q)
@@ -170,7 +171,7 @@ def p_instruccion_Place_casilla(p):
     global current_world, e
     # Colocamos un objeto en una casilla del mundo actual
     q = current_world.placeInWorld(p[2], p[4], p[6], p[7])
-    # Si ocurre un error asociado a esta instruccion, se reporta y aborta
+    # Si ocurre un error asociado a esta instruccion, se reporta
     if q != True:
         print("\n    "+str(p[1])+" "+str(p[2])+" "+str(p[3])+" "+str(p[4])+" "+str(p[5])+" "+str(p[6])+" "+str(p[7]))
         if "numero" in q:
@@ -188,7 +189,7 @@ def p_instruccion_Place_in_basket(p):
     global current_world, e
     # Colocamos un objeto en la bolsa de willy en este mundo
     q = current_world.placeInBasket(p[2], p[4])
-    # Si ocurre un error asociado a esta instruccion, se reporta y aborta
+    # Si ocurre un error asociado a esta instruccion, se reporta
     if q != True:
         print("\n    "+str(p[1])+" "+str(p[2])+" "+str(p[3])+" "+str(p[4])+" "+str(p[5]))
         if "tipo de objeto" in q:
@@ -204,7 +205,7 @@ def p_instruccion_Start_willy(p):
     global current_world, e
     # Indicamos donde va a empezar willy en este mundo y a que direccion se dirige
     q = current_world.willyStartAt(p[2], p[3], p[5])
-    # Si ocurre un error asociado a esta instruccion, se reporta y aborta
+    # Si ocurre un error asociado a esta instruccion, se reporta
     if q != True:
         print("\n    "+str(p[1])+" "+str(p[2])+" "+str(p[3])+" "+str(p[4])+" "+str(p[5]))
         if "instruccion" in q:
@@ -220,7 +221,7 @@ def p_instruccion_Basket_capacity(p):
     global current_world, e
     # Indicamos cuantos espacios tiene la bolsa de willy en este mundo
     q = current_world.setCapacityOfBasket(p[2])
-    # Si ocurre un error asociado a esta instruccion, se reporta y aborta
+    # Si ocurre un error asociado a esta instruccion, se reporta
     if q != True:
         print("\n    "+str(p[1])+" "+str(p[2]))
         if "instruccion" in q:
@@ -236,7 +237,7 @@ def p_instruccion_Boolean(p):
     global current_world, e
     # Definimos un nuevo booleano en este mundo
     q = current_world.newBoolean(p[2], p[4])
-    # Si ocurre un error asociado a esta instruccion, se reporta y aborta
+    # Si ocurre un error asociado a esta instruccion, se reporta
     if q != True:
         print("\n    "+str(p[1])+" "+str(p[2])+" "+str(p[3])+" "+str(p[4]))
         print("- Error en linea %s, columna %s: " % linenoLexpos(p, 2) + q)
@@ -253,7 +254,7 @@ def p_instruccion_Goal(p):
     if p[4] == "willy is at":
         # Define un nuevo objetivo en el mundo actual
         q = current_world.setGoalPosWilly(p[2], p[5], p[6])
-        # Si ocurre un error asociado a este tipo de objetivo, se reporta y aborta
+        # Si ocurre un error asociado a este tipo de objetivo, se reporta
         if q != True:
             print("\n    "+str(p[1])+" "+str(p[2])+" "+str(p[3])+" "+str(p[4])+" "+str(p[5])+" "+str(p[6]))
             if "dimensiones" in q:
@@ -265,7 +266,7 @@ def p_instruccion_Goal(p):
     elif p[6] == "objects in Basket":
         # Define un nuevo objetivo en el mundo actual
         q = current_world.setGoalObjBasket(p[2], p[4], p[5])
-        # Si ocurre un error asociado a este tipo de objetivo, se reporta y aborta
+        # Si ocurre un error asociado a este tipo de objetivo, se reporta
         if q != True:
             print("\n    "+str(p[1])+" "+str(p[2])+" "+str(p[3])+" "+str(p[4])+" "+str(p[5])+" "+str(p[6]))
             if "tipo objeto" in q:
@@ -277,7 +278,7 @@ def p_instruccion_Goal(p):
     elif p[6] == "objects at":
         # Define un nuevo objetivo en el mundo actual
         q = current_world.setGoalObjCelda(p[2], p[4], p[5], p[7], p[8])
-        # Si ocurre un error asociado a este tipo de objetivo, se reporta y aborta
+        # Si ocurre un error asociado a este tipo de objetivo, se reporta
         if q != True:
             print("\n    "+str(p[1])+" "+str(p[2])+" "+str(p[3])+" "+str(p[4])+" "+str(p[5])+" "+str(p[6])+" "+str(p[7])+" "+str(p[8]))
             if "tipo objeto" in q:
@@ -311,7 +312,6 @@ def p_condicion_Goal(p):
                      | TkNot condicionGoal
                      | TkLParen condicionGoal TkRParen
                      | term_id'''
-                     # term_bool !!!
 
     if len(p) == 4:
         if (p[2] == "and") or (p[2] == "or"):
@@ -395,7 +395,6 @@ def p_instruccionesTask(p):
     if (len(p) == 3) and (p[2] != ";"):
         instr = p[2]
         # No colocamos la instruccion "define" en el arbol del task
-        # Sino que la guardamos como una funcion en la instancia de Task
         if instr[0] == "define":
             p[0] = p[1]
         else:
@@ -406,7 +405,6 @@ def p_instruccionesTask(p):
     else:
         instr = p[1]
         # No colocamos la instruccion "define" en el arbol del task
-        # Sino que la guardamos como una funcion en la instancia de Task
         if instr[0] != "define":
             p[0] = p[1]
         else:
@@ -472,7 +470,7 @@ def p_instruccion_define(p):
     '''instruccionTask : define TkAs instruccionTask'''
     global current_task, func_bloq_num, TSimbolos, list_of_instr, e
 
-    # Obtenemos el num. de bloque y nombre de esta instruccion de la pila
+    # Obtenemos el num. de bloque y nombre de esta instruccion de la Tabla de simbolos
     name, FuncNum = func_bloq_num.pop()
     # Hacemos pop de la Tabla de simbolos a todas las instrucciones definidas dentro de esta instruccion.
     # Si no hacemos esto, podriamos llamar a una instruccion definida aqui fuera de esta instruccion.
@@ -484,7 +482,7 @@ def p_instruccion_define(p):
     # Si la instruccion es compuesta por otras instrucciones o es una que
     # define otra instruccion
     if len(instr) > 1:
-        # Si es una definicion de instruccion, se agrega a la pila pero no al AST de el Task
+        # Si es una definicion de instruccion, se agrega a la Tabla de simbolos pero no al AST de el Task
         if instr[0] == "define":
             p[0] = (p[1], name, None)
             # Si la instruccion no esta anidada, usamos el num. de bloque del Task como el bloque donde se encuentra la instruccion
@@ -671,7 +669,7 @@ def p_test(p):
             p[0] = p[2]
 
     elif len(p) == 5:
-        # Si el Id no es de tipo booleano o no esta definido en el mundo,
+        # Si el Id no es de tipo objeto o no esta definido en el mundo,
         # se devuelve un error.
         if not TSimbolos.find(p[3], "objects"):
             print("\n    "+str(p[1])+str(p[2])+str(p[3])+str(p[4]))
