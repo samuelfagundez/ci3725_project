@@ -43,5 +43,5 @@ class TSimbolos():
             elif(simbolo_check == (True, 3)) and (type == "objetivos"):
                 return True
             elif(simbolo_check == (True, 4)) and (type == "func"):
-                return True 
+                return True
         return False

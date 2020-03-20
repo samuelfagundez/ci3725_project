@@ -1,6 +1,8 @@
 all:
 	#instalar pyinstaller
 	pip3 install pyinstaller
+	#instalar la ultima version de pyqt5
+	pip3 install pyqt5
 	#instalar ply
 	pip3 install ply
 	#crear ejecutable

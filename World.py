@@ -1,4 +1,5 @@
 from Casilla import Casilla
+import sys
 
 class World():
     def __init__(self, identificador, parent=None):
@@ -20,7 +21,7 @@ class World():
         # Lista de objetos que estan en la bolsa de Willy
         self.willyBasket = {}
         # Posicion de Willy en el mundo
-        self.willyPos = (0, 0, 'north')
+        self.willyPos = [0, 0, 'north']
         # Diccionario de booleanos donde la llave sera el identificador y el valor sera el valor actual del booleano.
         self.booleanos = {}
         # Goals. El primer valor de cada llave es el tipo de objetivo (0: posicion, 1: obj. En bolsa, 2: obj. En celda)
@@ -157,12 +158,21 @@ class World():
 
 
     # Checkea si la casilla contiene una pared
-    def isWallInCell(self, columna, fila):
-
+    def isWallInCell(self, columna, fila, direccion):
         if (columna > self.columnas) or (fila > self.filas) or (columna == 0) or (fila == 0):
             return "La columna o fila estan por afuera de las dimensiones del mundo."
 
-        return self.world[columna-1][fila-1].getPared()
+        if direccion == "north" and columna-1 >= 0 and fila < self.filas:
+            return self.world[columna-1][fila].getPared()
+        elif direccion == "east" and columna < self.columnas and fila-1 >= 0:
+            return self.world[columna][fila-1].getPared()
+        elif direccion == "south"and columna-1 >=0 and fila-2 >= 0:
+            return self.world[columna-1][fila-2].getPared()
+        elif direccion == "west" and columna-2 >=0 and fila-1 >= 0:
+            return self.world[columna-2][fila-1].getPared()
+        elif direccion is None:
+            return self.world[columna-1][fila-1].getPared()
+        return True
 
 
     # Crea un nuevo tipo de objeto en el mundo
@@ -177,8 +187,7 @@ class World():
         return True
 
 
-    # Obtenemos todos los objetos del mundo (Lo uso solo para los prints
-    # de la entrega 2, puede que lo elimine luego)
+    # Obtenemos todos los objetos del mundo
     def getObjetos(self):
         return self.objects
 
@@ -206,7 +215,7 @@ class World():
             return "El tipo de objeto no existe en este mundo."
         if (columna > self.columnas) or (fila > self.filas) or (columna == 0) or (fila == 0):
             return "La columna o fila esta por afuera de las dimensiones del mundo."
-        if self.isWallInCell(columna, fila):
+        if self.isWallInCell(columna, fila, None):
             return "No se pueden colocar objetos sobre muros"
 
         self.world[columna-1][fila-1].setObjeto(identificador, num)
@@ -253,8 +262,7 @@ class World():
         return 0                      
 
 
-    # Obtiene la bolsa de willy (Lo uso solo para los prints
-    # de la entrega 2, puede que lo elimine luego)
+    # Obtiene la bolsa de willy
     def getBasket(self):
         return self.willyBasket                       
 
@@ -282,14 +290,14 @@ class World():
         
         if (columna > self.columnas) or (fila > self.filas) or (columna == 0) or (fila == 0):
             return "La columna o fila esta por afuera de las dimensiones del mundo."
-        if self.isWallInCell(columna, fila):
+        if self.isWallInCell(columna, fila, None):
             return "No se puede colocar a willy sobre muros"
         # Ya no se puede volver a llamar la instruccion Start at en este mundo
         self.instrucciones_unicas[1] += 1
         if(self.instrucciones_unicas[1] > 1):
             return "No se puede definir mas de una instruccion de este tipo por mundo"
 
-        self.willyPos = (columna, fila, direccion)
+        self.willyPos = [columna, fila, direccion]
         return True
 
 
@@ -321,23 +329,12 @@ class World():
         if identificador not in self.booleanos:
             return "El Booleano no esta definido en el mundo."
         else:
-            self.booleanos[identificador]
+            return self.booleanos[identificador]
 
 
-    # Obtiene todos los booleanos del mundo (Lo uso solo para los prints
-    # de la entrega 2, puede que lo elimine luego)
+    # Obtiene todos los booleanos del mundo
     def getAllBoolean(self):
         return self.booleanos
-
-
-    # Actualiza el valor de un booleano que ya existe en el mundo
-    def setBoolean(self, identificador, valor):
-
-        if identificador not in self.booleanos:
-            return "El Booleano no esta definido en el mundo."
-
-        self.booleanos[identificador] = valor
-        return True
 
 
     # Define un objetivo del tipo posicion de Willy
@@ -387,14 +384,13 @@ class World():
     # Obtiene el objetivo deseado
     def getGoal(self, identificador):
 
-        if identificador in self.objetivos:
+        if identificador not in self.objetivos.keys():
             return "No se existe un objetivo en el mundo con este identificador."
 
         return self.objetivos[identificador]
 
 
-    # Obtiene todos los objetivos de este mundo (Lo uso solo para los prints
-    # de la entrega 2, puede que lo elimine luego)
+    # Obtiene todos los objetivos de este mundo
     def getAllGoals(self):
         return self.objetivos
 
@@ -421,3 +417,26 @@ class World():
     # Obtiene el objetivo final del mundo
     def getFinalGoal(self):
         return self.objetivoFinal
+
+
+    # Mueve a willy en el mundo
+    def move(self):
+
+        if self.willyPos[2] == "north" and self.willyPos[1] != self.filas:
+            self.willyPos[1] += 1 
+            return True
+        elif self.willyPos[2] == "south" and self.willyPos[1] > 1:
+            self.willyPos[1] -= 1 
+            return True
+        elif self.willyPos[2] == "west" and self.willyPos[0] > 1:
+            self.willyPos[0] -= 1 
+            return True
+        elif self.willyPos[2] == "east" and self.willyPos[0] != self.columnas:
+            self.willyPos[0] += 1 
+            return True
+        return False
+    
+
+    # Actualiza el valor de un booleano que ya existe en el mundo
+    def setBoolean(self, identificador, valor):
+        self.booleanos[identificador] = valor

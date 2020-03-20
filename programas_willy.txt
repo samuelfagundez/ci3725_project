@@ -1,0 +1,355 @@
+{{##############################################################################
+Willy tratara de encontrar el camino hasta la manzana por medio de backtracking.
+################################################################################}}
+
+
+begin-world maze
+    World 9 9;
+    Start at 1 1 heading north;
+    Object-type apple of color green;
+    Object-type bread of color yellow;
+    Place 1 of apple at 9 9;
+    Basket of capacity 100;
+    Place 99 of bread in basket;
+    Wall north from 2 1 to 2 2;
+    Wall north from 2 4 to 2 8;
+    Wall north from 1 6 to 1 6;
+    Wall east from 3 4 to 4 4;
+    Wall east from 3 8 to 3 8;
+    Wall south from 4 3 to 4 2;
+    Wall east from 4 6 to 6 6;
+    Wall east from 5 2 to 6 2;
+    Wall north from 5 7 to 5 9;
+    Wall west from 7 4 to 6 4;
+    Wall north from 8 1 to 8 5;
+    Wall east from 7 8 to 9 8;
+    Wall east from 8 7 to 8 7;
+    Goal condition is 1 apple objects in Basket;
+    Final goal is condition;
+end-world
+
+
+{{ Encuentra el camino hasta la manzana por backtracking con un numero ilimitado de pasos }}
+begin-task task1 on maze
+    define goback as
+        begin
+            turn-left;
+            turn-left;
+            move;
+        end;
+
+    define backtrack as
+    begin
+        if carrying(apple) then terminate;
+
+        -- Si encontramos la manzana, paramos
+        if found(apple) then
+        begin
+            pick apple;
+            terminate;
+        end;
+        
+        if front-clear then
+        begin
+            move;
+            backtrack;
+            if carrying(apple) then terminate;
+            goback;
+            turn-left;
+            turn-left;
+        end;
+
+        if left-clear then
+        begin
+            turn-left;
+            move;
+            backtrack;
+            if carrying(apple) then terminate;
+            goback;
+            turn-left;
+        end;
+        
+        if right-clear then
+        begin
+            turn-right;
+            move;
+            backtrack;
+            if carrying(apple) then terminate;
+            goback;
+            turn-right;
+        end;
+    end;
+    
+    backtrack;
+end-task
+
+
+{{ Encuentra el camino hasta la manzana por backtracking con un numero limite de pasos }}
+begin-task task2 on maze
+    define goback as
+        begin
+            turn-left;
+            turn-left;
+            move;
+            drop bread;
+        end;
+
+    define backtrack as
+    begin
+        if carrying(apple) then terminate;
+
+        -- Si encontramos la manzana, paramos
+        if found(apple) then
+        begin
+            pick apple;
+            terminate;
+        end;
+        
+        if front-clear and carrying(bread) then
+        begin
+            move;
+            drop bread;
+            backtrack;
+            if carrying(apple) or not carrying(bread) then terminate;
+            goback;
+            turn-left;
+            turn-left;
+        end;
+
+        if left-clear and carrying(bread) then
+        begin
+            turn-left;
+            move;
+            drop bread;
+            backtrack;
+            if carrying(apple) or not carrying(bread) then terminate;
+            goback;
+            turn-left;
+        end;
+        
+        if right-clear and carrying(bread) then
+        begin
+            turn-right;
+            move;
+            drop bread;
+            backtrack;
+            if carrying(apple) or not carrying(bread) then terminate;
+            goback;
+            turn-right;
+        end;
+    end;
+    
+    backtrack;
+end-task
+
+
+{{####################################################################################################
+En este mundo Willy no podra encontrar el camino hasta la manzana, esto para probar que la tarea falla
+######################################################################################################}}
+
+begin-world unbeatableMaze
+    World 6 9;
+    Start at 1 1 heading north;
+    Object-type apple of color green;
+    Object-type bread of color yellow;
+    Place 1 of apple at 6 2;
+    Basket of capacity 100;
+    Place 99 of bread in basket;
+    Wall north from 2 1 to 2 3;
+    Wall north from 3 1 to 3 1;
+    Wall east from 2 3 to 3 3;
+    Wall north from 3 4 to 3 5;
+    Wall east from 2 5 to 2 5;
+    Wall east from 2 9 to 2 9;
+    Wall east from 2 7 to 5 7;
+    Wall north from 4 8 to 4 9;
+    Wall east from 6 9 to 6 9;
+    Wall north from 5 1 to 5 5;
+    Wall east from 6 5 to 6 5;
+    Goal condition is 1 apple objects in Basket;
+    Final goal is condition;
+end-world
+
+
+begin-task task3 on unbeatableMaze
+    define goback as
+        begin
+            turn-left;
+            turn-left;
+            move;
+            drop bread;
+        end;
+
+    define backtrack as
+    begin
+        if carrying(apple) then terminate;
+
+        -- Si encontramos la manzana, paramos
+        if found(apple) then
+        begin
+            pick apple;
+            terminate;
+        end;
+        
+        if front-clear and carrying(bread) then
+        begin
+            move;
+            drop bread;
+            backtrack;
+            if carrying(apple) or not carrying(bread) then terminate;
+            goback;
+            turn-left;
+            turn-left;
+        end;
+
+        if left-clear and carrying(bread) then
+        begin
+            turn-left;
+            move;
+            drop bread;
+            backtrack;
+            if carrying(apple) or not carrying(bread) then terminate;
+            goback;
+            turn-left;
+        end;
+        
+        if right-clear and carrying(bread) then
+        begin
+            turn-right;
+            move;
+            drop bread;
+            backtrack;
+            if carrying(apple) or not carrying(bread) then terminate;
+            goback;
+            turn-right;
+        end;
+    end;
+    
+    backtrack;
+end-task
+
+
+
+{{###############################################################################################################
+En este programa, willy decorara las caras visibles de la pared que se encuentre, esto lo hara bordeando la pared.
+Existen dos Fields para que se pueda evaluar en varios mundos. Para esto, cambiar el mundo donde se ejecuta task4.
+#################################################################################################################}}
+
+
+{{ 
+    Condiciones:
+    1- La capacidad del basket y cantidad de flower en ella debe concordar con las caras visibles por willy de la pared 
+}}
+begin-world Field1
+    World 8 8;
+    Start at 5 1 heading north;
+    Object-type flower of color red;
+    Basket of capacity 14;
+    Place 14 of flower in basket;
+    Boolean wallIsLeft with initial value false;
+    Boolean wallIsRight with initial value false;
+    Wall north from 5 3 to 5 4;
+    Wall north from 6 3 to 6 5;
+    Wall west from 4 5 to 4 5;
+    Wall north from 3 3 to 3 4;
+    Goal condition is 0 flower objects in Basket;
+    Final goal is condition;
+end-world
+
+{{ 
+    Condiciones:
+    1- La capacidad del basket y cantidad de flower en ella debe concordar con las caras visibles de la pared
+}}
+begin-world Field2
+    World 8 9;
+    Start at 5 1 heading north;
+    Object-type flower of color red;
+    Basket of capacity 16;
+    Place 16 of flower in basket;
+    Boolean wallIsLeft with initial value false;
+    Boolean wallIsRight with initial value false;
+    Wall north from 5 3 to 5 4;
+    Wall north from 6 3 to 6 4;
+    Wall west from 4 5 to 3 5;
+    Wall west from 4 6 to 3 6;
+    Wall west from 4 7 to 3 7;
+    Goal condition is 0 flower objects in Basket;
+    Final goal is condition;
+end-world
+
+
+{{
+    Condiciones:
+    1- Willy debe empezar en direccion a una de las paredes a decorar
+    2- Las paredes a decorar deben ser vecinas vertical, horizontal o diagonalmente
+    3- Las paredes deben estar a una distancia de 2 casillas de los bordes del grid 
+}}
+begin-task task4 on Field1
+    while front-clear do move;
+
+    while carrying(flower) do begin
+        if not front-clear then
+            if not left-clear and not right-clear then begin
+                turn-left;
+                turn-left;
+            end;
+            else begin
+                if not left-clear then begin
+                    turn-right;
+                    set wallIsLeft;
+                    if wallIsRight then flip wallIsRight;
+                end; 
+                else begin
+                    turn-left;
+                    set wallIsRight;
+                    if wallIsLeft then flip wallIsLeft;
+                end;
+            end;
+        else
+            if wallIsLeft and left-clear then begin
+                turn-left;
+                move;
+            end;
+            if wallIsRight and right-clear then begin
+                turn-right;
+                move;
+            end;
+        if not found(flower) then drop flower;
+        if front-clear then move;
+    end;
+end-task
+
+
+{{################################################################################################################
+En este mundo se demuestra que se regresa un error cuando willy trata de moverse a una casilla donde hay una pared
+##################################################################################################################}}
+
+begin-world moveTest
+    World 1 7;
+    Wall north from 1 2 to 1 2;
+    Goal condition is willy is at 1 7;
+    Final goal is condition;
+end-world
+
+begin-task task5 on moveTest
+    move;
+end-task
+
+
+{{################################################################################################################
+En este mundo se demuestra que se regresa un error cuando willy trata de recoger un objeto que no esta en la casilla
+o soltar un objeto que no esta en su bolsa.
+##################################################################################################################}}
+
+begin-world pickdropTest
+    World 3 3;
+    Object-type objeto of color cyan;
+    Goal condition is 1 objeto objects in Basket;
+    Final goal is condition;
+end-world
+
+{{ Para probar drop, descomentarlo y comentar pick objeto }}
+begin-task task6 on pickdropTest
+    --pick objeto;
+    drop objeto;
+end-task

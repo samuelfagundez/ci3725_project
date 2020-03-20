@@ -34,7 +34,7 @@ precedence = (
     ('right', 'TkElse')          # shift/reduce de la instruccion if cuando hace uso de else
 )
 
-# Checkea si el identificador esta siendo utilizado para definir un mundo ya definido. Devuelve 
+# Chequea si el identificador esta siendo utilizado para definir un mundo ya definido. Devuelve 
 # True si esto sucede y False si no sucede
 def checkExistingWorldId(id):
     for i in range(len(list_of_world)):
@@ -42,7 +42,7 @@ def checkExistingWorldId(id):
             return True
     return False
 
-# Checkea si el identificador esta siendo utilizado para definir una tarea ya definida. Devuelve 
+# Chequea si el identificador esta siendo utilizado para definir una tarea ya definida. Devuelve 
 # True si esto sucede y False si no sucede
 def checkExistingTaskId(id):
     for i in range(len(list_of_tasks)):
@@ -356,7 +356,7 @@ def p_begintask(p):
     global current_task, TSimbolos, bloq_num, e
 
     # Como no puede haber una tarea con el mismo identificador de un mundo
-    # ni dos tareas con el mismo identificador. Se deben checkear los dos
+    # ni dos tareas con el mismo identificador. Se deben chequear los dos
     if checkExistingTaskId(p[2]):
         print("\n    "+str(p[1])+" "+str(p[2])+" "+str(p[3])+" "+str(p[4]))
         print("- Error en linea %s, columna %s: No se puede utilizar un mismo identificador para definir dos tareas distintas." % linenoLexpos(p, 2))
@@ -365,7 +365,7 @@ def p_begintask(p):
         print("\n    "+str(p[1])+" "+str(p[2])+" "+str(p[3])+" "+str(p[4]))
         print("- Error en linea %s, columna %s: No se puede utilizar un mismo identificador para definir una tarea y un mundo." % linenoLexpos(p, 2))
         e = True
-    # Checkea si la tarea esta siendo definida sobre un mundo que existe
+    # Chequea si la tarea esta siendo definida sobre un mundo que existe
     if not checkExistingWorldId(p[4]):
         print("\n    "+str(p[1])+" "+str(p[2])+" "+str(p[3])+" "+str(p[4]))
         print("- Error en linea %s, columna %s: No se puede definir una tarea sobre un mundo no existente." % linenoLexpos(p, 4))
@@ -524,27 +524,30 @@ def p_instruccion_func(p):
     global TSimbolos, e, func_bloq_num
 
     # Variable que indica si se encontro la instruccion que esta siendo referenciada 
-    # en la lista de instrucciones que se estan definiendo o en la tabla de simbolos
-    found = True
-    # Primero revisamos si la instruccion esta en la tabla de simbolos
-    if not TSimbolos.find(p[1], "func"):
-        found = False
-    # Luego, si no se encuentra en la tabla de simbolos, vemos si encontramos la llamada a 
+    # en la tabla de simbolos o en la lista de instrucciones que se estan definiendo
+    found = TSimbolos.find(p[1], "func")
+    # Si lo encontramos en la tabla de simbolos, recuperamos el numero de bloque asociado a esta instruccion. TRATA DE CAMBIARLO A TABLA DE SIMBOLOS (Maybe)!!!
+    if found:
+        for instr in list_of_instr:
+            if instr.getId() == p[1]:
+                bloq_num = instr.getBloqNum()
+    # Si no se encuentra en la tabla de simbolos, vemos si encontramos la llamada a 
     # la instruccion en la lista de instrucciones que estan siendo definidas, esto para permitir que se hagan llamadas recursivas
     i = len(func_bloq_num)-1
     while i >= 0 and not found:
         if func_bloq_num[i][0] == p[1]:
             found = True
+            bloq_num = func_bloq_num[i][1]
         i -= 1
     # Si no encontramos la instruccion en la lista de instrucciones que se estan definiendo
     # ni en la tabla de simbolos, devolvemos un error
     if not found:
         print("\n    "+str(p[1]))
         print("- Error en linea %s, columna %s: '" % linenoLexpos(p, 1) + p[1] + "' no ha sido definido o no es una llamada a una instruccion.")
+        bloq_num = None
         e = True
 
-    p[0] = p[1]
-
+    p[0] = p[1] + " | " + str(bloq_num)
 
 # Instruccion move
 def p_instruccion_primitiva_move(p):

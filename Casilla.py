@@ -14,15 +14,23 @@ class Casilla():
 
     # Coloca un objeto en la casilla
     def setObjeto(self, identificador, n):
-        if identificador in self.objetos:
+        
+        if identificador in self.objetos.keys():
             self.objetos[identificador] += n
-        self.objetos[identificador] = n
+        else:
+            self.objetos[identificador] = n
 
     # Obtiene el num. de objetos en la casilla del mismo tipo, dado por identificador
     def getObjeto(self, identificador):
-        if identificador in self.objetos:
+        if identificador in self.objetos.keys():
             return self.objetos[identificador]
         return 0
+
+    # Quita una instancia de el tipo de objeto de la casilla
+    def pickObjeto(self, identificador):
+        self.objetos[identificador] -= 1
+        if self.objetos[identificador] <= 0:
+            del self.objetos[identificador]
 
     # Obtiene el num. de objetos totales en esta casilla
     def getNumObjetos(self):
