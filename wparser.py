@@ -526,11 +526,11 @@ def p_instruccion_func(p):
     # Variable que indica si se encontro la instruccion que esta siendo referenciada 
     # en la tabla de simbolos o en la lista de instrucciones que se estan definiendo
     found = TSimbolos.find(p[1], "func")
-    # Si lo encontramos en la tabla de simbolos, recuperamos el numero de bloque asociado a esta instruccion. TRATA DE CAMBIARLO A TABLA DE SIMBOLOS (Maybe)!!!
-    if found:
-        for instr in list_of_instr:
-            if instr.getId() == p[1]:
-                bloq_num = instr.getBloqNum()
+    # Si lo encontramos en la tabla de simbolos, recuperamos el numero de bloque asociado a esta instruccion.
+    if type(found) is not bool:
+        bloq_num = found[1]
+        found = True
+        
     # Si no se encuentra en la tabla de simbolos, vemos si encontramos la llamada a 
     # la instruccion en la lista de instrucciones que estan siendo definidas, esto para permitir que se hagan llamadas recursivas
     i = len(func_bloq_num)-1
