@@ -117,7 +117,15 @@ def p_beginworld(p):
 def p_instruccionesWorld(p):
     '''instruccionesWorld : instruccionesWorld instruccionWorld TkSemiColon
                           | instruccionesWorld TkSemiColon
-                          | instruccionWorld TkSemiColon'''
+                          | instruccionWorld TkSemiColon
+                          | donothing'''
+
+
+def p_do_nothing(p):
+    '''donothing : TkBlockComment
+                 | TkComment
+                 | TkEndCBlock
+                 | TkStartCBlock'''
 
 
 # Intruccion World

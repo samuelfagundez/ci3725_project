@@ -2,8 +2,8 @@
 # Para cada Instruccion definida en una Tarea, se crea una instancia de esta clase que
 # guarda la informacion necesaria de la instruccion
 class Func():
-    def __init__(self,id, instr, n, m, parent=None):
-        self.id = id
+    def __init__(self, identificador, instr, n, m, parent=None):
+        self.id = identificador
         self.instr = instr
         self.bloqNum = n 
         self.bloqEncontrado = m
