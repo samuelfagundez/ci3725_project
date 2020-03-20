@@ -16,7 +16,6 @@ class grid(QTableWidget):
         self.verticalHeader().hide()
         self.horizontalHeader().hide()
         self.setStyleSheet("background-color:  Silver")
-        self.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.setMaximumSize(870, 870)
         self.setMinimumSize(870, 870)
         self.setEditTriggers(QAbstractItemView.NoEditTriggers)
