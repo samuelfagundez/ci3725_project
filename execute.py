@@ -221,9 +221,9 @@ def execute_recursive(nodo, mundo, list_of_instr, mod, segundos):
             waitModalidad(mod, segundos, mundo)
             pos = mundo.getWillyPos()
             mundo.world[pos[0]-1][pos[1]-1].setObjeto(nodo[1], 1)
-            mundo.objetos[nodo[1]] -= 1
-            if mundo.objetos[nodo[1]] == 0:
-                del self.objetos[nodo[1]]
+            mundo.willyBasket[nodo[1]] -= 1
+            if mundo.willyBasket[nodo[1]] == 0:
+                del mundo.willyBasket[nodo[1]]
 
         # Cambia el valor de un booleano a True o a el indicado por el usuario
         elif nodo[0] == "set":
