@@ -1,10 +1,10 @@
 all:
 	#instalar pyinstaller
-	pip3 install pyinstaller
+	pip install pyinstaller
 	#instalar la ultima version de pyqt5
-	pip3 install pyqt5
+	pip install pyqt5
 	#instalar ply
-	pip3 install ply
+	pip install ply
 	#crear ejecutable
 	pyinstaller --onefile willy.py
 	#remover willy viejo si existe

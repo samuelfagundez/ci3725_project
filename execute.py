@@ -163,6 +163,7 @@ def execute_recursive(nodo, mundo, list_of_instr, mod, segundos):
             waitModalidad(mod, segundos, mundo)
             # Si no existe una pared al frente de willy, se mueve
             if not mundo.isWallInCell(pos[0], pos[1], pos[2]):
+                print(mundo.getWillyPos())
                 mundo.move()
             else:
                 print("Error: Willy no puede moverse a casillas con una pared o fuera de los bordes del mundo.")
@@ -171,12 +172,29 @@ def execute_recursive(nodo, mundo, list_of_instr, mod, segundos):
         elif nodo == "turn-left":
             waitModalidad(mod, segundos, mundo)
             # AQUI VA TURN-LEFT!!!!!!!!!!!!!!!!!!!!!!!!
+            pos = mundo.getWillyPos()
+            if pos[2] == "north":
+                mundo.willyPos[2] = "west"
+            elif pos[2] == "east":
+                mundo.willyPos[2] = "north"
+            elif pos[2] == "south":
+                mundo.willyPos[2] = "east"
+            elif pos[2] == "west":
+                mundo.willyPos[2] = "south"
 
         # Willy voltea a la derecha
         elif nodo == "turn-right":
             waitModalidad(mod, segundos, mundo)
             # AQUI VA TURN-RIGHT!!!!!!!!!!!!!!!!!!!!!!!
-
+            pos = mundo.getWillyPos()
+            if pos[2] == "north":
+                mundo.willyPos[2] = "east"
+            elif pos[2] == "east":
+                mundo.willyPos[2] = "south"
+            elif pos[2] == "south":
+                mundo.willyPos[2] = "west"
+            elif pos[2] == "west":
+                mundo.willyPos[2] = "north"
         # Termina la ejecucion del programa
         elif nodo == "terminate":
             return True
