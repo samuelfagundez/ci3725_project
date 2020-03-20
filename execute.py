@@ -163,7 +163,6 @@ def execute_recursive(nodo, mundo, list_of_instr, mod, segundos):
             waitModalidad(mod, segundos, mundo)
             # Si no existe una pared al frente de willy, se mueve
             if not mundo.isWallInCell(pos[0], pos[1], pos[2]):
-                print(mundo.getWillyPos())
                 mundo.move()
             else:
                 print("Error: Willy no puede moverse a casillas con una pared o fuera de los bordes del mundo.")
@@ -171,7 +170,6 @@ def execute_recursive(nodo, mundo, list_of_instr, mod, segundos):
         # Willy voltea a la izquierda
         elif nodo == "turn-left":
             waitModalidad(mod, segundos, mundo)
-            # AQUI VA TURN-LEFT!!!!!!!!!!!!!!!!!!!!!!!!
             pos = mundo.getWillyPos()
             if pos[2] == "north":
                 mundo.willyPos[2] = "west"
@@ -185,7 +183,6 @@ def execute_recursive(nodo, mundo, list_of_instr, mod, segundos):
         # Willy voltea a la derecha
         elif nodo == "turn-right":
             waitModalidad(mod, segundos, mundo)
-            # AQUI VA TURN-RIGHT!!!!!!!!!!!!!!!!!!!!!!!
             pos = mundo.getWillyPos()
             if pos[2] == "north":
                 mundo.willyPos[2] = "east"
@@ -215,12 +212,18 @@ def execute_recursive(nodo, mundo, list_of_instr, mod, segundos):
         # Recoge un objeto de la celda
         if nodo[0] == "pick":
             waitModalidad(mod, segundos, mundo)
-            # AQUI VA PICK
+            mundo.placeInBasket(1,nodo[1])
+            pos = mundo.getWillyPos()
+            mundo.world[pos[0]-1][pos[1]-1].pickObjeto(nodo[1])
 
         # Deja un objeto en la celda actual
         elif nodo[0] == "drop":
             waitModalidad(mod, segundos, mundo)
-            # AQUI VA DROP
+            pos = mundo.getWillyPos()
+            mundo.world[pos[0]-1][pos[1]-1].setObjeto(nodo[1], 1)
+            mundo.objetos[nodo[1]] -= 1
+            if mundo.objetos[nodo[1]] == 0:
+                del self.objetos[nodo[1]]
 
         # Cambia el valor de un booleano a True o a el indicado por el usuario
         elif nodo[0] == "set":
