@@ -212,18 +212,26 @@ def execute_recursive(nodo, mundo, list_of_instr, mod, segundos):
         # Recoge un objeto de la celda
         if nodo[0] == "pick":
             waitModalidad(mod, segundos, mundo)
-            mundo.placeInBasket(1,nodo[1])
             pos = mundo.getWillyPos()
-            mundo.world[pos[0]-1][pos[1]-1].pickObjeto(nodo[1])
-
+            if nodo[1] in mundo.world[pos[0]-1][pos[1]-1].objetos:
+                if mundo.getNumOfObjectInBasket != mundo.basketCapacity:
+                    mundo.placeInBasket(1,nodo[1])
+                    mundo.world[pos[0]-1][pos[1]-1].pickObjeto(nodo[1])
+                else:
+                    print("Willy no puede llevar mas objetos")
+            else:
+                print("Ese objeto no se encuentra en esta casilla")
         # Deja un objeto en la celda actual
         elif nodo[0] == "drop":
             waitModalidad(mod, segundos, mundo)
             pos = mundo.getWillyPos()
-            mundo.world[pos[0]-1][pos[1]-1].setObjeto(nodo[1], 1)
-            mundo.willyBasket[nodo[1]] -= 1
-            if mundo.willyBasket[nodo[1]] == 0:
-                del mundo.willyBasket[nodo[1]]
+            if nodo[1] in mundo.willyBasket:
+                mundo.world[pos[0]-1][pos[1]-1].setObjeto(nodo[1], 1)
+                mundo.willyBasket[nodo[1]] -= 1
+                if mundo.willyBasket[nodo[1]] == 0:
+                    del mundo.willyBasket[nodo[1]]
+            else:
+                print("Error no puedes descargar un objeto que no esta en la bolsa de Willy")
 
         # Cambia el valor de un booleano a True o a el indicado por el usuario
         elif nodo[0] == "set":
