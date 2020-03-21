@@ -214,7 +214,7 @@ def execute_recursive(nodo, mundo, list_of_instr, mod, segundos):
             waitModalidad(mod, segundos, mundo)
             pos = mundo.getWillyPos()
             if nodo[1] in mundo.world[pos[0]-1][pos[1]-1].objetos:
-                if mundo.getNumOfObjectInBasket != mundo.basketCapacity:
+                if mundo.getNumOfObjectInBasket(nodo[1]) != mundo.basketCapacity:
                     mundo.placeInBasket(1,nodo[1])
                     mundo.world[pos[0]-1][pos[1]-1].pickObjeto(nodo[1])
                 else:
