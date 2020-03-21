@@ -277,6 +277,26 @@ begin-world Field2
     Final goal is condition;
 end-world
 
+{{ 
+    Condiciones:
+    1- La capacidad del basket y cantidad de flower en ella debe concordar con las caras visibles de la pared
+}}
+begin-world Field3
+    World 9 7;
+    Start at 6 1 heading north;
+    Object-type flower of color red;
+    Basket of capacity 17;
+    Place 17 of flower in basket;
+    Boolean wallIsLeft with initial value false;
+    Boolean wallIsRight with initial value false;
+    Wall north from 7 3 to 7 5;
+    Wall west from 6 5 to 4 5;
+    Wall west from 3 4 to 3 4;
+    Wall east from 4 3 to 5 3;
+    Goal condition is 0 flower objects in Basket;
+    Final goal is condition;
+end-world
+
 
 {{
     Condiciones:
@@ -348,7 +368,7 @@ begin-world pickdropTest
     Final goal is condition;
 end-world
 
-{{ Para probar drop, descomentarlo y comentar pick objeto }}
+{{ Para probar pick, descomentarlo y comentar drop objeto }}
 begin-task task6 on pickdropTest
     --pick objeto;
     drop objeto;

@@ -1,5 +1,5 @@
 __pycache__/
-parsertab.py
+parsetab.py
 *.spec
 dist/
 build/
