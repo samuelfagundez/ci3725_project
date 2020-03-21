@@ -197,7 +197,7 @@ def execute_recursive(nodo, mundo, list_of_instr, mod, segundos):
             waitModalidad(mod, segundos, mundo)
             q = mundo.pick(nodo[1])
             # Si ocurre un error debido a que el objeto no existe en esta casilla, se reporta
-            if q != True:
+            if q is not None:
                 print("Error: " + q)
                 sys.exit(0)
 
@@ -206,7 +206,7 @@ def execute_recursive(nodo, mundo, list_of_instr, mod, segundos):
             waitModalidad(mod, segundos, mundo)
             q = mundo.drop(nodo[1])
             # Si ocurre un error debido a que el objeto no existe en esta casilla, se reporta
-            if q != True:
+            if q is not None:
                 print("Error: " + q)
                 sys.exit(0)
 

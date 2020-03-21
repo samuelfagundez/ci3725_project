@@ -480,7 +480,7 @@ class World():
         self.world[self.getWillyPos()[0]-1][self.getWillyPos()[1]-1].pickObjeto(identificador)
         # Lo colocamos en la cesta
         self.placeInBasket(1, identificador)
-        return True
+        return None
 
 
     # Suelta un objeto de la bolsa en la casilla en la que se encuentre willy
@@ -495,4 +495,4 @@ class World():
             del self.willyBasket[identificador]
         # Lo dejamos en la casilla en la que estemos
         self.placeInWorld(1, identificador, self.getWillyPos()[0], self.getWillyPos()[1])
-        return True
+        return None
