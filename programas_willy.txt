@@ -396,3 +396,99 @@ begin-task task7 on noMorePlease
     pick diamante;
     move;
 end-task
+
+
+{{################################################################################################################
+En este mundo, sin paredes, cada casilla tiene entre 0 y n basura, Willy se encargara de distribuir la basura entre 
+las casillas para que todas una cantidad igual de basura. Si el numero de basura total mod(columna*fila) != 0, 
+entonces la diferencia de basura entre cualquier casillas es menor o igual a 1.
+##################################################################################################################}}
+
+begin-world cualquierCalleEnCaracas
+    World 10 10;
+    Object-type basura of color magenta;
+    Boolean recoger with initial value true;
+    Start at 1 1 heading east;
+    Place 1 of basura at 1 1;
+    Place 12 of basura at 1 5;
+    Place 10 of basura at 1 7;
+    Place 2 of basura at 1 9;
+    Place 5 of basura at 2 6;
+    Place 15 of basura at 2 8;
+    Place 2 of basura at 2 9;
+    Place 6 of basura at 4 5;
+    Place 7 of basura at 4 2;
+    Place 12 of basura at 5 4;
+    Place 4 of basura at 5 5;
+    Place 9 of basura at 5 6;
+    Place 5 of basura at 7 1;
+    Place 3 of basura at 8 2;
+    Place 1 of basura at 8 8;
+    Place 9 of basura at 9 1;
+    Place 5 of basura at 9 2;
+    Place 3 of basura at 9 8;
+    Place 1 of basura at 9 9;
+    Place 5 of basura at 10 1;
+    Place 3 of basura at 10 2;
+    Place 1 of basura at 10 3;
+    Basket of capacity 400;
+    Goal condition is 0 basura objects in Basket;
+    Final goal is condition;
+end-world
+
+begin-task task8 on cualquierCalleEnCaracas
+
+    {{ Funcion que recorre el mundo casilla por casilla recogiendo o soltando basura}}
+    define equilibrarBasura as begin
+        while front-clear do begin
+            if recoger then
+                while found(basura) do pick basura;
+            else
+                if carrying(basura) then drop basura;
+            move;
+        end;
+
+        -- No existen do-while loops en willy, por eso hago esto luego 
+        if recoger then
+            while found(basura) do pick basura;
+        else
+            if carrying(basura) then drop basura;
+
+        -- Cambia de fila
+        if looking-east and left-clear then begin
+            turn-left;
+            move;
+            turn-left;
+            terminate;
+        end;
+        if looking-west and right-clear then begin
+            turn-right;
+            move;
+            turn-right;
+            terminate;
+        end;
+    end;
+
+    {{ Funcion que devuelve a Willy a la casilla inicial}}
+    define returnStart as begin
+        if looking-east then begin
+            turn-left;
+            turn-left;
+        end;
+
+        while front-clear do move;
+        turn-left;
+        while front-clear do move;
+        turn-left;
+    end;
+
+
+    while carrying(basura) or recoger do begin
+        -- 10 es el numero de filas en el mundo
+        repeat 10 times equilibrarBasura;
+        returnStart;
+        -- Una vez recogida la basura del mundo, no se vuelve a recoger
+        if recoger then set recoger to false;
+    end;
+    
+end-task

@@ -48,7 +48,7 @@ except FileNotFoundError:
 # Si el archivo no puede abrirse, el programa termina indicando el problema
 except OSError:
     print("Imposible abrir el archivo %s" % path)
-except IndexError:
+except (IndexError, ValueError):
     print("Hubo un error en los argumentos colocados")
 except RecursionError:
     print("Error Desconocido: Al parecer el programa es muy largo y Python no pudo seguir con la recursion")
