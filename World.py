@@ -435,8 +435,64 @@ class World():
             self.willyPos[0] += 1 
             return True
         return False
+
+
+    # Voltea a willy hacia la izquierda
+    def turnLeft(self):
+
+        if self.willyPos[2] == "north":
+            self.willyPos[2] = "west"
+        elif self.willyPos[2] == "west":
+            self.willyPos[2] = "south"
+        elif self.willyPos[2] == "south":
+            self.willyPos[2] = "east"
+        elif self.willyPos[2] == "east":
+            self.willyPos[2] = "north"
+    
+
+    # Voltea a willy hacia la derecha
+    def turnRight(self):
+        
+        if self.willyPos[2] == "north":
+            self.willyPos[2] = "east"
+        elif self.willyPos[2] == "east":
+            self.willyPos[2] = "south"
+        elif self.willyPos[2] == "south":
+            self.willyPos[2] = "west"
+        elif self.willyPos[2] == "west":
+            self.willyPos[2] = "north"
     
 
     # Actualiza el valor de un booleano que ya existe en el mundo
     def setBoolean(self, identificador, valor):
         self.booleanos[identificador] = valor
+
+
+    # Coloca un objeto de la casilla en la bolsa de willy
+    def pick(self, identificador):
+        
+        if self.getNumOfObjectInCell(identificador, self.getWillyPos()[0], self.getWillyPos()[1]) <= 0:
+            return "No existe un objeto de tipo '" + identificador + "' en la casilla (" + str(self.getWillyPos()[0]) + ", " + str(self.getWillyPos()[1]) + ")."
+        if sum(self.willyBasket.values()) == self.basketCapacity:
+            return "La bolsa de Willy esta llena y no se pueden recoger mas objetos."
+        
+        # Recogemos de la casilla el objeto
+        self.world[self.getWillyPos()[0]-1][self.getWillyPos()[1]-1].pickObjeto(identificador)
+        # Lo colocamos en la cesta
+        self.placeInBasket(1, identificador)
+        return True
+
+
+    # Suelta un objeto de la bolsa en la casilla en la que se encuentre willy
+    def drop(self, identificador):
+
+        if identificador not in self.willyBasket.keys():
+            return "No existe un objeto de tipo '" + identificador + "' en la bolsa de willy."
+        
+        # Recogemos el objeto de la bolsa de willy
+        self.willyBasket[identificador] -= 1
+        if self.willyBasket[identificador] <= 0:
+            del self.willyBasket[identificador]
+        # Lo dejamos en la casilla en la que estemos
+        self.placeInWorld(1, identificador, self.getWillyPos()[0], self.getWillyPos()[1])
+        return True

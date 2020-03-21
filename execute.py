@@ -170,28 +170,11 @@ def execute_recursive(nodo, mundo, list_of_instr, mod, segundos):
         # Willy voltea a la izquierda
         elif nodo == "turn-left":
             waitModalidad(mod, segundos, mundo)
-            pos = mundo.getWillyPos()
-            if pos[2] == "north":
-                mundo.willyPos[2] = "west"
-            elif pos[2] == "east":
-                mundo.willyPos[2] = "north"
-            elif pos[2] == "south":
-                mundo.willyPos[2] = "east"
-            elif pos[2] == "west":
-                mundo.willyPos[2] = "south"
-
+            mundo.turnLeft()
         # Willy voltea a la derecha
         elif nodo == "turn-right":
             waitModalidad(mod, segundos, mundo)
-            pos = mundo.getWillyPos()
-            if pos[2] == "north":
-                mundo.willyPos[2] = "east"
-            elif pos[2] == "east":
-                mundo.willyPos[2] = "south"
-            elif pos[2] == "south":
-                mundo.willyPos[2] = "west"
-            elif pos[2] == "west":
-                mundo.willyPos[2] = "north"
+            mundo.turnRight()
         # Termina la ejecucion del programa
         elif nodo == "terminate":
             return True
@@ -212,26 +195,20 @@ def execute_recursive(nodo, mundo, list_of_instr, mod, segundos):
         # Recoge un objeto de la celda
         if nodo[0] == "pick":
             waitModalidad(mod, segundos, mundo)
-            pos = mundo.getWillyPos()
-            if nodo[1] in mundo.world[pos[0]-1][pos[1]-1].objetos:
-                if mundo.getNumOfObjectInBasket(nodo[1]) != mundo.basketCapacity:
-                    mundo.placeInBasket(1,nodo[1])
-                    mundo.world[pos[0]-1][pos[1]-1].pickObjeto(nodo[1])
-                else:
-                    print("Willy no puede llevar mas objetos")
-            else:
-                print("Ese objeto no se encuentra en esta casilla")
+            q = mundo.pick(nodo[1])
+            # Si ocurre un error debido a que el objeto no existe en esta casilla, se reporta
+            if q != True:
+                print("Error: " + q)
+                sys.exit(0)
+
         # Deja un objeto en la celda actual
         elif nodo[0] == "drop":
             waitModalidad(mod, segundos, mundo)
-            pos = mundo.getWillyPos()
-            if nodo[1] in mundo.willyBasket:
-                mundo.world[pos[0]-1][pos[1]-1].setObjeto(nodo[1], 1)
-                mundo.willyBasket[nodo[1]] -= 1
-                if mundo.willyBasket[nodo[1]] == 0:
-                    del mundo.willyBasket[nodo[1]]
-            else:
-                print("Error no puedes descargar un objeto que no esta en la bolsa de Willy")
+            q = mundo.drop(nodo[1])
+            # Si ocurre un error debido a que el objeto no existe en esta casilla, se reporta
+            if q != True:
+                print("Error: " + q)
+                sys.exit(0)
 
         # Cambia el valor de un booleano a True o a el indicado por el usuario
         elif nodo[0] == "set":
