@@ -353,3 +353,26 @@ begin-task task6 on pickdropTest
     --pick objeto;
     drop objeto;
 end-task
+
+
+{{################################################################################################################
+En este mundo se demuestra que se regresa un error cuando willy trata de recoger un objeto y su basket ya se
+encuentra full
+##################################################################################################################}}
+
+begin-world noMorePlease
+    World 4 4;
+    Object-type diamante of color cyan;
+    Start at 1 1 heading north;
+    Place 1 of diamante at 1 2;
+    Basket of capacity 1;
+    Place 1 of diamante in basket;
+    Goal condition is 2 diamante objects in Basket;
+    Final goal is condition;
+end-world
+
+begin-task task7 on noMorePlease
+    move;
+    pick diamante;
+    move;
+end-task
