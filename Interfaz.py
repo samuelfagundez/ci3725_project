@@ -44,6 +44,14 @@ class grid(QTableWidget):
                     pos = mundo.getWillyPos()
                     if self.rowCount()-i == pos[1] and (j+1) == pos[0]:
                         self.cellWidget(i, j).setText("   W\n(" + pos[2] + ")")
+        
+        # Imprime las variables booleanas, si tiene
+        booleanos = mundo.getAllBoolean()
+        if len(booleanos) > 0:
+            print("\n  VARIABLES BOOLEANAS:")
+            for booleano in booleanos.keys():
+                print("- " + booleano + ": " + str(booleanos[booleano]))
+
 
 
 # Crea la ventana principal del programa
