@@ -492,3 +492,198 @@ begin-task task8 on cualquierCalleEnCaracas
     end;
     
 end-task
+
+{{##############################################################################
+Willy busca la cura del corona virus y luego la esparce por todo el mundo
+################################################################################}}
+
+
+begin-world coronavirusworld
+    World 9 9;
+    Start at 1 1 heading north;
+    Object-type curadelcoronavirus of color green;
+    Object-type mision of color magenta;
+    Object-type coronavirus of color magenta;
+    Place 50 of curadelcoronavirus at 9 9;
+    Place 1 of mision in basket;
+    Place 1 of coronavirus at 1 1;
+    Place 1 of coronavirus at 3 1;
+    Place 1 of coronavirus at 4 1;
+    Place 1 of coronavirus at 5 1;
+    Place 1 of coronavirus at 3 2;
+    Place 1 of coronavirus at 3 3;
+    Place 1 of coronavirus at 2 3;
+    Place 1 of coronavirus at 1 3;
+    Place 1 of coronavirus at 1 4;
+    Place 1 of coronavirus at 1 5;
+    Place 1 of coronavirus at 1 7;
+    Place 1 of coronavirus at 1 9;
+    Place 1 of coronavirus at 3 5;
+    Place 1 of coronavirus at 3 6;
+    Place 1 of coronavirus at 3 7;
+    Place 1 of coronavirus at 3 9;
+    Place 1 of coronavirus at 5 3;
+    Place 1 of coronavirus at 5 4;
+    Place 1 of coronavirus at 5 5;
+    Place 1 of coronavirus at 7 1;
+    Place 1 of coronavirus at 7 3;
+    Place 1 of coronavirus at 7 6;
+    Place 1 of coronavirus at 7 7;
+    Place 1 of coronavirus at 9 1;
+    Place 1 of coronavirus at 9 2;
+    Place 1 of coronavirus at 9 3;
+    Place 1 of coronavirus at 9 4;
+    Place 1 of coronavirus at 9 6;
+    Place 1 of coronavirus at 9 7;
+    Place 1 of coronavirus at 9 9;
+    Place 1 of coronavirus at 1 8;
+    Place 1 of coronavirus at 1 2;
+    Place 1 of coronavirus at 2 9;
+    Place 1 of coronavirus at 4 5;
+    Place 1 of coronavirus at 4 7;
+    Place 1 of coronavirus at 4 8;
+    Place 1 of coronavirus at 6 1;
+    Place 1 of coronavirus at 6 3;
+    Place 1 of coronavirus at 6 5;
+    Place 1 of coronavirus at 6 7;
+    Place 1 of coronavirus at 6 8;
+    Place 1 of coronavirus at 6 9;
+    Place 1 of coronavirus at 7 9;
+    Place 1 of coronavirus at 7 5;
+    Place 1 of coronavirus at 7 2;
+    Place 1 of coronavirus at 8 6;
+    Place 1 of coronavirus at 8 9;
+    Place 1 of coronavirus at 9 5;
+    Place 1 of coronavirus at 4 9;
+
+    Basket of capacity 51;
+    Wall north from 2 1 to 2 2;
+    Wall north from 2 4 to 2 8;
+    Wall north from 1 6 to 1 6;
+    Wall east from 3 4 to 4 4;
+    Wall east from 3 8 to 3 8;
+    Wall south from 4 3 to 4 2;
+    Wall east from 4 6 to 6 6;
+    Wall east from 5 2 to 6 2;
+    Wall north from 5 7 to 5 9;
+    Wall west from 7 4 to 6 4;
+    Wall north from 8 1 to 8 5;
+    Wall east from 7 8 to 9 8;
+    Wall east from 8 7 to 8 7;
+    Goal condition1 is 0 curadelcoronavirus objects in Basket;
+    Goal condition2 is 0 mision objects in Basket;
+    Goal condition3 is 50 coronavirus objects in Basket;
+    Final goal is condition1 and condition2 and condition3;
+end-world
+
+
+begin-task task9 on coronavirusworld
+    define goBack as
+        begin
+            turn-left;
+            turn-left;
+            move;
+        end;
+
+    define spreadCure as
+    begin
+        if not carrying(curadelcoronavirus) then terminate;
+        
+        if found(coronavirus) then
+        begin
+            pick coronavirus;
+            drop curadelcoronavirus;
+            spreadCure;
+        end;
+
+        if front-clear then
+        begin
+            move;
+            spreadCure;
+            if not carrying(curadelcoronavirus) then terminate;
+            if found(coronavirus) then
+                begin
+                    pick coronavirus;
+                    drop curadelcoronavirus;
+                    spreadCure;
+                end;
+            goBack;
+            turn-left;
+            turn-left;
+        end;
+
+        if left-clear then
+        begin
+            turn-left;
+            move;
+            spreadCure;
+            if not carrying(curadelcoronavirus) then terminate;
+            if found(coronavirus) then
+                begin
+                    pick coronavirus;
+                    drop curadelcoronavirus;
+                    spreadCure;
+                end;
+            goBack;
+            turn-left;
+        end;
+        
+        if right-clear then
+        begin
+            turn-right;
+            move;
+            spreadCure;
+            if not carrying(curadelcoronavirus) then terminate;
+            if found(coronavirus) then
+                begin
+                    pick coronavirus;
+                    drop curadelcoronavirus;
+                    spreadCure;
+                end;
+            goBack;
+            turn-right;
+        end;
+    end;
+
+    define findCure as
+    begin
+        if found(curadelcoronavirus) then
+        begin
+            while found(curadelcoronavirus) do pick curadelcoronavirus;
+            drop mision;
+            spreadCure;
+            terminate;
+        end;
+        
+        if front-clear then
+        begin
+            move;
+            findCure;
+            goBack;
+            turn-left;
+            turn-left;
+        end;
+
+        if left-clear then
+        begin
+            turn-left;
+            move;
+            findCure;
+            goBack;
+            turn-left;
+        end;
+        
+        if right-clear then
+        begin
+            turn-right;
+            move;
+            findCure;
+            goBack;
+            turn-right;
+        end;
+    end;
+
+
+    findCure;
+    
+end-task
