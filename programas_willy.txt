@@ -504,7 +504,7 @@ begin-world coronavirusworld
     Object-type curadelcoronavirus of color green;
     Object-type mision of color magenta;
     Object-type coronavirus of color magenta;
-    Place 50 of curadelcoronavirus at 9 9;
+    Place 49 of curadelcoronavirus at 9 9;
     Place 1 of mision in basket;
     Place 1 of coronavirus at 1 1;
     Place 1 of coronavirus at 3 1;
@@ -570,9 +570,10 @@ begin-world coronavirusworld
     Wall north from 8 1 to 8 5;
     Wall east from 7 8 to 9 8;
     Wall east from 8 7 to 8 7;
+    Boolean weFoundTheCure with initial value false;
     Goal condition1 is 0 curadelcoronavirus objects in Basket;
     Goal condition2 is 0 mision objects in Basket;
-    Goal condition3 is 50 coronavirus objects in Basket;
+    Goal condition3 is 49 coronavirus objects in Basket;
     Final goal is condition1 and condition2 and condition3;
 end-world
 
@@ -593,7 +594,6 @@ begin-task task9 on coronavirusworld
         begin
             pick coronavirus;
             drop curadelcoronavirus;
-            spreadCure;
         end;
 
         if front-clear then
@@ -601,12 +601,6 @@ begin-task task9 on coronavirusworld
             move;
             spreadCure;
             if not carrying(curadelcoronavirus) then terminate;
-            if found(coronavirus) then
-                begin
-                    pick coronavirus;
-                    drop curadelcoronavirus;
-                    spreadCure;
-                end;
             goBack;
             turn-left;
             turn-left;
@@ -618,12 +612,6 @@ begin-task task9 on coronavirusworld
             move;
             spreadCure;
             if not carrying(curadelcoronavirus) then terminate;
-            if found(coronavirus) then
-                begin
-                    pick coronavirus;
-                    drop curadelcoronavirus;
-                    spreadCure;
-                end;
             goBack;
             turn-left;
         end;
@@ -634,12 +622,6 @@ begin-task task9 on coronavirusworld
             move;
             spreadCure;
             if not carrying(curadelcoronavirus) then terminate;
-            if found(coronavirus) then
-                begin
-                    pick coronavirus;
-                    drop curadelcoronavirus;
-                    spreadCure;
-                end;
             goBack;
             turn-right;
         end;
@@ -649,35 +631,40 @@ begin-task task9 on coronavirusworld
     begin
         if found(curadelcoronavirus) then
         begin
+            flip weFoundTheCure;
             while found(curadelcoronavirus) do pick curadelcoronavirus;
+            if not left-clear and not right-clear and not front-clear then turn-right;
             drop mision;
             spreadCure;
             terminate;
         end;
         
-        if front-clear then
+        if front-clear and not weFoundTheCure then
         begin
             move;
             findCure;
+            if weFoundTheCure then terminate;
             goBack;
             turn-left;
             turn-left;
         end;
 
-        if left-clear then
+        if left-clear and not weFoundTheCure then
         begin
             turn-left;
             move;
             findCure;
+            if weFoundTheCure then terminate;
             goBack;
             turn-left;
         end;
         
-        if right-clear then
+        if right-clear and not weFoundTheCure then
         begin
             turn-right;
             move;
             findCure;
+            if weFoundTheCure then terminate;
             goBack;
             turn-right;
         end;
