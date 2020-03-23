@@ -639,7 +639,7 @@ begin-task task9 on coronavirusworld
             terminate;
         end;
         
-        if front-clear and not weFoundTheCure then
+        if front-clear then
         begin
             move;
             findCure;
@@ -649,7 +649,7 @@ begin-task task9 on coronavirusworld
             turn-left;
         end;
 
-        if left-clear and not weFoundTheCure then
+        if left-clear then
         begin
             turn-left;
             move;
@@ -659,7 +659,7 @@ begin-task task9 on coronavirusworld
             turn-left;
         end;
         
-        if right-clear and not weFoundTheCure then
+        if right-clear then
         begin
             turn-right;
             move;
