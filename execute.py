@@ -40,13 +40,14 @@ def execute(list_of_tasks, list_of_world, list_of_instr, tarea_exe, mod, segundo
         execute_recursive(arbol, mundo, list_of_instr, mod, segundos)
         final_goal = mundo.getFinalGoal()
         if success_condition(final_goal, mundo):
-           print("SUCCESS!")
+           print("\n\n --La ejecucion del programa fue exitosa!--")
         else:
-           print("FAILED!")
+           print("\n\n --La ejecucion del programa fue un fracaso!--")
 
         buildGUI(21474, mundo)
 
 
+# Funcion que evalua de forma recursiva el objetivo final
 def success_condition(final_goal, mundo):
     if type(final_goal) is not tuple:
         # Si el goal es un booleano definido en el mundo, buscamos su valor
@@ -69,7 +70,7 @@ def success_condition(final_goal, mundo):
         # Si la condicion tiene una conjuncion
         if final_goal[0] == "and":
             return success_condition(final_goal[1], mundo) and success_condition(final_goal[2], mundo)
-        # Si la condicion tiene una conjuncion
+        # Si la condicion tiene una disyuncion
         elif final_goal[0] == "or":
             return (success_condition(final_goal[1], mundo) or success_condition(final_goal[2], mundo))
         # Si la condicion tiene un negado
@@ -77,7 +78,7 @@ def success_condition(final_goal, mundo):
             return not success_condition(final_goal[1], mundo)
 
 
-
+# Funcion que evalua la condicion de una instruccion if o while
 def condition_recursive(cond, mundo):
     if type(cond) is not tuple:
         # Si la condicion es que willy este viendo direccion norte
@@ -155,6 +156,7 @@ def condition_recursive(cond, mundo):
             return False
 
 
+# Funcion que recorre el AST de manera recursiva y ejecuta las instrucciones que la comprenden
 def execute_recursive(nodo, mundo, list_of_instr, mod, segundos):
     if type(nodo) is not tuple:
         # Mueve a willy una casilla en la direccion que esta mirando 
