@@ -14,9 +14,9 @@ def readFile(path, tarea, mod, segundos):
     except EOFError:
         pass
     result = parser.parse(s, tracking=True)
-    # Si no tiene errores lexicograficos ni de contexto, entonces hace los prints finales
+    # Si no tiene errores lexicograficos ni de contexto, entonces ejecuta el programa
     if checkLexError() or checkContextError():
         sys.exit(0)
-    # Ejecuta la tarea
+    # Ejecuta el programa
     execute(list_of_tasks, list_of_world, list_of_instr, tarea, mod, segundos)
     fp.close()
