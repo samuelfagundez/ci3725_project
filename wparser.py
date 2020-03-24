@@ -456,6 +456,12 @@ def p_instruccion_begin(p):
 
     p[0] = (p[1], p[2], p[3])
 
+# Instruccion begin
+def p_instruccion_begin_empty(p):
+    '''instruccionTask : TkBegin TkEnd TkSemiColon'''
+
+    p[0] = (p[1], None, p[2])
+
 
 # Aqui detectamos cuando iniciamos una definicion de instruccion. Hacemos esto por separado
 # ya que debemos guardar el num. de bloque de la instruccion a definir para evitar que
