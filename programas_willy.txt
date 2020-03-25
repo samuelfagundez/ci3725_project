@@ -493,10 +493,10 @@ begin-task task8 on cualquierCalleEnCaracas
     
 end-task
 
+
 {{##############################################################################
 Willy busca la cura del corona virus y luego la esparce por todo el mundo
 ################################################################################}}
-
 
 begin-world coronavirusworld
     World 9 9;
@@ -673,4 +673,146 @@ begin-task task9 on coronavirusworld
 
     findCure;
     
+end-task
+
+
+{{##############################################################################
+Y ahora para terminar con esta extravaganza. Willy demostrara como hacer jaque 
+en una partida de Ajedrez en tan solo 3 pasos.
+################################################################################}}
+
+begin-world tablero
+    World 8 8;
+
+    -- Definimos las fichas negras
+    Object-type PeonNegro of color red;
+    Object-type CaballoNegro of color red;
+    Object-type AlfilNegro of color red;
+    Object-type TorreNegro of color red;
+    Object-type ReinaNegro of color red;
+    Object-type ReyNegro of color red;
+
+    -- Definimos las fichas blancas
+    Object-type PeonBlanco of color blue;
+    Object-type CaballoBlanco of color blue;
+    Object-type AlfilBlanco of color blue;
+    Object-type TorreBlanco of color blue;
+    Object-type ReinaBlanco of color blue;
+    Object-type ReyBlanco of color blue;
+
+    -- Colocamos las fichas negras
+    Place 1 of TorreNegro at 1 8;
+    Place 1 of CaballoNegro at 2 8;
+    Place 1 of AlfilNegro at 3 8;
+    Place 1 of ReinaNegro at 4 8;
+    Place 1 of ReyNegro at 5 8;
+    Place 1 of AlfilNegro at 6 8;
+    Place 1 of CaballoNegro at 7 8;
+    Place 1 of TorreNegro at 8 8;
+    Place 1 of PeonNegro at 1 7;
+    Place 1 of PeonNegro at 2 7;
+    Place 1 of PeonNegro at 3 7;
+    Place 1 of PeonNegro at 4 7;
+    Place 1 of PeonNegro at 5 7;
+    Place 1 of PeonNegro at 6 7;
+    Place 1 of PeonNegro at 7 7;
+    Place 1 of PeonNegro at 8 7;
+
+    -- Colocamos las fichas blancas
+    Place 1 of TorreBlanco at 1 1;
+    Place 1 of CaballoBlanco at 2 1;
+    Place 1 of AlfilBlanco at 3 1;
+    Place 1 of ReinaBlanco at 4 1;
+    Place 1 of ReyBlanco at 5 1;
+    Place 1 of AlfilBlanco at 6 1;
+    Place 1 of CaballoBlanco at 7 1;
+    Place 1 of TorreBlanco at 8 1;
+    Place 1 of PeonBlanco at 1 2;
+    Place 1 of PeonBlanco at 2 2;
+    Place 1 of PeonBlanco at 3 2;
+    Place 1 of PeonBlanco at 4 2;
+    Place 1 of PeonBlanco at 5 2;
+    Place 1 of PeonBlanco at 6 2;
+    Place 1 of PeonBlanco at 7 2;
+    Place 1 of PeonBlanco at 8 2;
+
+    Basket of capacity 5;
+    Goal condition1 is 1 PeonNegro objects in Basket;
+    Goal condition2 is 1 ReyNegro objects in Basket;
+    Goal condition3 is 1 PeonNegro objects at 7 5;
+    Goal condition4 is 1 PeonBlanco objects at 6 5;
+    Goal condition5 is 1 ReinaBlanco objects at 5 8;
+    Final goal is (condition1 and condition2 and condition3) and (condition4 and condition5);
+end-world
+
+begin-task task10 on tablero
+    --Nos movemos hasta el peon blanco en e2
+    move;
+    turn-right;
+    repeat 4 times move;
+
+    --Recogemos el peon blanco y lo llevamos a e4
+    pick PeonBlanco;
+    turn-left;
+    repeat 2 times move;
+    drop PeonBlanco;
+
+    --Nos movemos hasta el peon negro en f7
+    repeat 3 times move;
+    turn-right;
+    move;
+
+    --Recogemos el peon negro y lo llevamos a f5
+    pick PeonNegro;
+    turn-right;
+    repeat 2 times move;
+    drop PeonNegro;
+
+    --Nos movemos hasta el peon blanco en e4
+    move;
+    turn-right;
+    move;
+
+    --Recogemos el peon blanco y con el capturamos el peon negro en f5
+    pick PeonBlanco;
+    turn-right;
+    move;
+    turn-right;
+    move;
+    pick PeonNegro;
+    drop PeonBlanco;
+
+    --Nos movemos hasta el peon negro en g7
+    turn-left;
+    repeat 2 times move;
+    turn-right;
+    move;
+
+    --Recogemos el peon negro y lo llevamos a g5
+    pick PeonNegro;
+    turn-right;
+    repeat 2 times move;
+    drop PeonNegro;
+
+    --Nos movemos hasta la reina blanca en d1
+    repeat 4 times move;
+    turn-right;
+    repeat 3 times move;
+
+    --Recogemos a la reina blanca y la llevamos a h5
+    pick ReinaBlanco;
+    turn-right;
+    repeat 4 times move;
+    turn-right;
+    repeat 4 times move;
+    drop ReinaBlanco;
+
+    --Jaque mate! Ahora tomamos el rey negro con la reina blanca y ganamos
+    pick ReinaBlanco;
+    turn-left;
+    repeat 3 times move;
+    turn-left;
+    repeat 3 times move;
+    pick ReyNegro;
+    drop ReinaBlanco;
 end-task
