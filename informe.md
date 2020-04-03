@@ -29,6 +29,12 @@ make
 willy [argumento]
 ```
 
-El argumento en esta etapa consiste en el siguiente: willy <archivo_de_texto_con_las_task> <nombre_task> -m/-a para manual o automatico
+El argumento en esta etapa consiste en el siguiente: willy <archivo_de_texto_con_las_task> <nombre_task> -m|--manual para manual o -a|--auto para automatico
+
+Un ejemplo de como se debe ejecutar nuestro programa:
+
+```bash
+willy programas_willy.txt task1 --auto 3
+```
 
 vale acotar que debe existir el directorio /\${HOME}/bin y willy no debe existir en esa carpeta al hacer make.
